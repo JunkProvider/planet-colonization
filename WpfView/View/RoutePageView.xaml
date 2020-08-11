@@ -1,0 +1,249 @@
+﻿<UserControl x:Class="SpaceLogistic.WpfView.View.RoutePageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
+             xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModel:RoutePageViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Colors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModel:StorageViewModel}">
+                <TextBlock Text="{Binding Content}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:StationViewModel}">
+                <view:CustomButton Width="300" Margin="0 0 0 10" ButtonContent="{Binding}" Command="{Binding SelectCommand}" CommandParameter="{Binding}" Style="{StaticResource Item1ButtonStyle}">
+                    <view:CustomButton.ButtonContentTemplate>
+                        <DataTemplate DataType="{x:Type viewModel:StationViewModel}">
+                            <Border Padding="5">
+                                <DockPanel>
+                                    <Rectangle DockPanel.Dock="Left" Width="10" Height="10" Margin="5 0 15 0" Fill="WhiteSmoke" />
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </view:CustomButton.ButtonContentTemplate>
+                </view:CustomButton>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:CelestialBodyViewModel}">
+                <Border Width="300" Margin="0 0 0 10" Style="{StaticResource Item1Style}">
+                    <DockPanel>
+                        <Ellipse DockPanel.Dock="Left" Width="{Binding DisplayDiameter}" Height="{Binding DisplayDiameter}" Margin="5 0 15 0" Fill="SteelBlue" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <!--<TextBlock Text="{Binding Orbit}" />
+                        <TextBlock Text="{Binding EscapeVelocity}" />-->
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:CelestialSystemViewModel}">
+                <StackPanel HorizontalAlignment="Left">
+                    <ContentControl Content="{Binding CentralBody}" />
+                    <ItemsControl ItemsSource="{Binding Stations}" Margin="50 0 0 0" />
+                    <ItemsControl ItemsSource="{Binding Children}" Margin="50 0 0 0" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:LoadInstructionViewModel}">
+                <view:LoadInstructionView DataContext="{Binding}" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:RouteStopViewModel}">
+                <Border Margin="0 5 0 5">
+                    <StackPanel>
+                        <Border x:Name="StopHead" Style="{StaticResource Item1Style}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" />
+                                <Button Grid.Column="1" Command="{Binding DeleteCommand}" Style="{StaticResource RemoveButtonStyle}" />
+                            </Grid>
+                        </Border>
+                        <Border x:Name="StopBody" Padding="5">
+                            <StackPanel>
+                                <Grid x:Name="StopRefuelBehavior">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Grid.Column="0" Width="7.5" Height="10" Fill="White" />
+                                    <ComboBox Grid.Column="1" ItemsSource="{Binding SelectableRefuelBehaviors}" SelectedItem="{Binding SelectedRefuelBehavior}" />
+                                </Grid>
+                                <Border x:Name="StopLoadAndUnloadInstructions" Margin="0 10 0 0">
+                                    <StackPanel>
+                                        <ItemsControl ItemsSource="{Binding UnloadInstructions}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                        <ItemsControl ItemsSource="{Binding LoadInstructions}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                        <Border x:Name="StopLoadAndUnloadInstructionAddButtons" HorizontalAlignment="Left">
+                                            <StackPanel Orientation="Horizontal">
+                                                <view:CustomButton Command="{Binding AddLoadInstructionCommand}" VerticalAlignment="Top" Margin="0 0 5 0" Style="{StaticResource Item1ButtonStyle}">
+                                                    <view:CustomButton.ButtonContentTemplate>
+                                                        <DataTemplate>
+                                                            <Border Padding="5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="{StaticResource Button1BackgroundBrush}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType=view:CustomButton}}" Value="True">
+                                                                                <Setter Property="Background" Value="{StaticResource Button1FocusBackgroundBrush}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <StackPanel>
+                                                                    <Line Margin="0 0 0 1" X1="0" Y1="0" X2="8" Y2="0" StrokeThickness="2" Stroke="{StaticResource Button1ForegroundBrush}" />
+                                                                    <Polygon Points="4,0 8,7, 0,7" StrokeThickness="0" Fill="{StaticResource Button1ForegroundBrush}" />
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </view:CustomButton.ButtonContentTemplate>
+                                                </view:CustomButton>
+                                                <view:CustomButton Command="{Binding AddUnloadInstructionCommand}" VerticalAlignment="Top" Margin="0 0 5 0" >
+                                                    <view:CustomButton.ButtonContentTemplate>
+                                                        <DataTemplate>
+                                                            <Border Padding="5">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Background" Value="{StaticResource Button1BackgroundBrush}" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType=view:CustomButton}}" Value="True">
+                                                                                <Setter Property="Background" Value="{StaticResource Button1FocusBackgroundBrush}" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <StackPanel>
+                                                                    <Polygon Points="4,7 8,0, 0,0" StrokeThickness="0" Fill="{StaticResource Button1ForegroundBrush}" />
+                                                                    <Line Margin="0 1 0 0" X1="0" Y1="0" X2="8" Y2="0" StrokeThickness="2" Stroke="{StaticResource Button1ForegroundBrush}" />
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </view:CustomButton.ButtonContentTemplate>
+                                                </view:CustomButton>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ShipListItemTemplate" DataType="{x:Type viewModel:ShipViewModel}">
+                <Border Margin="0 2 0 2" Style="{StaticResource Item1Style}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" />
+                        <Button Grid.Column="1" Command="{Binding UnassignCommand}" Style="{StaticResource RemoveButtonStyle}" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="StopOptionTemplate" DataType="{x:Type viewModel:OrbitalLocationViewModel}">
+                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path}" Margin="2" FontWeight="Bold" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="ShipOptionTemplate" DataType="{x:Type viewModel:ShipViewModel}">
+                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" Margin="2" FontWeight="Bold" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:RouteViewModel}">
+                <Border Margin="0 0 0 10">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top" Margin="0 20 0 0">
+                            <StackPanel >
+                                <view:SelectButton ItemsSource="{Binding AvailableStops}" ItemTemplate="{StaticResource StopOptionTemplate}" Command="{Binding AddStopCommand}">
+                                    <view:SelectButton.ButtonContentTemplate>
+                                        <DataTemplate DataType="{x:Type viewModel:ShipViewModel}">
+                                            <TextBlock Text="Add Stop" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource Button1ForegroundBrush}" />
+                                        </DataTemplate>
+                                    </view:SelectButton.ButtonContentTemplate>
+                                </view:SelectButton>
+                                <ItemsControl ItemsSource="{Binding Stops}" />
+                            </StackPanel>
+                        </Border>
+                        <Border DockPanel.Dock="Bottom" Margin="0 20 0 0">
+                            <StackPanel>
+                                <view:SelectButton ItemsSource="{Binding AssignableShips}" ItemTemplate="{StaticResource ShipOptionTemplate}" Command="{Binding AssignShipCommand}">
+                                    <view:SelectButton.ButtonContentTemplate>
+                                        <DataTemplate DataType="{x:Type viewModel:ShipViewModel}">
+                                            <TextBlock Text="Assign Ship" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource Button1ForegroundBrush}" />
+                                        </DataTemplate>
+                                    </view:SelectButton.ButtonContentTemplate>
+                                </view:SelectButton>
+                                <ItemsControl Height="100" ItemsSource="{Binding AssignedShips}" ItemTemplate="{StaticResource ShipListItemTemplate}" />
+                            </StackPanel>
+                        </Border>
+                    </DockPanel>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate x:Key="RouteListItemTemplate" DataType="{x:Type viewModel:RouteViewModel}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=IsSelected}" />
+                    <Button Grid.Column="1" Command="{Binding DeleteCommand}" Style="{StaticResource RemoveButtonStyle}" />
+                </Grid>
+            </DataTemplate>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <DockPanel>
+        <Border>
+            <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                <ItemsControl DockPanel.Dock="Left" Padding="0 0 10 0" ItemsSource="{Binding CelestialSystem.Children}" />
+            </ScrollViewer>
+        </Border>
+        <Border DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="450" Style="{StaticResource Panel1Style}">
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Height="200">
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <view:CustomButton ButtonContent="Add Route" Style="{StaticResource Button1Style}" Command="{Binding AddRouteCommand}">   
+                            </view:CustomButton>
+                            <ListBox ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}" ItemTemplate="{StaticResource RouteListItemTemplate}" ItemContainerStyle="{StaticResource Item1ItemListBoxItemStyle}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                <Border DockPanel.Dock="Bottom">
+                    <ContentControl Content="{Binding SelectedRoute}" />
+                </Border>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+</UserControl>

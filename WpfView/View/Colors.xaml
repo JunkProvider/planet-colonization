@@ -1,0 +1,150 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:view="clr-namespace:SpaceLogistic.WpfView.View">
+
+    <Color x:Key="Panel1BackgroundColor">#13283C</Color>
+    <Color x:Key="Panel1AlternateBackgroundColor">#18334C</Color>
+    <Color x:Key="Panel1ForegroundColor">White</Color>
+
+    <Color x:Key="Item1BackgroundColor">#47607C</Color>
+    <Color x:Key="Item1ForegroundColor">White</Color>
+    <Color x:Key="Item1SelectedBackgroundColor">#7388A1</Color>
+    <Color x:Key="Item1SelectedForegroundColor">White</Color>
+
+    <Color x:Key="Item2BackgroundColor">#A3AEBA</Color>
+    <Color x:Key="Item2ForegroundColor">Black</Color>
+    <Color x:Key="Item2SelectedBackgroundColor">#8E97A0</Color>
+    <Color x:Key="Item2SelectedForegroundColor">Black</Color>
+
+    <SolidColorBrush x:Key="Panel1BackgroundBrush" Color="{StaticResource Panel1BackgroundColor}" />
+    <SolidColorBrush x:Key="Panel1AlternateBackgroundBrush" Color="{StaticResource Panel1AlternateBackgroundColor}" />
+    <SolidColorBrush x:Key="Panel1ForegroundBrush" Color="{StaticResource Panel1ForegroundColor}" />
+
+    <SolidColorBrush x:Key="Item1BackgroundBrush" Color="{StaticResource Item1BackgroundColor}" />
+    <SolidColorBrush x:Key="Item1ForegroundBrush" Color="{StaticResource Item1ForegroundColor}" />
+    <SolidColorBrush x:Key="Item1SelectedBackgroundBrush" Color="{StaticResource Item1SelectedBackgroundColor}" />
+    <SolidColorBrush x:Key="Item1SelectedForegroundBrush" Color="{StaticResource Item1SelectedForegroundColor}" />
+
+    <SolidColorBrush x:Key="Item2BackgroundBrush" Color="{StaticResource Item2BackgroundColor}" />
+    <SolidColorBrush x:Key="Item2ForegroundBrush" Color="{StaticResource Item2ForegroundColor}" />
+    <SolidColorBrush x:Key="Item2SelectedBackgroundBrush" Color="{StaticResource Item2SelectedBackgroundColor}" />
+    <SolidColorBrush x:Key="Item2SelectedForegroundBrush" Color="{StaticResource Item2SelectedForegroundColor}" />
+
+    <SolidColorBrush x:Key="Button1BackgroundBrush" Color="#BCC4CD" />
+    <SolidColorBrush x:Key="Button1FocusBackgroundBrush" Color="#BEE6FD" />
+    <SolidColorBrush x:Key="Button1ForegroundBrush" Color="#13283C" />
+
+    <SolidColorBrush x:Key="PopupBackgroundBrush" Color="#0E1E2D" />
+    <SolidColorBrush x:Key="PopupBorderBrush" Color="#BCC4CD" />
+    
+    <Style TargetType="Border">
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="Panel1Style" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Panel1BackgroundBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Panel1ForegroundBrush}" />
+    </Style>
+
+    <Style x:Key="Item1Style" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Item1BackgroundBrush}" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Item1ForegroundBrush}" />
+        <Setter Property="TextElement.FontWeight" Value="Bold" />
+    </Style>
+
+    <Style TargetType="ListBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Border.Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="Item1ItemListBoxItemStyle" TargetType="ListBoxItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Name="Border" Style="{StaticResource Item1Style}" SnapsToDevicePixels="true" Margin="0 2 0 2">
+                        <ContentPresenter />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Item1SelectedBackgroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Item2Style" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Item2BackgroundBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Item2ForegroundBrush}" />
+    </Style>
+
+    <Style x:Key="Item1ButtonBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Item1BackgroundBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Item1ForegroundBrush}" />
+    </Style>
+
+    <Style x:Key="Item1ButtonBorderActiveStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Item1SelectedBackgroundBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Item1SelectedForegroundBrush}" />
+    </Style>
+
+    <Style x:Key="Item1ButtonStyle" TargetType="{x:Type view:CustomButton}">
+        <Setter Property="BorderStyle" Value="{StaticResource Item1ButtonBorderStyle}" />
+        <Setter Property="BorderActiveStyle" Value="{StaticResource Item1ButtonBorderActiveStyle}" />
+    </Style>
+
+    <Style x:Key="Button1BorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Button1BackgroundBrush}" />
+    </Style>
+
+    <Style x:Key="Button1BorderActiveStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Button1FocusBackgroundBrush}" />
+    </Style>
+
+    <Style x:Key="Button1Style" TargetType="{x:Type view:CustomButton}">
+        <Setter Property="BorderStyle" Value="{StaticResource Button1BorderStyle}" />
+        <Setter Property="BorderActiveStyle" Value="{StaticResource Button1BorderActiveStyle}" />
+        <Setter Property="ButtonContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Margin="0 5 0 5" HorizontalAlignment="Center" Text="{Binding}" Foreground="{StaticResource Button1ForegroundBrush}" FontWeight="Bold" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BorderButton1Style" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Button1BackgroundBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource Button1ForegroundBrush}" />
+        <Setter Property="TextElement.FontWeight" Value="Bold" />
+        <Setter Property="Padding" Value="0 5 0 5" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="RemoveButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Foreground="Orange" FontWeight="Bold" Text="X" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate TargetType="ToggleButton" x:Key="EmptyToggleButtonTemplate">
+        <Border Name="Border" Background="Transparent" />
+    </ControlTemplate>
+
+</ResourceDictionary>

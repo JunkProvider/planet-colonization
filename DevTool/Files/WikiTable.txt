@@ -1,0 +1,4 @@
+﻿5 	I 	Io♠ 	/ˈaɪoʊ/ 	Europa-moon.jpg		−1.7 	3650 	8931900 	421700 	+1.7691 	0.050[48] 	0.0041 	1610 	Galilei 	Galilean
+6 	II 	Europa♠ 	/jʊəˈroʊpə/[49] 	Europa-moon.jpg	−1.4 	3121.6 	4800000 	671034 	+3.5512 	0.471[48] 	0.0094 	1610 	Galilei 	Galilean
+7 	III 	Ganymede♠ 	/ˈɡænɪmiːd/[50][51] Ganymede g1 true-edit1.jpg	−2.1 	5262.4 	14819000 	1070412 	+7.1546 	0.204[48] 	0.0011 	1610 	Galilei 	Galilean
+8 	IV 	Callisto♠ 	/kəˈlɪstoʊ/ 	Callisto.jpg	−1.2 	4820.6 	10759000 	1882709 	+16.689 	0.205[48] 	0.0074 	1610 	Galilei 	Galilean

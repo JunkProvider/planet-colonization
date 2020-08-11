@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="SpaceLogistic.WpfView.View.LoadInstructionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
+             xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModel:LoadInstructionViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="UserControlElement">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Colors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <DataTemplate x:Key="LoadInstructionItemTemplate" DataType="{x:Type viewModel:LoadInstructionViewModel}">
+                <Border Padding="4 2 4 2">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="DarkCyan" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsOpen, RelativeSource={RelativeSource FindAncestor, AncestorType=view:LoadInstructionEditor}}" Value="True">
+                                    <Setter Property="Background" Value="#007777" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ElementName=ToggleButton, Path=IsMouseOver}" Value="True">
+                                    <Setter Property="Background" Value="#007777" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <DockPanel HorizontalAlignment="Left">
+                        <Border x:Name="LoadInstructionIcon" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0 0 5 0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoadInstruction}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <StackPanel>
+                                <Line Margin="0 0 0 1" X1="0" Y1="0" X2="8" Y2="0" StrokeThickness="2" Stroke="White" IsHitTestVisible="False" />
+                                <Polygon Points="4,0 8,7, 0,7" StrokeThickness="0" Fill="White" IsHitTestVisible="False" />
+                            </StackPanel>
+                        </Border>
+                        <Border x:Name="UnloadInstructionIcon" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0 0 5 0">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoadInstruction}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <StackPanel>
+                                <Polygon Points="4,7 8,0, 0,0" StrokeThickness="0" Fill="White" />
+                                <Line Margin="0 1 0 0" X1="0" Y1="0" X2="8" Y2="0" StrokeThickness="2" Stroke="White" />
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding AmountString}" IsHitTestVisible="False" />
+                            <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text=" " IsHitTestVisible="False" />
+                            <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Text="{Binding ItemName}" IsHitTestVisible="False" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </DataTemplate>
+
+        </ResourceDictionary>
+
+        
+    </UserControl.Resources>
+
+    <view:LoadInstructionEditor 
+        ButtonContent="{Binding}"
+        ButtonContentTemplate="{StaticResource LoadInstructionItemTemplate}"
+        AvailableItemTypes="{Binding AvailableItemTypes}"
+        LoadInstruction="{Binding Model}"
+        UpdateCommand="{Binding EditCommand}"
+        DeleteCommand="{Binding DeleteCommand}"
+        HorizontalAlignment="Left"
+        Margin="0 0 10 5" />
+</UserControl>

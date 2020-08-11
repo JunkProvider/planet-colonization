@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E8D303BB-17EA-48BA-B2F3-9A62D4377FFA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SpaceLogistic.WpfView</RootNamespace>
+    <AssemblyName>SpaceLogistic.WpfView</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameLoop.cs" />
+    <Compile Include="IGameLoop.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Utility\DelegateCommand.cs" />
+    <Compile Include="Utility\DrawingColorExtensions.cs" />
+    <Compile Include="ViewModel\CelestialBodyViewModel.cs" />
+    <Compile Include="ViewModel\CelestialSystemViewModel.cs" />
+    <Compile Include="ViewModel\IPageViewModel.cs" />
+    <Compile Include="ViewModel\LoadInstructionViewModel.cs" />
+    <Compile Include="ViewModel\MapPageViewModel.cs" />
+    <Compile Include="ViewModel\OrbitalLocationViewModel.cs" />
+    <Compile Include="ViewModel\RefuelBehaviorOption.cs" />
+    <Compile Include="ViewModel\RoutePageViewModel.cs" />
+    <Compile Include="ViewModel\RouteStopViewModel.cs" />
+    <Compile Include="ViewModel\RouteViewModel.cs" />
+    <Compile Include="ViewModel\ShipPageViewModel.cs" />
+    <Compile Include="ViewModel\StationViewModel.cs" />
+    <Compile Include="ViewModel\GameViewModel.cs" />
+    <Compile Include="ViewModel\ShipViewModel.cs" />
+    <Compile Include="ViewModel\StorageViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModelHelper.cs" />
+    <Compile Include="View\CelestialBodyIconView.xaml.cs">
+      <DependentUpon>CelestialBodyIconView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomButton.xaml.cs">
+      <DependentUpon>CustomButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DependencyPropertyExtensions.cs" />
+    <Compile Include="View\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoadInstructionEditor.xaml.cs">
+      <DependentUpon>LoadInstructionEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoadInstructionView.xaml.cs">
+      <DependentUpon>LoadInstructionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainWindowEvents.cs" />
+    <Compile Include="View\MapPageView.xaml.cs">
+      <DependentUpon>MapPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Map\MapControl.cs" />
+    <Compile Include="View\Map\MapItemViewModel.cs" />
+    <Compile Include="View\Map\PlanetViewModel.cs" />
+    <Compile Include="View\Map\StationViewModel.cs" />
+    <Compile Include="View\RoutePageView.xaml.cs">
+      <DependentUpon>RoutePageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectButton.xaml.cs">
+      <DependentUpon>SelectButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectionBox\Option.cs" />
+    <Compile Include="View\SelectionBox\IOption.cs" />
+    <Compile Include="View\SelectionBox\SelectionBox.xaml.cs">
+      <DependentUpon>SelectionBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ShipPageView.xaml.cs">
+      <DependentUpon>ShipPageView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{118da572-19a9-4985-b995-9fd6beb60577}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{537b336c-52ee-47ae-87c2-3ec028303f7e}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CelestialBodyIconView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadInstructionEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadInstructionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MapPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RoutePageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectionBox\SelectionBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ShipPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
