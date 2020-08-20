@@ -3,8 +3,8 @@
     using System;
     using System.Windows.Input;
 
-    using SpaceLogistic.Core.CommandPattern;
-    using SpaceLogistic.Core.Commands;
+    using SpaceLogistic.Application.CommandPattern;
+    using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.WpfView.Utility;
 

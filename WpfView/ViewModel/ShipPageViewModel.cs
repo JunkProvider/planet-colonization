@@ -1,10 +1,9 @@
 ﻿namespace SpaceLogistic.WpfView.ViewModel
 {
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    using SpaceLogistic.Core.CommandPattern;
+    using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
 
     public sealed class ShipPageViewModel : IPageViewModel
@@ -18,7 +17,7 @@
         
         public ObservableCollection<ShipViewModel> Ships { get; }
 
-        public void Update()
+        public void Update(Game game)
         {
             foreach (var ship in this.Ships)
             {

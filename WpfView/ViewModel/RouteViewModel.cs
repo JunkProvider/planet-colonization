@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Windows.Input;
 
-    using SpaceLogistic.Core.CommandPattern;
-    using SpaceLogistic.Core.Commands;
+    using SpaceLogistic.Application.CommandPattern;
+    using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.ShipRoutes;
     using SpaceLogistic.WpfView.Utility;
@@ -92,25 +92,25 @@
         {
             this.Name = this.route.Name;
 
-            this.AvailableStops = ViewModelHelper.Update(
+            this.AvailableStops = ViewModelHelper.UpdateCollection(
                 this.AvailableStops,
                 this.game.CelestialSystem.GetOrbitalLocations().Except(this.route.Stops.Select(s => s.Location)),
                 location => new OrbitalLocationViewModel(location), 
                 (location, locationViewModel) => locationViewModel.Update());
 
-            this.Stops = ViewModelHelper.Update(
+            this.Stops = ViewModelHelper.UpdateCollection(
                 this.Stops,
                 this.route.Stops,
                 this.CreateStopViewModel,
                 (stopModel, stop) => stop.Update());
 
-            this.AssignableShips = ViewModelHelper.Update(
+            this.AssignableShips = ViewModelHelper.UpdateCollection(
                 this.AssignableShips,
                 this.game.Ships.Where(s => s.Route == null),
                 this.CreateShipViewModel,
                 (shipModel, ship) => ship.Update());
 
-            this.AssignedShips = ViewModelHelper.Update(
+            this.AssignedShips = ViewModelHelper.UpdateCollection(
                 this.assignedShips,
                 this.game.Ships.Where(s => s.Route == this.route),
                 this.CreateShipViewModel,

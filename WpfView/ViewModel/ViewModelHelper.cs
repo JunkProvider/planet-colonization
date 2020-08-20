@@ -9,13 +9,12 @@
 
     public static class ViewModelHelper
     {
-        public static ObservableCollection<TViewModel> Update<TViewModel, TModel>(
-            ObservableCollection<TViewModel> viewModels, 
+        public static ObservableCollection<TViewModel> UpdateCollection<TViewModel, TModel>(
+            ObservableCollection<TViewModel> viewModels,
             IEnumerable<TModel> models,
             Func<TModel, TViewModel> create,
             Action<TModel, TViewModel> update)
-            where TViewModel : IIdentity
-            where TModel : IIdentity
+            where TViewModel : IIdentity where TModel : IIdentity
         {
             var viewModelsByIds = viewModels.ToDictionary(vm => vm.Id);
             var modelsByIds = models.ToDictionary(m => m.Id);
@@ -41,6 +40,7 @@
                 if (!viewModelsByIds.ContainsKey(model.Id))
                 {
                     var viewModel = create(model);
+                    update(model, viewModel);
                     updatedViewModels.Add(viewModel);
                     collectionChanged = true;
                 }
@@ -52,6 +52,42 @@
             }
 
             return new ObservableCollection<TViewModel>(updatedViewModels);
+        }
+
+        public static TViewModel Update<TViewModel, TModel>(
+            TViewModel viewModel,
+            TModel model,
+            Func<TModel, TViewModel> create,
+            Action<TModel, TViewModel> update)
+            where TViewModel : class, IIdentity
+            where TModel : class, IIdentity
+        {
+            if (model == null && viewModel == null)
+            {
+                return null;
+            }
+
+            if (model == null)
+            {
+                return null;
+            }
+
+            if (viewModel == null)
+            {
+                viewModel = create(model);
+                update(model, viewModel);
+                return viewModel;
+            }
+
+            if (viewModel.Id == model.Id)
+            {
+                update(model, viewModel);
+                return viewModel;
+            }
+
+            viewModel = create(model);
+            update(model, viewModel);
+            return viewModel;
         }
     }
 }

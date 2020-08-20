@@ -55,6 +55,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\SwitchToNextColonyCommand.cs" />
+    <Compile Include="Commands\SwitchToNextColonyCommandHandler.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="IGameLoop.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -75,9 +77,13 @@
     <Compile Include="Utility\DrawingColorExtensions.cs" />
     <Compile Include="ViewModel\CelestialBodyViewModel.cs" />
     <Compile Include="ViewModel\CelestialSystemViewModel.cs" />
+    <Compile Include="ViewModel\ColonyPageViewModel.cs" />
+    <Compile Include="ViewModel\ColonyViewModel.cs" />
     <Compile Include="ViewModel\IPageViewModel.cs" />
+    <Compile Include="ViewModel\IViewModelFactory.cs" />
     <Compile Include="ViewModel\LoadInstructionViewModel.cs" />
     <Compile Include="ViewModel\MapPageViewModel.cs" />
+    <Compile Include="ViewModel\NullViewModelFactory.cs" />
     <Compile Include="ViewModel\OrbitalLocationViewModel.cs" />
     <Compile Include="ViewModel\RefuelBehaviorOption.cs" />
     <Compile Include="ViewModel\RoutePageViewModel.cs" />
@@ -88,10 +94,14 @@
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\ShipViewModel.cs" />
     <Compile Include="ViewModel\StorageViewModel.cs" />
+    <Compile Include="ViewModel\StructureViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelHelper.cs" />
     <Compile Include="View\CelestialBodyIconView.xaml.cs">
       <DependentUpon>CelestialBodyIconView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ColonyPageView.xaml.cs">
+      <DependentUpon>ColonyPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomButton.xaml.cs">
       <DependentUpon>CustomButton.xaml</DependentUpon>
@@ -138,9 +148,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{118da572-19a9-4985-b995-9fd6beb60577}</Project>
-      <Name>Core</Name>
+    <ProjectReference Include="..\Application.Abstractions\Application.Abstractions.csproj">
+      <Project>{0339d01f-0a96-4168-843e-a73c33644219}</Project>
+      <Name>Application.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Core.Abstractions\Core.Abstractions.csproj">
+      <Project>{341e2896-ab3d-4336-9580-dbdbecce114c}</Project>
+      <Name>Core.Abstractions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{537b336c-52ee-47ae-87c2-3ec028303f7e}</Project>
@@ -154,6 +168,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\CelestialBodyIconView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ColonyPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

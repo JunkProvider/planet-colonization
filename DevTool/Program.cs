@@ -34,7 +34,7 @@ namespace DevTool
                         { 8, "orbit" }
                     });*/
 
-            var sun = new StarSystemImporter().Import(@"G:\Stuff\Data\solar-system.json");
+            /*var sun = new StarSystemImporter().Import(@"G:\Stuff\Data\solar-system.json");
             sun = new WorldGenerator(new WorldSettings()).Modify(sun);
 
             Out.WriteLine($"Lowest distance between bodies: {(sun.GetMinDistanceBetweenBodies() / 1e6):0.00} Gm");
@@ -42,7 +42,7 @@ namespace DevTool
 
             sun.Print();
             
-            Console.ReadLine();
+            Console.ReadLine();*/
         }
     }
 }

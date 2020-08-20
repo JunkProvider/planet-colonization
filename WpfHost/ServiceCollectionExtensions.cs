@@ -2,22 +2,14 @@
 {
     using Microsoft.Extensions.DependencyInjection;
 
-    using SpaceLogistic.Core.CommandPattern;
-
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCommandPattern(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddSingletonAlias<TAlias, TService>(this IServiceCollection serviceCollection)
+            where TAlias : class
+            where TService : class, TAlias
         {
             return serviceCollection
-                .AddSingleton<ICommandDispatcher, CommandDispatcher>();
-        }
-
-
-        public static IServiceCollection AddCommandHandler<TCommandHandler>(this IServiceCollection serviceCollection)
-            where TCommandHandler : class, ICommandHandler
-        {
-            return serviceCollection
-                .AddSingleton<ICommandHandler, TCommandHandler>();
+                .AddSingleton<TAlias>(provider => provider.GetRequiredService<TService>());
         }
     }
 }

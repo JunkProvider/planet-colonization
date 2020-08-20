@@ -8,7 +8,7 @@
 
     using SpaceLogistic.Core.Model.Resources;
 
-    public sealed class WorldGenerator
+    public sealed class WorldGenerator : IWorldGenerator
     {
         private readonly WorldSettings settings;
 

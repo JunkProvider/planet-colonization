@@ -6,7 +6,7 @@
 
     using Newtonsoft.Json;
 
-    public sealed class StarSystemImporter
+    public sealed class StarSystemImporter : IStarSystemImporter
     {
         public CelestialBodyBuilder Import(string filePath)
         {

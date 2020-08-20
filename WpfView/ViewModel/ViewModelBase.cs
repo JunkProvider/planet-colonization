@@ -12,6 +12,12 @@
         [NotifyPropertyChangedInvocator]
         protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
+            this.SetPropertyAffecting(ref field, value, propertyName);
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected void SetPropertyAffecting<T>(ref T field, T value, params string[] propertyNames)
+        {
             if (Equals(field, value))
             {
                 return;
@@ -19,7 +25,10 @@
 
             field = value;
 
-            this.OnPropertyChanged(propertyName);
+            foreach (var propertyName in propertyNames)
+            {
+                this.OnPropertyChanged(propertyName);
+            }
         }
 
         [NotifyPropertyChangedInvocator]

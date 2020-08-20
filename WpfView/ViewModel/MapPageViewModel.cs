@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Windows.Input;
 
+    using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.WpfView.Utility;
     using SpaceLogistic.WpfView.View.Map;
@@ -44,7 +45,7 @@
             private set => SetProperty(ref selectedMapItem, value);
         }
 
-        public void Update()
+        public void Update(Game game)
         {
         }
 

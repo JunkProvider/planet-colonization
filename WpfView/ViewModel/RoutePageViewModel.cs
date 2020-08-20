@@ -5,12 +5,11 @@
     using System.Linq;
     using System.Windows.Input;
 
-    using SpaceLogistic.Core.CommandPattern;
-    using SpaceLogistic.Core.Commands;
+    using SpaceLogistic.Application.CommandPattern;
+    using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.ShipRoutes;
     using SpaceLogistic.Core.Model.Stations;
-    using SpaceLogistic.Utility;
     using SpaceLogistic.WpfView.Utility;
 
     public sealed class RoutePageViewModel : ViewModelBase, IPageViewModel
@@ -31,7 +30,7 @@
 
             this.AddRouteCommand = new DelegateCommand(this.AddRoute);
 
-            this.Update();
+            this.Update(game);
         }
         
         public string Title => "Routes";
@@ -52,11 +51,11 @@
 
         public ICommand AddRouteCommand { get; }
 
-        public void Update()
+        public void Update(Game game)
         {
             this.CelestialSystem.Update();
 
-            this.Routes = ViewModelHelper.Update(
+            this.Routes = ViewModelHelper.UpdateCollection(
                 this.Routes,
                 // TODO: Add routes property to game
                 this.game.Routes,
