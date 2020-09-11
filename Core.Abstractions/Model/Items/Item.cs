@@ -1,6 +1,6 @@
 ﻿namespace SpaceLogistic.Core.Model.Items
 {
-    public sealed class Item
+    public sealed class Item : IInventoryItem<ItemType>
     {
         public Item(ItemType itemType, int amount)
         {

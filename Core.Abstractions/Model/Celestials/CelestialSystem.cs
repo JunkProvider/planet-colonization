@@ -143,9 +143,9 @@
             return this.CentralBody.Name;
         }
 
-        public IEnumerable<Colony> GetAllColonies()
+        public IEnumerable<Colony> GetColonies()
         {
-            return this.GetOwnColonies().Concat(this.Children.SelectMany(c => c.GetAllColonies()));
+            return this.GetOwnColonies().Concat(this.Children.SelectMany(c => c.GetColonies()));
         }
 
         public IEnumerable<Colony> GetOwnColonies()
@@ -167,6 +167,11 @@
         public override string ToString()
         {
             return this.Name;
+        }
+
+        public CelestialBody GetBodyWithName(string name)
+        {
+            return this.GetBodies().First(b => b.Name == name);
         }
     }
 }

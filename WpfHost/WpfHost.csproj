@@ -99,6 +99,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationHosting\ServiceCollectionExtensions.cs" />
+    <Compile Include="GameLoop.cs" />
+    <Compile Include="IGameLoop.cs" />
     <Compile Include="ServiceCollectionExtensions.cs" />
     <Compile Include="WpfViewHosting\ServiceProviderViewModelFactory.cs" />
     <Compile Include="WpfViewHosting\ServiceCollectionExtensions.cs" />

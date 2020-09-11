@@ -83,13 +83,13 @@
         {
             this.SetSelectedRefuelBehavior(this.stop.RefuelBehavior);
 
-            this.LoadInstructions = ViewModelHelper.UpdateCollection(
+            this.LoadInstructions = ViewModelHelper.UpdateCollectionByIdentity(
                 this.LoadInstructions,
                 this.stop.LoadInstructions,
                 this.CreateLoadInstructionViewModel,
                 (loadInstruction, viewModel) => viewModel.Update());
 
-            this.UnloadInstructions = ViewModelHelper.UpdateCollection(
+            this.UnloadInstructions = ViewModelHelper.UpdateCollectionByIdentity(
                 this.UnloadInstructions,
                 this.stop.UnloadInstructions,
                 this.CreateLoadInstructionViewModel,

@@ -11,6 +11,16 @@
             return DependencyProperty.Register(name, typeof(TValue), typeof(TOwner), new PropertyMetadata());
         }
 
+        public static DependencyProperty Register<TOwner, TValue>(string name, TValue defaultValue)
+        {
+            return DependencyProperty.Register(name, typeof(TValue), typeof(TOwner), new PropertyMetadata(defaultValue));
+        }
+
+        public static DependencyProperty Register<TOwner, TValue>(string name, TValue defaultValue, PropertyChangedCallback propertyChangedCallback)
+        {
+            return DependencyProperty.Register(name, typeof(TValue), typeof(TOwner), new PropertyMetadata(defaultValue, propertyChangedCallback));
+        }
+
         public static DependencyProperty Register<TOwner, TValue>(string name, PropertyChangedCallback propertyChangedCallback)
         {
             return DependencyProperty.Register(name, typeof(TValue), typeof(TOwner), new PropertyMetadata(default(TValue), propertyChangedCallback));

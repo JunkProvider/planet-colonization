@@ -2,7 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
+    using SpaceLogistic.Core.Model.Items;
+    using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Model.Structures;
 
     public abstract class Colony : IIdentity
@@ -28,9 +31,22 @@
 
         public IReadOnlyCollection<Structure> Structures => this.structures;
 
+        public abstract ResourceCollection GetAvailableResources();
+
+        public bool TryGetStructure(Guid structureId, out Structure structure)
+        {
+            structure = this.structures.FirstOrDefault(s => s.Id == structureId);
+            return structure != null;
+        }
+
         public void AddStructure(Structure structure)
         {
             this.structures.Add(structure);
+        }
+
+        public void RemoveStructure(Guid structureId)
+        {
+            this.structures.RemoveAll(s => s.Id == structureId);
         }
 
         public override string ToString()

@@ -40,20 +40,15 @@
                 this.UpdateShip(game, ship, elapsedTime);
             }
 
-            foreach (var location in game.CelestialSystem.GetOrbitalLocations())
+            foreach (var colony in game.CelestialSystem.GetColonies())
             {
-                if (!(location.Object is Station station))
+                foreach (var structure in colony.Structures)
                 {
-                    continue;
+                    this.UpdateStructureCommand(colony, structure);
+                    this.UpdateStructureProduction(colony, structure, elapsedTime);
                 }
 
-                foreach (var structure in station.Structures)
-                {
-                    this.UpdateStructureCommand(station, structure);
-                    this.UpdateStructureProduction(station, structure, elapsedTime);
-                }
-
-                this.UpdateColonyFuelStorage(game.ItemTypes, station, elapsedTime);
+                this.UpdateColonyFuelStorage(game.ItemTypes, colony, elapsedTime);
             }
         }
 
@@ -194,16 +189,21 @@
                 return;
             }
 
-            var station = ship.Location.Object as Station;
-            
+            var colony = ship.Location.Object as Station;
+
+            if (colony == null)
+            {
+                return;
+            }
+
             foreach (var unloadInstruction in stop.UnloadInstructions)
             {
-                station.Warehouse.Add(ship.CargoBay.TakeMax(unloadInstruction.Amount, unloadInstruction.ItemType), unloadInstruction.ItemType);
+                colony.Warehouse.Add(ship.CargoBay.TakeMax(unloadInstruction.Amount, unloadInstruction.ItemType), unloadInstruction.ItemType);
             }
 
             foreach (var loadInstruction in stop.LoadInstructions)
             {
-                ship.CargoBay.Add(station.Warehouse.TakeMax(loadInstruction.Amount, loadInstruction.ItemType), loadInstruction.ItemType);
+                ship.CargoBay.Add(colony.Warehouse.TakeMax(loadInstruction.Amount, loadInstruction.ItemType), loadInstruction.ItemType);
             }
 
             this.StartRefuelingShip(ship);
@@ -356,7 +356,7 @@
             ship.Fuel -= fuelCosts;
         }
 
-        private void UpdateStructureProduction(Station station, Structure structure, TimeSpan elapsedTime)
+        private void UpdateStructureProduction(Colony station, Structure structure, TimeSpan elapsedTime)
         {
             if (structure.ProductionProcess == null)
             {
@@ -374,17 +374,27 @@
             structure.ProductionProcess = null;
         }
 
-        private void UpdateStructureCommand(Station station, Structure structure)
+        private void UpdateStructureCommand(Colony colony, Structure structure)
         {
             if (structure.ProductionProcess != null || structure.ProducedItemType == null)
             {
                 return;
             }
 
+            var resources = colony.GetAvailableResources();
+            var inventory = colony.Warehouse;
+
+            if (!resources.Contains(structure.ConsumedResources) || !inventory.Contains(structure.ConsumedItems))
+            {
+                return;
+            }
+
+            resources.Take(structure.ConsumedResources);
+            inventory.Take(structure.ConsumedItems);
             structure.ProductionProcess = new ProductionProcess(structure.ProducedItemType, structure.ProductionTime);
         }
 
-        private void UpdateColonyFuelStorage(ItemTypes itemTypes, Station station, TimeSpan elapsedTime)
+        private void UpdateColonyFuelStorage(ItemTypes itemTypes, Colony station, TimeSpan elapsedTime)
         {
             if (station.FuelStorageReplenishProcess != null && !station.FuelStorageReplenishProcess.IsCompleted)
             {

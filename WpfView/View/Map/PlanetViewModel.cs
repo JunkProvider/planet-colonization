@@ -24,7 +24,7 @@
 
             this.Temperature = $"{(primary.Temperature - 273):0.00} °C";
 
-            this.Resources = primary.Resources.ToList();
+            this.Resources = primary.Resources.Items.ToList();
         }
 
         public string Name { get; }

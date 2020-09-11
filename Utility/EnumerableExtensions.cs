@@ -21,5 +21,21 @@
                 }
             }
         }
+
+        public static void Remove<TKey, TValue>(this IDictionary<TKey, TValue> items, IEnumerable<TKey> keysToRemove)
+        {
+            foreach (var key in keysToRemove)
+            {
+                items.Remove(key);
+            }
+        }
+
+        public static void Replace<TKey, TValue>(this IDictionary<TKey, TValue> items, IEnumerable<TValue> valuesToReplace, Func<TValue, TKey> keyFunc)
+        {
+            foreach (var value in valuesToReplace)
+            {
+                items[keyFunc(value)] = value;
+            }
+        }
     }
 }

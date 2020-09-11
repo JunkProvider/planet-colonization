@@ -37,7 +37,9 @@
                 .AddCommandHandler<AddStopCommandHandler>()
                 .AddCommandHandler<RemoveStopCommandHandler>()
                 .AddCommandHandler<AssignShipCommandHandler>()
-                .AddCommandHandler<DeassignShipCommandHandler>();
+                .AddCommandHandler<DeassignShipCommandHandler>()
+                .AddCommandHandler<AddStructureCommandHandler>()
+                .AddCommandHandler<RemoveStructureCommandHandler>();
         }
     }
 }

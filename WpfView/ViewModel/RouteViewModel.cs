@@ -92,25 +92,25 @@
         {
             this.Name = this.route.Name;
 
-            this.AvailableStops = ViewModelHelper.UpdateCollection(
+            this.AvailableStops = ViewModelHelper.UpdateCollectionByIdentity(
                 this.AvailableStops,
                 this.game.CelestialSystem.GetOrbitalLocations().Except(this.route.Stops.Select(s => s.Location)),
                 location => new OrbitalLocationViewModel(location), 
                 (location, locationViewModel) => locationViewModel.Update());
 
-            this.Stops = ViewModelHelper.UpdateCollection(
+            this.Stops = ViewModelHelper.UpdateCollectionByIdentity(
                 this.Stops,
                 this.route.Stops,
                 this.CreateStopViewModel,
                 (stopModel, stop) => stop.Update());
 
-            this.AssignableShips = ViewModelHelper.UpdateCollection(
+            this.AssignableShips = ViewModelHelper.UpdateCollectionByIdentity(
                 this.AssignableShips,
                 this.game.Ships.Where(s => s.Route == null),
                 this.CreateShipViewModel,
                 (shipModel, ship) => ship.Update());
 
-            this.AssignedShips = ViewModelHelper.UpdateCollection(
+            this.AssignedShips = ViewModelHelper.UpdateCollectionByIdentity(
                 this.assignedShips,
                 this.game.Ships.Where(s => s.Route == this.route),
                 this.CreateShipViewModel,

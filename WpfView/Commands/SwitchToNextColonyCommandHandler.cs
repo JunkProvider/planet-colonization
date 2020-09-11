@@ -10,22 +10,25 @@
     {
         private readonly Game game;
 
+        private readonly GameViewModel gameViewModel;
+
         private readonly ColonyPageViewModel colonyPage;
 
-        public SwitchToNextColonyCommandHandler(Game game, ColonyPageViewModel colonyPage)
+        public SwitchToNextColonyCommandHandler(Game game, ColonyPageViewModel colonyPage, GameViewModel gameViewModel)
         {
             this.game = game;
             this.colonyPage = colonyPage;
+            this.gameViewModel = gameViewModel;
         }
 
         public override bool CanExecute(SwitchToNextColonyCommand command)
         {
-            return true;
+            return !this.gameViewModel.IsOverlayActive;
         }
 
         public override void Execute(SwitchToNextColonyCommand command)
         {
-            var colonyModels = this.game.CelestialSystem.GetAllColonies().ToList();
+            var colonyModels = this.game.CelestialSystem.GetColonies().ToList();
 
             if (colonyModels.Count == 0)
             {

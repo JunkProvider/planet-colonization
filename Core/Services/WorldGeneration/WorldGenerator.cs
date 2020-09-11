@@ -28,18 +28,18 @@
                                                                     { "Io", HexColor("F6E269") },
                                                                 };
 
-        private readonly Dictionary<string, IEnumerable<(string, double)>> resources = new Dictionary<string, IEnumerable<(string, double)>>
+        private readonly Dictionary<string, IEnumerable<(string, int)>> resources = new Dictionary<string, IEnumerable<(string, int)>>
             {
-                { "Earth", new[] { ("Water", 5000d), ("Deuterium", 100), ("Iron", 350) } },
-                { "Mars", new[] { ("Water", 100d), ("Iron", 250) } },
-                { "Luna", new[] { ("Iron", 100d) } },
+                { "Earth", new[] { ("Water", 5000), ("Deuterium", 100), ("Iron", 350) } },
+                { "Mars", new[] { ("Water", 100), ("Iron", 250) } },
+                { "Luna", new[] { ("Iron", 100) } },
 
                 // Io has the least amount of water of any known body in the Solar System.
                 // Most volcanic.
                 // Full of sulfur and silicates.
-                { "Io", new[] { ("Iron", 100d) } },
+                { "Io", new[] { ("Iron", 100) } },
 
-                { "Europa", new[] { ("Water", 5000d), ("Deuterium", 100) } }
+                { "Europa", new[] { ("Water", 5000), ("Deuterium", 100) } }
             };
 
         public WorldGenerator(WorldSettings settings, ResourceTypes resourceTypes)

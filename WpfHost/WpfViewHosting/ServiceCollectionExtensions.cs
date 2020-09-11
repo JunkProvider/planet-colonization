@@ -27,7 +27,9 @@
         {
             return serviceCollection
                 .AddViewModelFactory<ColonyViewModel>()
-                .AddViewModelFactory<StructureViewModel>();
+                .AddViewModelFactory<StructureViewModel>()
+                .AddViewModelFactory<StructureTypeViewModel>()
+                .AddViewModelFactory<AddStructureOverlayViewModel>();
         }
 
         private static IServiceCollection AddViewModelFactory<TViewModel>(this IServiceCollection serviceCollection)
@@ -41,7 +43,9 @@
         private static IServiceCollection AddCommandHandlers(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddCommandHandler<SwitchToNextColonyCommandHandler>();
+                .AddCommandHandler<CloseOverlayCommandHandler>()
+                .AddCommandHandler<SwitchToNextColonyCommandHandler>()
+                .AddCommandHandler<OpenAddStructureOverlayCommandHandler>();
         }
     }
 }

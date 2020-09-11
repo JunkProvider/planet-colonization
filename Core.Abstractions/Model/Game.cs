@@ -50,7 +50,7 @@
 
         public Colony GetColonyOrDefault(Guid id)
         {
-            return this.CelestialSystem.GetAllColonies().FirstOrDefault(c => c.Id == id);
+            return this.CelestialSystem.GetColonies().FirstOrDefault(c => c.Id == id);
         }
 
         public void AddRoute(Route route)

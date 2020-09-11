@@ -55,10 +55,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CloseOverlayCommandHandler.cs" />
+    <Compile Include="Commands\OpenAddStructureOverlayCommand.cs" />
+    <Compile Include="Commands\CloseOverlayCommand.cs" />
+    <Compile Include="Commands\OpenAddStructureOverlayCommandHandler.cs" />
     <Compile Include="Commands\SwitchToNextColonyCommand.cs" />
     <Compile Include="Commands\SwitchToNextColonyCommandHandler.cs" />
-    <Compile Include="GameLoop.cs" />
-    <Compile Include="IGameLoop.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -75,10 +77,12 @@
     </Compile>
     <Compile Include="Utility\DelegateCommand.cs" />
     <Compile Include="Utility\DrawingColorExtensions.cs" />
+    <Compile Include="ViewModel\AddStructureOverlayViewModel.cs" />
     <Compile Include="ViewModel\CelestialBodyViewModel.cs" />
     <Compile Include="ViewModel\CelestialSystemViewModel.cs" />
     <Compile Include="ViewModel\ColonyPageViewModel.cs" />
     <Compile Include="ViewModel\ColonyViewModel.cs" />
+    <Compile Include="ViewModel\IOverlayViewModel.cs" />
     <Compile Include="ViewModel\IPageViewModel.cs" />
     <Compile Include="ViewModel\IViewModelFactory.cs" />
     <Compile Include="ViewModel\LoadInstructionViewModel.cs" />
@@ -94,9 +98,13 @@
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\ShipViewModel.cs" />
     <Compile Include="ViewModel\StorageViewModel.cs" />
+    <Compile Include="ViewModel\StructureTypeViewModel.cs" />
     <Compile Include="ViewModel\StructureViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelHelper.cs" />
+    <Compile Include="View\AddStructureOverlay.xaml.cs">
+      <DependentUpon>AddStructureOverlay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CelestialBodyIconView.xaml.cs">
       <DependentUpon>CelestialBodyIconView.xaml</DependentUpon>
     </Compile>
@@ -109,6 +117,12 @@
     <Compile Include="View\DependencyPropertyExtensions.cs" />
     <Compile Include="View\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Icons\OkIcon.xaml.cs">
+      <DependentUpon>OkIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ItemView.xaml.cs">
+      <DependentUpon>ItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoadInstructionEditor.xaml.cs">
       <DependentUpon>LoadInstructionEditor.xaml</DependentUpon>
@@ -167,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\AddStructureOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CelestialBodyIconView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -184,6 +202,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Icons\OkIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

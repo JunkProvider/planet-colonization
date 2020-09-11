@@ -117,6 +117,41 @@
         </Setter>
     </Style>
 
+    <Style x:Key="CustomTextButton1BorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Button1BackgroundBrush}" />
+    </Style>
+
+    <Style x:Key="CustomTextButton1BorderActiveStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Button1FocusBackgroundBrush}" />
+    </Style>
+
+    <Style x:Key="CustomTextButton1Style" TargetType="{x:Type view:CustomButton}">
+        <Setter Property="BorderStyle" Value="{StaticResource CustomTextButton1BorderStyle}" />
+        <Setter Property="BorderActiveStyle" Value="{StaticResource CustomTextButton1BorderActiveStyle}" />
+        <Setter Property="ButtonContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Margin="10 5 10 5" HorizontalAlignment="Center" Text="{Binding}" Foreground="{StaticResource Button1ForegroundBrush}" FontWeight="Bold" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CustomIconButtonBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Item1BackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="999999" />
+    </Style>
+
+    <Style x:Key="CustomIconButtonBorderActiveStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource Item1SelectedBackgroundBrush}" />
+        <Setter Property="CornerRadius" Value="999999" />
+    </Style>
+
+    <Style x:Key="CustomIconButtonStyle" TargetType="{x:Type view:CustomButton}">
+        <Setter Property="BorderStyle" Value="{StaticResource CustomIconButtonBorderStyle}" />
+        <Setter Property="BorderActiveStyle" Value="{StaticResource CustomIconButtonBorderActiveStyle}" />
+    </Style>
+
     <Style x:Key="BorderButton1Style" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource Button1BackgroundBrush}" />
         <Setter Property="TextElement.Foreground" Value="{StaticResource Button1ForegroundBrush}" />

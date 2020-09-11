@@ -10,6 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <DataTemplate DataType="{x:Type viewModel:ShipPageViewModel}">
             <view:ShipPageView/>
         </DataTemplate>
@@ -26,24 +28,38 @@
             <view:ColonyPageView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewModel:AddStructureOverlayViewModel}">
+            <view:AddStructureOverlay/>
+        </DataTemplate>
+
     </UserControl.Resources>
 
-    <Border>
-        <DockPanel>
-            <TabControl ItemsSource="{Binding Pages}" Background="Black">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Title}" Foreground="Black" />
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <Border Padding="10">
-                            <ContentControl Content="{Binding}" />
-                        </Border>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
-        </DockPanel>
-    </Border>
+    <Grid>
+        <TabControl ItemsSource="{Binding Pages}" Background="Black">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" Foreground="Black" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Border Padding="10">
+                        <ContentControl Content="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        <Border 
+            Visibility="{Binding IsOverlayActive, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Background="#44000000"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <ContentControl 
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{Binding ActiveOverlay}" />
+        </Border>
+    </Grid>
 </UserControl>

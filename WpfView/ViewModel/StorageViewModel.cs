@@ -3,6 +3,7 @@
     using System.Linq;
 
     using SpaceLogistic.Core.Model;
+    using SpaceLogistic.Core.Model.Items;
 
     public sealed class StorageViewModel : ViewModelBase
     {

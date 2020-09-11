@@ -9,6 +9,11 @@
             : base(_ => execute(), _ => true)
         {
         }
+
+        public DelegateCommand(Action execute, Func<bool> canExecute)
+            : base(_ => execute(), _ => canExecute())
+        {
+        }
     }
 
     public class DelegateCommand<T> : ICommand

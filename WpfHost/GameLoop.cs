@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView
+﻿namespace SpaceLogistic.WpfHost
 {
     using System;
     using System.Timers;

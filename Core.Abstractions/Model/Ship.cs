@@ -3,6 +3,7 @@
     using System;
 
     using SpaceLogistic.Core.Model.Celestials;
+    using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.ShipRoutes;
 
     public sealed class Ship : IIdentity

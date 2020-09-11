@@ -33,6 +33,8 @@
             this.Title = this.ViewedColony.FullName;
         }
 
+        public ICommand MoveToNextColonyCommand { get; }
+        
         public string Title 
         {
             get => title;
@@ -44,9 +46,7 @@
             get => viewedColony;
             private set => SetProperty(ref viewedColony, value);
         }
-
-        public ICommand MoveToNextColonyCommand { get; }
-
+        
         public void Update(Game game)
         {
             this.SetViewedColony(game.GetColonyOrDefault(this.ViewedColony?.Id));

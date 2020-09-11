@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using SpaceLogistic.Core.Model.Celestials;
+    using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Model.Structures;
 
     public sealed class Station : Colony, IStationary, IIdentity
@@ -16,5 +17,10 @@
         }
 
         public OrbitalLocation Location { get; set; }
+
+        public override ResourceCollection GetAvailableResources()
+        {
+            return new ResourceCollection();
+        }
     }
 }

@@ -2,7 +2,9 @@
 {
     using Microsoft.Extensions.DependencyInjection;
 
+    using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.Resources;
+    using SpaceLogistic.Core.Model.Structures;
     using SpaceLogistic.Core.Services;
     using SpaceLogistic.Core.Services.WorldGeneration;
     using SpaceLogistic.Core.Services.WorldGeneration.Import;
@@ -19,7 +21,9 @@
         private static IServiceCollection AddSingletonModels(this IServiceCollection serviceCollection)
         {
             return serviceCollection
-                .AddSingleton<ResourceTypes>();
+                .AddSingleton<ResourceTypes>()
+                .AddSingleton<ItemTypes>()
+                .AddSingleton<StructureTypes>();
         }
 
         private static IServiceCollection AddServices(this IServiceCollection serviceCollection)

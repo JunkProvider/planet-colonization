@@ -4,6 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
+             xmlns:inventoryModel="clr-namespace:SpaceLogistic.Core.Model.Items;assembly=SpaceLogistic.Core.Abstractions"
+             xmlns:resourceModel="clr-namespace:SpaceLogistic.Core.Model.Resources;assembly=SpaceLogistic.Core.Abstractions"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModel:ColonyPageViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800"
@@ -15,21 +18,69 @@
                 <ResourceDictionary Source="Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <DataTemplate DataType="{x:Type inventoryModel:Item}">
+                <Border Style="{StaticResource Item1Style}" Margin="0 2 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Amount}" Margin="0 0 4 0" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type resourceModel:Resource}">
+                <Border Style="{StaticResource Item1Style}" Margin="0 2 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Amount}" Margin="0 0 4 0" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModel:StructureViewModel}">
-                <Border Style="{StaticResource Item1Style}" Margin="0 0 0 2">
-                    <TextBlock Text="{Binding Name}" />
+                <Border Margin="0 2 0 0" Style="{StaticResource Item1Style}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" />
+                        <Button Grid.Column="1" Command="{Binding RemoveCommand}" Style="{StaticResource RemoveButtonStyle}" />
+                    </Grid>
                 </Border>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:ColonyViewModel}">
-                <Border HorizontalAlignment="Left" Width="300" Background="{StaticResource Panel1BackgroundBrush}">
-                    <StackPanel>
-                        <Border Margin="0 0 0 5" Padding="0 5 0 5" Background="{StaticResource Button1BackgroundBrush}">
-                            <TextBlock Text="Structures" FontWeight="Bold" HorizontalAlignment="Center" Foreground="{StaticResource Button1ForegroundBrush}" />
-                        </Border>
-                        <ItemsControl ItemsSource="{Binding Structures}" />
-                    </StackPanel>
-                </Border>
+                <StackPanel Orientation="Horizontal">
+                    <Border HorizontalAlignment="Left" Width="300" Background="{StaticResource Panel1BackgroundBrush}">
+                        <StackPanel>
+                            <view:CustomButton ButtonContent="Add Structure" Style="{StaticResource Button1Style}" Command="{Binding OpenAddStructureOverlayCommand}"></view:CustomButton>
+                            <ItemsControl ItemsSource="{Binding Structures}" />
+                        </StackPanel>
+                    </Border>
+                    <Border HorizontalAlignment="Left" Margin="20 0 0 0" Width="300" Background="{StaticResource Panel1BackgroundBrush}">
+                        <StackPanel>
+                            <Border Style="{StaticResource Button1BorderStyle}">
+                                <TextBlock Margin="0 5 0 5" HorizontalAlignment="Center" Text="Inventory" Foreground="{StaticResource Button1ForegroundBrush}" FontWeight="Bold" />
+                            </Border>
+                            <ItemsControl ItemsSource="{Binding Items}" />
+                        </StackPanel>
+                    </Border>
+                    <Border 
+                        HorizontalAlignment="Left" 
+                        Margin="20 0 0 0" 
+                        Width="300" 
+                        Background="{StaticResource Panel1BackgroundBrush}"
+                        Visibility="{Binding CanHaveResources, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel>
+                            <Border Style="{StaticResource Button1BorderStyle}">
+                                <TextBlock Margin="0 5 0 5" HorizontalAlignment="Center" Text="Resources" Foreground="{StaticResource Button1ForegroundBrush}" FontWeight="Bold" />
+                            </Border>
+                            <ItemsControl ItemsSource="{Binding Resources}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
             </DataTemplate>
 
         </ResourceDictionary>

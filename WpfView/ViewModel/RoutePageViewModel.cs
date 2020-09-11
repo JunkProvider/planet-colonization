@@ -55,7 +55,7 @@
         {
             this.CelestialSystem.Update();
 
-            this.Routes = ViewModelHelper.UpdateCollection(
+            this.Routes = ViewModelHelper.UpdateCollectionByIdentity(
                 this.Routes,
                 // TODO: Add routes property to game
                 this.game.Routes,

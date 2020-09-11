@@ -16,7 +16,7 @@
             this.GravitationalParameter = gravitationalParameter;
             this.CelestialBodyType = celestialBodyType;
 
-            this.Resources = resources.ToList();
+            this.Resources = new ResourceCollection(resources);
 
             this.EscapeVelocity = Math.Sqrt((2 * gravitationalParameter) / (radius * 1000));
             this.SurfaceGravity = this.GravitationalParameter / Math.Pow(radius * 1000, 2);
@@ -43,7 +43,7 @@
 
         public double Temperature => this.CalculateTemperature();
 
-        public IReadOnlyCollection<Resource> Resources { get; }
+        public ResourceCollection Resources { get; }
 
         public CelestialSystem System { get; internal set; }
         
