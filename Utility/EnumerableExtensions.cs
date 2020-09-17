@@ -37,5 +37,17 @@
                 items[keyFunc(value)] = value;
             }
         }
+
+        public static HashSet<TItem> ToSet<TItem>(this IEnumerable<TItem> items)
+        {
+            var hashSet = new HashSet<TItem>();
+
+            foreach (var item in items)
+            {
+                hashSet.Add(item);
+            }
+
+            return hashSet;
+        }
     }
 }

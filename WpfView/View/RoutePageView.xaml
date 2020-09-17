@@ -37,16 +37,22 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:CelestialBodyViewModel}">
-                <Border Width="300" Margin="0 0 0 10" Style="{StaticResource Item1Style}">
-                    <DockPanel>
-                        <Ellipse DockPanel.Dock="Left" Width="{Binding DisplayDiameter}" Height="{Binding DisplayDiameter}" Margin="5 0 15 0" Fill="SteelBlue" />
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                            <!--<TextBlock Text="{Binding Orbit}" />
-                        <TextBlock Text="{Binding EscapeVelocity}" />-->
-                        </StackPanel>
-                    </DockPanel>
-                </Border>
+                <view:CustomButton Width="300" Margin="0 0 0 10" ButtonContent="{Binding}" Command="{Binding SelectCommand}" CommandParameter="{Binding}" Style="{StaticResource Item1ButtonStyle}">
+                    <view:CustomButton.ButtonContentTemplate>
+                        <DataTemplate DataType="{x:Type viewModel:StationViewModel}">
+                            <Border Width="300" Margin="0 0 0 10" Style="{StaticResource Item1Style}">
+                                <DockPanel>
+                                    <Ellipse DockPanel.Dock="Left" Width="{Binding DisplayDiameter}" Height="{Binding DisplayDiameter}" Margin="5 0 15 0" Fill="SteelBlue" />
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                        <!--<TextBlock Text="{Binding Orbit}" />
+                                    <TextBlock Text="{Binding EscapeVelocity}" />-->
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </view:CustomButton.ButtonContentTemplate>
+                </view:CustomButton>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:CelestialSystemViewModel}">
@@ -169,8 +175,8 @@
                 </Border>
             </DataTemplate>
 
-            <DataTemplate x:Key="StopOptionTemplate" DataType="{x:Type viewModel:OrbitalLocationViewModel}">
-                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path}" Margin="2" FontWeight="Bold" />
+            <DataTemplate x:Key="StopOptionTemplate" DataType="{x:Type viewModel:StopOptionViewModel}">
+                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" Margin="2" FontWeight="Bold" />
             </DataTemplate>
 
             <DataTemplate x:Key="ShipOptionTemplate" DataType="{x:Type viewModel:ShipViewModel}">

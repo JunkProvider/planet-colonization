@@ -5,6 +5,9 @@
     using SpaceLogistic.WpfHost.ApplicationHosting;
     using SpaceLogistic.WpfView.Commands;
     using SpaceLogistic.WpfView.ViewModel;
+    using SpaceLogistic.WpfView.ViewModel.Colonies;
+
+    using ShipViewModel = SpaceLogistic.WpfView.ViewModel.Colonies.ShipViewModel;
 
     public static class ServiceCollectionExtensions
     {
@@ -28,8 +31,11 @@
             return serviceCollection
                 .AddViewModelFactory<ColonyViewModel>()
                 .AddViewModelFactory<StructureViewModel>()
+                .AddViewModelFactory<ShipViewModel>()
                 .AddViewModelFactory<StructureTypeViewModel>()
-                .AddViewModelFactory<AddStructureOverlayViewModel>();
+                .AddViewModelFactory<ShipTypeViewModel>()
+                .AddViewModelFactory<AddStructureOverlayViewModel>()
+                .AddViewModelFactory<AddShipOverlayViewModel>();
         }
 
         private static IServiceCollection AddViewModelFactory<TViewModel>(this IServiceCollection serviceCollection)
@@ -45,7 +51,8 @@
             return serviceCollection
                 .AddCommandHandler<CloseOverlayCommandHandler>()
                 .AddCommandHandler<SwitchToNextColonyCommandHandler>()
-                .AddCommandHandler<OpenAddStructureOverlayCommandHandler>();
+                .AddCommandHandler<OpenAddStructureOverlayCommandHandler>()
+                .AddCommandHandler<OpenAddShipOverlayCommandHandler>();
         }
     }
 }

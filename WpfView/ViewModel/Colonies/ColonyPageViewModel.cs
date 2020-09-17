@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
 {
     using System.Windows.Input;
 
@@ -29,7 +29,6 @@
         public ColonyPageViewModel()
             : this(NullCommandDispatcher.Instance, NullViewModelFactory<ColonyViewModel>.Instance)
         {
-            this.ViewedColony = new ColonyViewModel();
             this.Title = this.ViewedColony.FullName;
         }
 
@@ -49,16 +48,17 @@
         
         public void Update(Game game)
         {
-            this.SetViewedColony(game.GetColonyOrDefault(this.ViewedColony?.Id));
+            this.SetViewedColony(game, game.GetColonyOrDefault(this.ViewedColony?.Id));
         }
 
-        public void SetViewedColony(Colony viewedColonyModel)
+        public void SetViewedColony(Game game, Colony viewedColonyModel)
         {
             this.ViewedColony = ViewModelHelper.Update(
                 this.ViewedColony,
                 viewedColonyModel,
                 colonyModel => this.colonyViewModelFactory.Create(),
-                (colonyModel, colonyViewModel) => colonyViewModel.Update(colonyModel));
+                (colonyModel, colonyViewModel) => colonyViewModel.Update(
+                    colonyModel, game.GetShipsAtLocation(colonyModel.Location)));
             this.Title = this.ViewedColony?.FullName ?? "Colonies";
         }
 

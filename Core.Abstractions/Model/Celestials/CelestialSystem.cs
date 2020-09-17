@@ -65,11 +65,15 @@
 
         public CelestialSystem Parent { get; internal set; }
 
+        public bool IsRoot => this.Parent == null;
+
         public IReadOnlyCollection<CelestialSystem> Children { get; }
 
         public CelestialBody CentralBody { get; }
 
         public IReadOnlyCollection<OrbitalLocation> OrbitalLocations { get; }
+
+        public OrbitalLocation LowOrbit => this.OrbitalLocations.First();
         
         public static CelestialSystem GetFirstCommonAncestorOrSelf(CelestialSystem celestialSystemA, CelestialSystem celestialSystemB)
         {
@@ -121,6 +125,19 @@
             return orbitalLocation;
         }
 
+        public bool TryGetLocation(Guid locationId, out ILocation location)
+        {
+            location = this.GetLocations().FirstOrDefault(l => l.Id == locationId);
+            return location != null;
+        }
+
+        public IEnumerable<ILocation> GetLocations()
+        {
+            return Enumerable.Repeat<ILocation>(this.CentralBody, 1)
+                .Concat(this.OrbitalLocations)
+                .Concat(this.Children.SelectMany(c => c.GetLocations()));
+        }
+
         public IEnumerable<OrbitalLocation> GetOrbitalLocations()
         {
             return this.OrbitalLocations.Concat(this.Children.SelectMany(c => c.GetOrbitalLocations()));
@@ -150,16 +167,16 @@
 
         public IEnumerable<Colony> GetOwnColonies()
         {
-            if (this.CentralBody.Base != null)
+            if (this.CentralBody.Colony != null)
             {
-                yield return this.CentralBody.Base;
+                yield return this.CentralBody.Colony;
             }
 
             foreach (var orbitalLocation in this.OrbitalLocations)
             {
-                if (orbitalLocation.Object is Station station)
+                if (orbitalLocation.Colony != null)
                 {
-                    yield return station;
+                    yield return orbitalLocation.Colony;
                 }
             }
         }

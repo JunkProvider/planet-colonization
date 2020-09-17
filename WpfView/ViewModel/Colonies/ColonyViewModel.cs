@@ -1,14 +1,15 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Windows.Input;
 
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.Resources;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.WpfView.Commands;
     using SpaceLogistic.WpfView.Utility;
@@ -19,6 +20,8 @@
 
         private readonly IViewModelFactory<StructureViewModel> structureViewModelFactory;
 
+        private readonly IViewModelFactory<ShipViewModel> shipViewModelFactory;
+
         private Guid id;
 
         private string name;
@@ -27,29 +30,36 @@
 
         private ObservableCollection<StructureViewModel> structures = new ObservableCollection<StructureViewModel>();
 
+        private ObservableCollection<ShipViewModel> ships = new ObservableCollection<ShipViewModel>();
+
         private ObservableCollection<Item> items = new ObservableCollection<Item>();
 
         private ObservableCollection<Resource> resources = new ObservableCollection<Resource>();
 
         private bool canHaveResources;
 
-        public ColonyViewModel(ICommandDispatcher commandDispatcher, IViewModelFactory<StructureViewModel> structureViewModelFactory)
+        public ColonyViewModel(ICommandDispatcher commandDispatcher, IViewModelFactory<StructureViewModel> structureViewModelFactory, IViewModelFactory<ShipViewModel> shipViewModelFactory)
         {
             this.commandDispatcher = commandDispatcher;
             this.structureViewModelFactory = structureViewModelFactory;
+            this.shipViewModelFactory = shipViewModelFactory;
 
             this.OpenAddStructureOverlayCommand = new DelegateCommand(
                 this.OpenAddStructureOverlay,
                 this.CanOpenAddStructureOverlay);
+
+            this.OpenAddShipOverlayCommand = new DelegateCommand(
+                this.OpenAddShipOverlay,
+                this.CanOpenAddShipOverlay);
         }
 
-        public ColonyViewModel()
-            : this("Eden", "Earth - Eden")
+        public ColonyViewModel(IViewModelFactory<ShipViewModel> shipViewModelFactory)
+            : this("Eden", "Earth - Eden", shipViewModelFactory)
         {
         }
 
-        public ColonyViewModel(string name, string fullName)
-            : this(NullCommandDispatcher.Instance, NullViewModelFactory<StructureViewModel>.Instance)
+        public ColonyViewModel(string name, string fullName, IViewModelFactory<ShipViewModel> shipViewModelFactory)
+            : this(NullCommandDispatcher.Instance, NullViewModelFactory<StructureViewModel>.Instance, shipViewModelFactory)
         {
             this.name = name;
             this.fullName = fullName;
@@ -58,6 +68,8 @@
         }
 
         public ICommand OpenAddStructureOverlayCommand { get; }
+
+        public ICommand OpenAddShipOverlayCommand { get; }
 
         public Guid Id  
         {
@@ -83,6 +95,12 @@
             private set => SetProperty(ref structures, value);
         }
 
+        public ObservableCollection<ShipViewModel> Ships
+        {
+            get => ships;
+            private set => SetProperty(ref ships, value);
+        }
+
         public ObservableCollection<Item> Items
         {
             get => items;
@@ -101,7 +119,7 @@
             private set => SetProperty(ref resources, value);
         }
 
-        public void Update(Colony colony)
+        public void Update(Colony colony, IReadOnlyCollection<Ship> ships)
         {
             this.Id = colony.Id;
             this.Name = colony.Name;
@@ -112,6 +130,12 @@
                 colony.Structures,
                 structureModel => this.structureViewModelFactory.Create(),
                 (structureModel, structureViewModel) => structureViewModel.Update(this.Id, structureModel));
+            
+            this.Ships = ViewModelHelper.UpdateCollectionByIdentity(
+                this.Ships,
+                ships,
+                shipModel => this.shipViewModelFactory.Create(), 
+                (shipModel, shipViewModel) => shipViewModel.Update(shipModel));
 
             this.Items = ViewModelHelper.UpdateCollectionByReference(
                 this.Items,
@@ -143,6 +167,16 @@
         private void OpenAddStructureOverlay()
         {
             this.commandDispatcher.Execute(new OpenAddStructureOverlayCommand(this.Id));
+        }
+
+        private bool CanOpenAddShipOverlay()
+        {
+            return this.commandDispatcher.CanExecute(new OpenAddShipOverlayCommand(this.Id));
+        }
+
+        private void OpenAddShipOverlay()
+        {
+            this.commandDispatcher.Execute(new OpenAddShipOverlayCommand(this.Id));
         }
 
         private static string GetFullName(Colony colony)

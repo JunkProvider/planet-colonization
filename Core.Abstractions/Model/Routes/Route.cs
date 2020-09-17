@@ -25,12 +25,12 @@
 
         public RouteStop FirstStop => this.stops.First();
         
-        public OrbitalLocation GetNextDestination(OrbitalLocation currentLocation)
+        public ILocation GetNextDestination(ILocation currentLocation)
         {
             return this.GetNextStop(currentLocation)?.Location;
         }
 
-        public IEnumerable<RouteStop> GetFutureStops(OrbitalLocation currentLocation)
+        public IEnumerable<RouteStop> GetFutureStops(ILocation currentLocation)
         {
             var currentStopIndex = this.GetCurrentStopIndex(currentLocation);
 
@@ -42,7 +42,7 @@
             return this.stops.Skip(currentStopIndex + 1).Concat(this.stops.Take(currentStopIndex + 1));
         }
 
-        public RouteStop GetCurrentStop(OrbitalLocation currentLocation)
+        public RouteStop GetCurrentStop(ILocation currentLocation)
         {
             if (currentLocation == null)
             {
@@ -52,7 +52,7 @@
             return this.stops.FirstOrDefault(s => s.Location == currentLocation);
         }
 
-        public RouteStop GetNextStop(OrbitalLocation currentLocation)
+        public RouteStop GetNextStop(ILocation currentLocation)
         {
             if (this.stops.Count == 0)
             {
@@ -91,7 +91,7 @@
             this.stops.RemoveWhere(s => s.Id == stopId);
         }
 
-        private int GetCurrentStopIndex(OrbitalLocation currentLocation)
+        private int GetCurrentStopIndex(ILocation currentLocation)
         {
             if (currentLocation == null)
             {

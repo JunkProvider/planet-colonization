@@ -39,29 +39,30 @@
                 throw new InvalidOperationException("Can not execute command.");
             }
 
-            if (!this.TryGetEntities(command, out var route, out var orbitalLocation))
+            if (!this.TryGetEntities(command, out var route, out var location))
             {
                 throw new InvalidOperationException("Can not execute command.");
             }
 
-            route.AddStop(new RouteStop(orbitalLocation, RefuelBehavior.NoRefuel));
+            route.AddStop(new RouteStop(location, RefuelBehavior.NoRefuel));
         }
         
-        private bool TryGetEntities(AddRouteStopCommand command, out Route route, out OrbitalLocation orbitalLocation)
+        private bool TryGetEntities(AddRouteStopCommand command, out Route route, out ILocation location)
         {
             route = this.game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
 
             if (route == null)
             {
-                orbitalLocation = default(OrbitalLocation);
+                location = default(OrbitalLocation);
                 return false;
             }
 
-            orbitalLocation = this.game.CelestialSystem
-                .GetOrbitalLocations()
-                .FirstOrDefault(l => l.Id == command.OrbitalLocationId);
+            if (!this.game.CelestialSystem.TryGetLocation(command.LocationId, out location))
+            {
+                return false;
+            }
 
-            if (orbitalLocation == null)
+            if (location == null)
             {
                 return false;
             }

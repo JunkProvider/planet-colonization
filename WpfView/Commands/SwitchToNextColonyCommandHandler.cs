@@ -5,6 +5,7 @@
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.WpfView.ViewModel;
+    using SpaceLogistic.WpfView.ViewModel.Colonies;
 
     public sealed class SwitchToNextColonyCommandHandler : CommandHandlerBase<SwitchToNextColonyCommand>
     {
@@ -41,7 +42,7 @@
             var nextColonyIndex = (currentColonyIndex + 1) % colonyModels.Count;
             var nextColonyModel = colonyModels[nextColonyIndex];
 
-            this.colonyPage.SetViewedColony(nextColonyModel);
+            this.colonyPage.SetViewedColony(this.game, nextColonyModel);
         }
     }
 }

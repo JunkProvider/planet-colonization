@@ -5,6 +5,7 @@
 
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
+    using SpaceLogistic.WpfView.ViewModel.Colonies;
 
     public sealed class GameViewModel : ViewModelBase
     {

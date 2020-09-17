@@ -13,12 +13,12 @@
 
         private readonly List<UnloadInstruction> unloadInstructions;
 
-        public RouteStop(OrbitalLocation location, RefuelBehavior refuelBehavior)
+        public RouteStop(ILocation location, RefuelBehavior refuelBehavior)
             : this(location, refuelBehavior, Enumerable.Empty<LoadInstruction>(), Enumerable.Empty<UnloadInstruction>())
         {
         }
 
-        public RouteStop(OrbitalLocation location, RefuelBehavior refuelBehavior, IEnumerable<LoadInstruction> loadInstructions, IEnumerable<UnloadInstruction> unloadInstructions)
+        public RouteStop(ILocation location, RefuelBehavior refuelBehavior, IEnumerable<LoadInstruction> loadInstructions, IEnumerable<UnloadInstruction> unloadInstructions)
         {
             this.Location = location;
             this.RefuelBehavior = refuelBehavior;
@@ -28,7 +28,7 @@
 
         public Guid Id { get; } = Guid.NewGuid();
 
-        public OrbitalLocation Location { get; }
+        public ILocation Location { get; }
 
         public RefuelBehavior RefuelBehavior { get; set; }
 

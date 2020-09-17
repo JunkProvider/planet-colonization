@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CloseOverlayCommandHandler.cs" />
+    <Compile Include="Commands\OpenAddShipOverlayCommand.cs" />
+    <Compile Include="Commands\OpenAddShipOverlayCommandHandler.cs" />
     <Compile Include="Commands\OpenAddStructureOverlayCommand.cs" />
     <Compile Include="Commands\CloseOverlayCommand.cs" />
     <Compile Include="Commands\OpenAddStructureOverlayCommandHandler.cs" />
@@ -77,31 +79,37 @@
     </Compile>
     <Compile Include="Utility\DelegateCommand.cs" />
     <Compile Include="Utility\DrawingColorExtensions.cs" />
+    <Compile Include="ViewModel\AddShipOverlayViewModel.cs" />
     <Compile Include="ViewModel\AddStructureOverlayViewModel.cs" />
     <Compile Include="ViewModel\CelestialBodyViewModel.cs" />
     <Compile Include="ViewModel\CelestialSystemViewModel.cs" />
-    <Compile Include="ViewModel\ColonyPageViewModel.cs" />
-    <Compile Include="ViewModel\ColonyViewModel.cs" />
+    <Compile Include="ViewModel\Colonies\ColonyPageViewModel.cs" />
+    <Compile Include="ViewModel\Colonies\ColonyViewModel.cs" />
+    <Compile Include="ViewModel\Colonies\ShipViewModel.cs" />
     <Compile Include="ViewModel\IOverlayViewModel.cs" />
     <Compile Include="ViewModel\IPageViewModel.cs" />
     <Compile Include="ViewModel\IViewModelFactory.cs" />
     <Compile Include="ViewModel\LoadInstructionViewModel.cs" />
     <Compile Include="ViewModel\MapPageViewModel.cs" />
     <Compile Include="ViewModel\NullViewModelFactory.cs" />
-    <Compile Include="ViewModel\OrbitalLocationViewModel.cs" />
+    <Compile Include="ViewModel\StopOptionViewModel.cs" />
     <Compile Include="ViewModel\RefuelBehaviorOption.cs" />
     <Compile Include="ViewModel\RoutePageViewModel.cs" />
     <Compile Include="ViewModel\RouteStopViewModel.cs" />
     <Compile Include="ViewModel\RouteViewModel.cs" />
     <Compile Include="ViewModel\ShipPageViewModel.cs" />
+    <Compile Include="ViewModel\ShipTypeViewModel.cs" />
     <Compile Include="ViewModel\StationViewModel.cs" />
     <Compile Include="ViewModel\GameViewModel.cs" />
     <Compile Include="ViewModel\ShipViewModel.cs" />
     <Compile Include="ViewModel\StorageViewModel.cs" />
     <Compile Include="ViewModel\StructureTypeViewModel.cs" />
-    <Compile Include="ViewModel\StructureViewModel.cs" />
+    <Compile Include="ViewModel\Colonies\StructureViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelHelper.cs" />
+    <Compile Include="View\AddShipOverlay.xaml.cs">
+      <DependentUpon>AddShipOverlay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddStructureOverlay.xaml.cs">
       <DependentUpon>AddStructureOverlay.xaml</DependentUpon>
     </Compile>
@@ -180,6 +188,10 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AddShipOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddStructureOverlay.xaml">
       <SubType>Designer</SubType>

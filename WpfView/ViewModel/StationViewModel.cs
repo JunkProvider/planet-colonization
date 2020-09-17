@@ -3,25 +3,30 @@
     using System;
     using System.Windows.Input;
 
+    using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.WpfView.Utility;
 
     public sealed class StationViewModel : ViewModelBase
     {
-        private readonly Station station;
+        private readonly Station colony;
 
         private string storedFuel;
 
         public StationViewModel(Station station, DelegateCommand<StationViewModel> selectCommand)
         {
-            this.station = station;
+            this.colony = station;
             this.Name = station.Name;
-            this.Orbit = $"Orbit: {(station.Location.Orbit / 1e3):0.0} M";
+
+            this.Orbit = station.Location is OrbitalLocation orbitalLocation
+                ? $"Orbit: {(orbitalLocation.Orbit / 1e3):0.0} M"
+                : "-";
+
             this.Warehouse = new StorageViewModel(station.Warehouse);
             this.SelectCommand = selectCommand;
         }
 
-        public Guid Id => this.station.Id;
+        public Guid Id => this.colony.Id;
         
         public string Name { get; }
 
@@ -48,8 +53,8 @@
 
         public void Update()
         {
-            this.StoredFuel = this.station.FuelStorageCapacity > 0
-                ? $"Stored Fuel: {this.station.StoredFuel:0.0} / {this.station.FuelStorageCapacity:0.0}"
+            this.StoredFuel = this.colony.FuelStorageCapacity > 0
+                ? $"Stored Fuel: {this.colony.StoredFuel:0.0} / {this.colony.FuelStorageCapacity:0.0}"
                 : $"Stored Fuel: none";
 
             this.Warehouse.Update();

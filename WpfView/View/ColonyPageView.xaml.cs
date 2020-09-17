@@ -4,6 +4,7 @@
     using System.Windows.Input;
 
     using SpaceLogistic.WpfView.ViewModel;
+    using SpaceLogistic.WpfView.ViewModel.Colonies;
 
     public partial class ColonyPageView
     {

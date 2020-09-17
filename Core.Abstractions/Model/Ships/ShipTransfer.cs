@@ -6,7 +6,7 @@
 
     public sealed class ShipTransfer : TimedProcess
     {
-        public ShipTransfer(OrbitalLocation origin, OrbitalLocation destination, TimeSpan totalTime)
+        public ShipTransfer(ILocation origin, ILocation destination, TimeSpan totalTime)
             : base(totalTime)
         {
             if (origin == destination)
@@ -18,8 +18,8 @@
             this.Destination = destination ?? throw new ArgumentNullException(nameof(destination));
         }
 
-        public OrbitalLocation Origin { get; }
+        public ILocation Origin { get; }
 
-        public OrbitalLocation Destination { get; }
+        public ILocation Destination { get; }
     }
 }

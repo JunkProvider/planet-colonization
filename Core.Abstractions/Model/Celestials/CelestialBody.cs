@@ -7,7 +7,7 @@
     using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Model.Stations;
 
-    public sealed class CelestialBody
+    public sealed class CelestialBody : ILocation
     {
         public CelestialBody(string name, CelestialBodyType celestialBodyType, double radius, double gravitationalParameter, IEnumerable<Resource> resources)
         {
@@ -22,7 +22,13 @@
             this.SurfaceGravity = this.GravitationalParameter / Math.Pow(radius * 1000, 2);
         }
         
+        public Guid Id { get; } = Guid.NewGuid();
+
         public string Name { get; }
+
+        public string FullName => this.GetFullName();
+
+        public double SurfaceRotation { get; } = 0;
 
         public CelestialBodyType CelestialBodyType { get; }
 
@@ -42,19 +48,25 @@
         public IReadOnlyDictionary<string, double> EscapeVelocities => this.CalculateEscapeVelocities();
 
         public double Temperature => this.CalculateTemperature();
-
+        
         public ResourceCollection Resources { get; }
+
+        public Colony Colony { get; private set; }
+
+        public void SetColony(Colony colony)
+        {
+            if (colony == this.Colony)
+            {
+                return;
+            }
+
+            this.Colony?.SetLocation(null);
+            this.Colony = colony;
+            colony.SetLocation(this);
+        }
 
         public CelestialSystem System { get; internal set; }
         
-        public Base Base { get; private set; }
-
-        public void SetBase(Base @base)
-        {
-            this.Base = @base;
-            @base.Location = this;
-        }
-
         public override string ToString()
         {
             return this.Name;
@@ -93,6 +105,16 @@
             var constant = 5.670373e-8;
             var temperature4 = (luminosity * (1d - albedo)) / (16 * Math.PI * Math.Pow(distance, 2) * constant);
             return Math.Pow(temperature4, 1d / 4);
+        }
+
+        private string GetFullName()
+        {
+            if (this.System.IsRoot)
+            {
+                return this.Name;
+            }
+
+            return this.System.GetCentralBodyPathTillRoot();
         }
     }
 }

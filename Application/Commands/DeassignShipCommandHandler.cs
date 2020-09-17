@@ -5,6 +5,7 @@
 
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
+    using SpaceLogistic.Core.Model.Ships;
 
     public sealed class DeassignShipCommandHandler : CommandHandlerBase<DeassignShipCommand>
     {

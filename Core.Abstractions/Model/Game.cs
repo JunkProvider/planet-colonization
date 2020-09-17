@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.ShipRoutes;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.Core.Model.Structures;
     using SpaceLogistic.Utility;
@@ -15,12 +17,15 @@
     {
         private readonly List<Route> routes;
 
-        public Game(ItemTypes itemTypes, StructureTypes structureTypes, CelestialSystem celestialSystem, IEnumerable<Ship> ships)
+        private readonly HashSet<Ship> ships;
+
+        public Game(ItemTypes itemTypes, StructureTypes structureTypes, CelestialSystem celestialSystem, IEnumerable<Ship> ships, ShipTypes shipTypes)
         {
             this.ItemTypes = itemTypes;
             this.StructureTypes = structureTypes;
             this.CelestialSystem = celestialSystem;
-            this.Ships = ships.ToList();
+            ShipTypes = shipTypes;
+            this.ships = ships.ToSet();
 
             this.routes = this.Ships.Select(s => s.Route).Where(r => r != null).Distinct().ToList();
         }
@@ -29,11 +34,11 @@
 
         public StructureTypes StructureTypes { get; }
 
+        public ShipTypes ShipTypes { get; }
+
         public CelestialSystem CelestialSystem { get; }
 
-        public IReadOnlyCollection<CelestialBody> Bodies => this.CelestialSystem.GetBodies().ToList();
-
-        public IReadOnlyCollection<Ship> Ships { get; }
+        public IReadOnlyCollection<Ship> Ships => this.ships;
 
         public IReadOnlyCollection<Route> Routes => this.routes;
 
@@ -57,7 +62,7 @@
         {
             this.routes.Add(route);
         }
-
+        
         public void DeleteRoute(Guid routeId)
         {
             this.routes.RemoveWhere(r => r.Id == routeId);
@@ -69,6 +74,16 @@
                     ship.Route = null;
                 }
             }
+        }
+
+        public IReadOnlyCollection<Ship> GetShipsAtLocation(ILocation location)
+        {
+            return this.ships.Where(s => s.Location?.Id == location?.Id).ToList();
+        }
+
+        public void AddShip(Ship ship)
+        {
+            this.ships.Add(ship);
         }
     }
 }

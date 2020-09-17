@@ -4,14 +4,14 @@
 
     public sealed class AddRouteStopCommand
     {
-        public AddRouteStopCommand(Guid routeId, Guid orbitalLocationId)
+        public AddRouteStopCommand(Guid routeId, Guid locationId)
         {
-            this.OrbitalLocationId = orbitalLocationId;
+            this.LocationId = locationId;
             this.RouteId = routeId;
         }
 
         public Guid RouteId { get; }
 
-        public Guid OrbitalLocationId { get; }
+        public Guid LocationId { get; }
     }
 }

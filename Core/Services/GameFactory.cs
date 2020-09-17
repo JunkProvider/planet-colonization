@@ -8,6 +8,7 @@
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Model.ShipRoutes;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.Core.Model.Structures;
 
@@ -21,12 +22,15 @@
 
         private readonly ResourceTypes resourceTypes;
 
-        public GameFactory(CelestialSystem world, ItemTypes itemTypes, StructureTypes structureTypes, ResourceTypes resourceTypes)
+        private readonly ShipTypes shipTypes;
+
+        public GameFactory(CelestialSystem world, ItemTypes itemTypes, StructureTypes structureTypes, ResourceTypes resourceTypes, ShipTypes shipTypes)
         {
             this.world = world;
             this.itemTypes = itemTypes;
             this.structureTypes = structureTypes;
             this.resourceTypes = resourceTypes;
+            this.shipTypes = shipTypes;
         }
 
         public Game Create()
@@ -54,7 +58,7 @@
 
             var ships = new List<Ship>();
             {
-                var ship = new Ship("Magellan", 20,  positions.Single(b => b.Name == "Low Earth Orbit"));
+                var ship = new Ship(this.shipTypes.LargeCargoShip, "Magellan", positions.Single(b => b.Name == "Low Earth Orbit"));
                 var stop1 = new RouteStop(
                     positions.Single(b => b.Name == "Low Earth Orbit"), 
                     RefuelBehavior.MinRequired,
@@ -70,11 +74,11 @@
             }
 
             {
-                var ship = new Ship("Columbus", 15, positions.Single(b => b.Name == "Low Earth Orbit"));
+                var ship = new Ship(this.shipTypes.SmallCargoShip, "Orion", positions.Single(b => b.Name == "Low Earth Orbit"));
                 ships.Add(ship);
             }
 
-            return new Game(itemTypes, structureTypes, solarSystem, ships);
+            return new Game(itemTypes, structureTypes, solarSystem, ships, this.shipTypes);
         }
 
         private void AddStation(CelestialSystem startSystem, string location, string name)
@@ -99,7 +103,7 @@
             station.FuelStorageCapacity = 50;
             station.StoredFuel = 25;
             station.Warehouse.Add(items);
-            startSystem.GetOrbitalLocationWithName(location).SetObject(station);
+            startSystem.GetOrbitalLocationWithName(location).SetColony(station);
         }
 
         private void AddBase(
@@ -119,7 +123,7 @@
             @base.FuelStorageCapacity = 50;
             @base.StoredFuel = 25;
             @base.Warehouse.Add(items);
-            startSystem.GetBodyWithName(location).SetBase(@base);
+            startSystem.GetBodyWithName(location).SetColony(@base);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
 {
     using System;
     using System.Windows.Input;

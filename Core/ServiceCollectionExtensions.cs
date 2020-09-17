@@ -4,6 +4,7 @@
 
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.Resources;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.Core.Model.Structures;
     using SpaceLogistic.Core.Services;
     using SpaceLogistic.Core.Services.WorldGeneration;
@@ -23,7 +24,8 @@
             return serviceCollection
                 .AddSingleton<ResourceTypes>()
                 .AddSingleton<ItemTypes>()
-                .AddSingleton<StructureTypes>();
+                .AddSingleton<StructureTypes>()
+                .AddSingleton<ShipTypes>();
         }
 
         private static IServiceCollection AddServices(this IServiceCollection serviceCollection)

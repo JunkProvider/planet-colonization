@@ -6,6 +6,7 @@
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.WpfView.Utility;
 
     public sealed class ShipViewModel : ViewModelBase, IIdentity

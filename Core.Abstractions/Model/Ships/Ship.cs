@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.Core.Model
+﻿namespace SpaceLogistic.Core.Model.Ships
 {
     using System;
 
@@ -8,18 +8,20 @@
 
     public sealed class Ship : IIdentity
     {
-        public Ship(string name, double fuelCapacity, OrbitalLocation location)
+        public Ship(ShipType shipType, string name, ILocation location)
         {
+            ShipType = shipType;
             this.Name = name;
-            this.FuelCapacity = fuelCapacity;
             this.Location = location;
         }
 
         public Guid Id { get; } = Guid.NewGuid();
 
+        public ShipType ShipType { get; }
+
         public string Name { get; }
 
-        public OrbitalLocation Location { get; set; }
+        public ILocation Location { get; set; }
 
         public ShipTransfer Transfer { get; set; }
 
@@ -27,7 +29,9 @@
         
         public Route Route { get; set; }
 
-        public double FuelCapacity { get; }
+        public double EmptyMass => this.ShipType.EmptyMass;
+
+        public double FuelCapacity => this.ShipType.FuelCapacity;
 
         public double Fuel { get; set; }
 

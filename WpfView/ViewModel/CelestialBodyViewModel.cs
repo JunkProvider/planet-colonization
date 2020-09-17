@@ -2,17 +2,21 @@
 {
     using System;
     using System.Linq;
-    using System.Windows.Media;
+    using System.Windows.Input;
 
+    using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Utility.Units;
+    using SpaceLogistic.WpfView.Utility;
 
-    public sealed class CelestialBodyViewModel
+    public sealed class CelestialBodyViewModel : IIdentity
     {
-        public CelestialBodyViewModel(CelestialSystem celestialSystem)
+        public CelestialBodyViewModel(CelestialSystem celestialSystem, DelegateCommand<CelestialBodyViewModel> selectCommand)
         {
             var celestialBody = celestialSystem.CentralBody;
-            
+
+            this.Id = celestialBody.Id;
+
             this.Name = celestialBody.Name;
 
             this.Orbit = $"Orbit: {GetOrbitValue(celestialSystem.Orbit, celestialBody.CelestialBodyType)}";
@@ -27,7 +31,10 @@
             this.EscapeVelocity = $"Esc. Velocity: {Math.Sqrt((2 * celestialBody.GravitationalParameter) / (celestialBody.Radius * 1000)):0} m/s";
 
             this.DisplayDiameter = GetIconSize(celestialBody.Diameter);
+            this.SelectCommand = selectCommand;
         }
+
+        public Guid Id { get; }
 
         public string Name { get; }
 
@@ -38,6 +45,8 @@
         public double DisplayDiameter { get; }
 
         public double DisplayRadius => this.DisplayDiameter / 2;
+
+        public ICommand SelectCommand { get; }
 
         private static string GetOrbitValue(double orbit, CelestialBodyType celestialBodyType)
         {

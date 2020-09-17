@@ -39,7 +39,8 @@
                 .AddCommandHandler<AssignShipCommandHandler>()
                 .AddCommandHandler<DeassignShipCommandHandler>()
                 .AddCommandHandler<AddStructureCommandHandler>()
-                .AddCommandHandler<RemoveStructureCommandHandler>();
+                .AddCommandHandler<RemoveStructureCommandHandler>()
+                .AddCommandHandler<AddShipCommandHandler>();
         }
     }
 }

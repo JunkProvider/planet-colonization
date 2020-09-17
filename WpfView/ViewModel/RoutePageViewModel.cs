@@ -3,11 +3,13 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Windows.Input;
 
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
+    using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.ShipRoutes;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.WpfView.Utility;
@@ -26,13 +28,16 @@
         {
             this.commandDispatcher = commandDispatcher;
             this.game = game;
-            this.CelestialSystem = new CelestialSystemViewModel(game.CelestialSystem, new DelegateCommand<StationViewModel>(this.SelectStation, this.CanSelectStation));
+            this.CelestialSystem = new CelestialSystemViewModel(
+                game.CelestialSystem, 
+                new DelegateCommand<StationViewModel>(this.SelectStation, this.CanSelectStation),
+                new DelegateCommand<CelestialBodyViewModel>(this.SelectBody, this.CanSelectBody));
 
             this.AddRouteCommand = new DelegateCommand(this.AddRoute);
 
             this.Update(game);
         }
-        
+
         public string Title => "Routes";
 
         public CelestialSystemViewModel CelestialSystem { get; }
@@ -74,11 +79,7 @@
 
         private bool CanSelectStation(StationViewModel station)
         {
-            var locationId = this.game.CelestialSystem.GetOrbitalLocations()
-                .Select(l => l.Object)
-                .OfType<Station>()
-                .FirstOrDefault(s => s.Id == station.Id)
-                ?.Location?.Id ?? Guid.Empty;
+            var locationId = this.GetLocationId(station);
 
             var command = new AddRouteStopCommand(this.selectedRoute?.Id ?? Guid.Empty, locationId);
             
@@ -87,22 +88,35 @@
 
         private void SelectStation(StationViewModel station)
         {
-            var locationId = this.game.CelestialSystem.GetOrbitalLocations()
-                .Select(l => l.Object)
-                .OfType<Station>()
-                .FirstOrDefault(s => s.Id == station.Id)
-                ?.Location?.Id ?? Guid.Empty;
+            var locationId = this.GetLocationId(station);
 
             var command = new AddRouteStopCommand(this.selectedRoute?.Id ?? Guid.Empty, locationId);
             
             this.commandDispatcher.Execute(command);
+        }
 
-            this.selectedRoute?.Update();
+        private bool CanSelectBody(CelestialBodyViewModel location)
+        {
+            var command = new AddRouteStopCommand(this.selectedRoute?.Id ?? Guid.Empty, location.Id);
+            return this.commandDispatcher.CanExecute(command);
+        }
+
+        private void SelectBody(CelestialBodyViewModel location)
+        {
+            var command = new AddRouteStopCommand(this.selectedRoute?.Id ?? Guid.Empty, location.Id);
+            this.commandDispatcher.Execute(command);
         }
 
         private RouteViewModel CreateRouteViewModel(Route route)
         {
             return new RouteViewModel(this.game, route, this.commandDispatcher);
+        }
+
+        private Guid GetLocationId(StationViewModel station)
+        {
+            return this.game.CelestialSystem.GetOrbitalLocations()
+                .FirstOrDefault(l => l.Colony?.Id == station.Id)
+                ?.Id ?? Guid.Empty;
         }
     }
 }

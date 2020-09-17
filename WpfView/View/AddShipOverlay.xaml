@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="SpaceLogistic.WpfView.View.AddShipOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
+             xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
+             xmlns:itemModels="clr-namespace:SpaceLogistic.Core.Model.Items;assembly=SpaceLogistic.Core.Abstractions"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModel:AddShipOverlayViewModel, IsDesignTimeCreatable=False}"
+             Width="800" Height="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Colors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="ItemTemplate" DataType="{x:Type itemModels:Item}">
+                <view:ItemView />
+            </DataTemplate>
+
+            <DataTemplate x:Key="ShipTypeListItemTemplate" DataType="{x:Type viewModel:ShipTypeViewModel}">
+                <Grid>
+                    <TextBlock Text="{Binding Name}" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ShipTypeTemplate" DataType="{x:Type viewModel:ShipTypeViewModel}">
+                <StackPanel>
+                    <TextBlock Text="{Binding Name}" FontSize="16" />
+                    <TextBlock Text="{Binding Description}" />
+                    <TextBlock Text="Requires:" Margin="0 10 0 0" FontSize="16"  />
+                    <ItemsControl ItemsSource="{Binding ConstructionMaterials}" ItemTemplate="{StaticResource ItemTemplate}" />
+                </StackPanel>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Background="{StaticResource Panel1BackgroundBrush}" BorderBrush="{StaticResource Panel1ForegroundBrush}" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Padding="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ListBox
+                        x:Name="ShipTypeList"
+                        Grid.Column="0"
+                        ItemsSource="{Binding ShipTypes}" 
+                        SelectedItem="{Binding SelectedShipType}" 
+                        ItemContainerStyle="{StaticResource Item1ItemListBoxItemStyle}"
+                        ItemTemplate="{StaticResource ShipTypeListItemTemplate}"
+                        Width="350"
+                        Margin="0, 0, 10, 0" />
+                    <ContentControl
+                        Grid.Column="1"
+                        Content="{Binding ElementName=ShipTypeList, Path=SelectedItem}"
+                        ContentTemplate="{StaticResource ShipTypeTemplate}" >
+                    </ContentControl>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1" Margin="0 5 0 0" Padding="5">
+                <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <view:CustomButton 
+                        Command="{Binding ConfirmCommand}"
+                        ButtonContent="Accept"
+                        Style="{StaticResource CustomTextButton1Style}" 
+                        HorizontalAlignment="Right"
+                        Margin="0 0 5 0" />
+                    <view:CustomButton 
+                        Command="{Binding CancelCommand}"
+                        ButtonContent="Cancel"
+                        Style="{StaticResource CustomTextButton1Style}" 
+                        HorizontalAlignment="Right"
+                        Margin="0 0 5 0" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

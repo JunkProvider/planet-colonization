@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
              xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
+             xmlns:colonies="clr-namespace:SpaceLogistic.WpfView.ViewModel.Colonies"
              d:DataContext="{d:DesignInstance Type=viewModel:GameViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,23 +14,27 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <DataTemplate DataType="{x:Type viewModel:ShipPageViewModel}">
-            <view:ShipPageView/>
+            <view:ShipPageView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModel:MapPageViewModel}">
-            <view:MapPageView/>
+            <view:MapPageView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModel:RoutePageViewModel}">
-            <view:RoutePageView/>
+            <view:RoutePageView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:ColonyPageViewModel}">
-            <view:ColonyPageView/>
+        <DataTemplate DataType="{x:Type colonies:ColonyPageViewModel}">
+            <view:ColonyPageView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewModel:AddStructureOverlayViewModel}">
-            <view:AddStructureOverlay/>
+            <view:AddStructureOverlay />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:AddShipOverlayViewModel}">
+            <view:AddShipOverlay />
         </DataTemplate>
 
     </UserControl.Resources>

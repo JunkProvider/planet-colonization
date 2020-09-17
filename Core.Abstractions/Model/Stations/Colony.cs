@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Model.Structures;
@@ -12,13 +13,15 @@
     {
         private readonly List<Structure> structures = new List<Structure>();
 
+        private readonly HashSet<ShipConstructionProcess> shipConstructionProcesses = new HashSet<ShipConstructionProcess>();
+
         protected Colony(string name)
         {
             this.Name = name;
         }
 
         public Guid Id { get; } = Guid.NewGuid();
-
+        
         public string Name { get; }
 
         public double FuelStorageCapacity { get; set; }
@@ -30,6 +33,10 @@
         public Storage Warehouse { get; } = new Storage();
 
         public IReadOnlyCollection<Structure> Structures => this.structures;
+
+        public IReadOnlyCollection<ShipConstructionProcess> ShipConstructionProcesses => this.shipConstructionProcesses;
+
+        public ILocation Location { get; private set; }
 
         public abstract ResourceCollection GetAvailableResources();
 
@@ -47,6 +54,28 @@
         public void RemoveStructure(Guid structureId)
         {
             this.structures.RemoveAll(s => s.Id == structureId);
+        }
+
+        public void SetLocation(ILocation location)
+        {
+            if (this.Location == location)
+            {
+                return;
+            }
+
+            this.Location?.SetColony(null);
+            this.Location = location;
+            location.SetColony(this);
+        }
+
+        public void AddShipConstructionProcess(ShipConstructionProcess shipConstructionProcess)
+        {
+            this.shipConstructionProcesses.Add(shipConstructionProcess);
+        }
+
+        public void RemoveShipConstructionProcess(ShipConstructionProcess shipConstructionProcess)
+        {
+            this.shipConstructionProcesses.Remove(shipConstructionProcess);
         }
 
         public override string ToString()

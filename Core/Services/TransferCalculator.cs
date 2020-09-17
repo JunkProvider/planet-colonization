@@ -19,13 +19,13 @@
         }
 
         public void Calculate(
-            OrbitalLocation origin,
-            OrbitalLocation destination,
+            ILocation origin,
+            ILocation destination,
             double dryMass,
             out double fuelCosts,
             out TimeSpan travelTime)
         {
-            this.CalculateTransferOrbit(origin, destination, out var deltaV, out var period);
+            this.CalculateTransfer(origin, destination, out var deltaV, out var period);
 
             var exhaustMass = Physics.GetRequiredExhaustMass(deltaV, dryMass, this.settings.ShipSpecificImpulse);
             
@@ -34,12 +34,67 @@
             travelTime = TimeSpan.FromMilliseconds(period.TotalMilliseconds / this.settings.TravelSpeedFactor);
         }
 
+        public void CalculateTransfer(
+            ILocation origin,
+            ILocation destination,
+            out double deltaV,
+            out TimeSpan period)
+        {
+            this.CalculateLaunchOrLanding(
+                origin, out var originOrbit, out var launchDeltaV, out var launchPeriod);
+
+            this.CalculateLaunchOrLanding(
+                destination, out var destinationOrbit, out var landingDeltaV, out var landingPeriod);
+
+            this.CalculateTransferOrbit(
+                originOrbit, 
+                destinationOrbit, 
+                out var transferDeltaV, 
+                out var transferPeriod);
+
+            deltaV = launchDeltaV + transferDeltaV + landingDeltaV;
+            period = launchPeriod + transferPeriod + landingPeriod;
+        }
+
+        public void CalculateLaunchOrLanding(
+            ILocation origin,
+            out OrbitalLocation orbit,
+            out double deltaV,
+            out TimeSpan period)
+        {
+            switch (origin)
+            {
+                case CelestialBody celestialBody:
+                    orbit = celestialBody.System.LowOrbit;
+                    deltaV = OrbitMechanics.GetOrbitVelocity(celestialBody.GravitationalParameter, celestialBody.System.LowOrbit.Orbit * 1000) - celestialBody.SurfaceRotation * 1000;
+                    // TODO: Move to settings
+                    period = TimeSpan.FromHours(1);
+                    break;
+
+                case OrbitalLocation orbitalLocation:
+                    orbit = orbitalLocation;
+                    deltaV = 0;
+                    period = TimeSpan.Zero;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(origin));
+            }
+        }
+
         public void CalculateTransferOrbit(
             OrbitalLocation origin,
             OrbitalLocation destination,
             out double deltaV,
             out TimeSpan period)
         {
+            if (origin == destination)
+            {
+                deltaV = 0;
+                period = TimeSpan.Zero;
+                return;
+            }
+
             var plan = TransferPlan.Create(origin, destination);
             this.CalculateTransferOrbit(plan, out deltaV, out period);
         }
@@ -68,6 +123,10 @@
             period = transfer.Period;
         }
 
+        /// <summary>
+        /// E.g: From a planet to an orbiting moon
+        /// or from a star to the moon of an orbiting planet.
+        /// </summary>
         private Transfer CalculateTransferOrbitFromPrimaryToSatellite(TransferPlan plan)
         {
             var primaryGravitationalParameter = plan.PrimarySystem.CentralBody.GravitationalParameter;
@@ -80,13 +139,17 @@
 
             var transfer = HohmannTransfer2.PrimaryToSatellite(
                 primaryGravitationalParameter,
-                plan.OriginOrbit,
+                plan.OriginOrbit * 1000,
                 new Satellite(arrivalOrbit * 1000, plan.DestinationSystem.CentralBody.GravitationalParameter),
-                arrivalOrbit);
+                arrivalOrbit * 1000);
 
             return new Transfer(transfer.InsertionDeltaVelocity, arrivalEscapeDeltaV + transfer.CaptureDeltaVelocity, transfer.Period);
         }
 
+        /// <summary>
+        /// E.g: From a moon to the planet
+        /// or from a moon of a planet to the orbited star.
+        /// </summary>
         private Transfer CalculateTransferOrbitFromSatelliteToPrimary(TransferPlan plan)
         {
             var primaryGravitationalParameter = plan.PrimarySystem.CentralBody.GravitationalParameter;
@@ -99,9 +162,9 @@
 
             var transfer = HohmannTransfer2.PrimaryToSatellite(
                 primaryGravitationalParameter,
-                plan.OriginOrbit,
+                plan.OriginOrbit * 1000,
                 new Satellite(departureOrbit * 1000, plan.DestinationSystem.CentralBody.GravitationalParameter),
-                departureOrbit);
+                departureOrbit * 1000);
 
             return new Transfer(transfer.InsertionDeltaVelocity, departureEscapeDeltaV + transfer.CaptureDeltaVelocity, transfer.Period);
         }

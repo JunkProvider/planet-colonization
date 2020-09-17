@@ -7,8 +7,8 @@
     public interface ITransferCalculator
     {
         void Calculate(
-            OrbitalLocation origin,
-            OrbitalLocation destination,
+            ILocation origin,
+            ILocation destination,
             double dryMass,
             out double fuelCosts,
             out TimeSpan travelTime);

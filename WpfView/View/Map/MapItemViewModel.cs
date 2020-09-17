@@ -43,7 +43,7 @@
             var stationIndex = 0;
             foreach (var location in primarySystem.OrbitalLocations)
             {
-                if (!(location.Object is Station))
+                if (location.Colony == null)
                 {
                     continue;
                 }

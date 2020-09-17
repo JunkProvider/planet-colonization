@@ -6,6 +6,7 @@
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.ShipRoutes;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.Core.Model.Structures;
     using SpaceLogistic.Core.Services.WorldGeneration;
@@ -24,13 +25,6 @@
 
         public void Startup(Game game)
         {
-            foreach (var ship in game.Ships)
-            {
-                if (ship.Location != null)
-                {
-                    // this.OnShipArrived(ship);
-                }
-            }
         }
 
         public void Update(Game game, TimeSpan elapsedTime)
@@ -44,14 +38,15 @@
             {
                 foreach (var structure in colony.Structures)
                 {
-                    this.UpdateStructureCommand(colony, structure);
+                    this.TryCommandStructureProduction(colony, structure);
                     this.UpdateStructureProduction(colony, structure, elapsedTime);
                 }
 
                 this.UpdateColonyFuelStorage(game.ItemTypes, colony, elapsedTime);
+                this.UpdateColonyShipConstructions(game, colony, elapsedTime);
             }
         }
-
+        
         private void UpdateShip(Game game, Ship ship, TimeSpan elapsedTime)
         {
             if (ship.Transfer != null)
@@ -83,16 +78,16 @@
 
             var isDepartureRequirementMet = true;
 
-            var station = currentStop.Location.Object as Station;
+            var colony = currentStop.Location.Colony;
 
             if (ship.Fuel < requiredFuel)
             {
-                if (station != null)
+                if (colony != null)
                 {
-                    var maxTransferredFuel = Math.Min(requiredFuel - ship.Fuel, station.StoredFuel);
+                    var maxTransferredFuel = Math.Min(requiredFuel - ship.Fuel, colony.StoredFuel);
                     var transferredFuel = Math.Min(maxTransferredFuel, elapsedTime.TotalSeconds);
                     ship.Fuel += transferredFuel;
-                    station.StoredFuel -= transferredFuel;
+                    colony.StoredFuel -= transferredFuel;
                 }
 
                 isDepartureRequirementMet = false;
@@ -111,13 +106,13 @@
 
                 isDepartureRequirementMet = false;
 
-                if (station == null || ship.CargoTransferCapacity < 1)
+                if (colony == null || ship.CargoTransferCapacity < 1)
                 {
                     break;
                 }
 
                 ship.CargoBay.TakeMax(1, instruction.ItemType);
-                station.Warehouse.Add(1, instruction.ItemType);
+                colony.Warehouse.Add(1, instruction.ItemType);
                 ship.CargoTransferCapacity = 0;
             }
 
@@ -132,19 +127,19 @@
 
                 isDepartureRequirementMet = false;
 
-                if (station == null || ship.CargoTransferCapacity < 1)
+                if (colony == null || ship.CargoTransferCapacity < 1)
                 {
                     break;
                 }
 
-                var amountOnStation = station.Warehouse.Get(instruction.ItemType);
+                var amountOnStation = colony.Warehouse.Get(instruction.ItemType);
 
                 if (amountOnStation < 1)
                 {
                     continue;
                 }
 
-                station.Warehouse.TakeMax(1, instruction.ItemType);
+                colony.Warehouse.TakeMax(1, instruction.ItemType);
                 ship.CargoBay.Add(1, instruction.ItemType);
                 ship.CargoTransferCapacity = 0;
             }
@@ -171,90 +166,6 @@
 
             ship.Location = ship.Transfer.Destination;
             ship.Transfer = null;
-
-            // this.OnShipArrived(ship);
-        }
-
-        private void OnShipArrived(Ship ship)
-        {
-            if (ship.Route == null || ship.Location == null)
-            {
-                return;
-            }
-
-            var stop = ship.Route.GetCurrentStop(ship.Location);
-
-            if (stop == null)
-            {
-                return;
-            }
-
-            var colony = ship.Location.Object as Station;
-
-            if (colony == null)
-            {
-                return;
-            }
-
-            foreach (var unloadInstruction in stop.UnloadInstructions)
-            {
-                colony.Warehouse.Add(ship.CargoBay.TakeMax(unloadInstruction.Amount, unloadInstruction.ItemType), unloadInstruction.ItemType);
-            }
-
-            foreach (var loadInstruction in stop.LoadInstructions)
-            {
-                ship.CargoBay.Add(colony.Warehouse.TakeMax(loadInstruction.Amount, loadInstruction.ItemType), loadInstruction.ItemType);
-            }
-
-            this.StartRefuelingShip(ship);
-        }
-
-        private void StartRefuelingShip(Ship ship)
-        {
-            var currentStop = ship.Route?.GetCurrentStop(ship.Location);
-
-            if (currentStop == null || currentStop.RefuelBehavior == RefuelBehavior.NoRefuel)
-            {
-                return;
-            }
-
-            var transferredFuel = this.GetFuelToTransfer(ship, ship.Route, currentStop);
-
-            if (transferredFuel <= 0)
-            {
-                return;
-            }
-
-            ship.RefuelingProcess = new ShipRefuelingProcess(transferredFuel, currentStop.RefuelBehavior);
-        }
-
-        private void UpdateShipRefuelProgress(Ship ship, TimeSpan elapsedTime)
-        {
-            if (ship.RefuelingProcess == null)
-            {
-                return;
-            }
-
-            var fuelStation = ship.Location.Object as Station;
-
-            var transferredFuelRate = elapsedTime.TotalSeconds * 2.5;
-            var transferredFuel = Math.Min(transferredFuelRate, Math.Min(ship.RefuelingProcess.RemainingTransferredFuel, fuelStation.StoredFuel));
-
-            ship.RefuelingProcess.UpdateProgress(transferredFuel);
-
-            ship.Fuel += transferredFuel;
-            fuelStation.StoredFuel -= transferredFuel;
-
-            if (ship.RefuelingProcess.IsCompleted)
-            {
-                ship.RefuelingProcess = null;
-                return;
-            }
-
-            if (ship.RefuelingProcess.RefuelBehavior == RefuelBehavior.MaxAvailable && fuelStation.StoredFuel <= 0)
-            {
-                ship.RefuelingProcess = null;
-            }
         }
 
         /// <summary>
@@ -282,14 +193,14 @@
                     return ship.FuelCapacity;
 
                 case RefuelBehavior.MinRequired:
-                    return Math.Min(ship.FuelCapacity, this.CalculateMinRequiredFuel(route, currentStop));
+                    return Math.Min(ship.FuelCapacity, this.CalculateMinRequiredFuel(ship, route, currentStop));
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private double CalculateMinRequiredFuel(Route route, RouteStop currentStop)
+        private double CalculateMinRequiredFuel(Ship ship, Route route, RouteStop currentStop)
         {
             var futureStops = route.GetFutureStops(currentStop.Location)
                 .ToList();
@@ -305,7 +216,7 @@
                 this.transferCalculator.Calculate(
                     origin,
                     futureStop.Location,
-                    this.settings.ShipEmptyMass + expectedPayload,
+                    ship.EmptyMass + expectedPayload,
                     out var requiredFuel,
                     out _);
                 totalRequiredFuel += requiredFuel;
@@ -374,7 +285,7 @@
             structure.ProductionProcess = null;
         }
 
-        private void UpdateStructureCommand(Colony colony, Structure structure)
+        private void TryCommandStructureProduction(Colony colony, Structure structure)
         {
             if (structure.ProductionProcess != null || structure.ProducedItemType == null)
             {
@@ -418,6 +329,31 @@
             {
                 station.FuelStorageReplenishProcess = new FuelStorageReplenishProcess(TimeSpan.FromSeconds(1));
             }
+        }
+
+        private void UpdateColonyShipConstructions(Game game, Colony colony, TimeSpan elapsedTime)
+        {
+            foreach (var constructionProcess in colony.ShipConstructionProcesses.ToList())
+            {
+                this.UpdateColonyShipConstruction(game, colony, constructionProcess, elapsedTime);
+            }
+        }
+
+        private void UpdateColonyShipConstruction(Game game, Colony colony, ShipConstructionProcess constructionProcess, TimeSpan elapsedTime)
+        {
+            constructionProcess.UpdateProgress(elapsedTime);
+            
+            if (constructionProcess.IsCompleted)
+            {
+                this.CompleteColonyShipConstruction(game, colony, constructionProcess);
+            }
+        }
+
+        private void CompleteColonyShipConstruction(Game game, Colony colony, ShipConstructionProcess constructionProcess)
+        {
+            var ship = new Ship(constructionProcess.ShipType, $"New {constructionProcess.ShipType.Name}", colony.Location);
+            game.AddShip(ship);
+            colony.RemoveShipConstructionProcess(constructionProcess);
         }
     }
 }

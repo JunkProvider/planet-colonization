@@ -9,6 +9,7 @@
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.ShipRoutes;
+    using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.WpfView.Utility;
 
     public sealed class RouteViewModel : ViewModelBase, IIdentity
@@ -27,9 +28,9 @@
 
         private string name;
 
-        private ObservableCollection<OrbitalLocationViewModel> availableStops = new ObservableCollection<OrbitalLocationViewModel>();
+        private ObservableCollection<StopOptionViewModel> availableStops = new ObservableCollection<StopOptionViewModel>();
 
-        private OrbitalLocationViewModel selectedAddStopOption;
+        private StopOptionViewModel selectedAddStopOption;
 
         public RouteViewModel(Game game, Route route, ICommandDispatcher commandDispatcher)
         {
@@ -38,7 +39,7 @@
             this.commandDispatcher = commandDispatcher;
 
             this.DeleteCommand = new DelegateCommand(this.Delete);
-            this.AddStopCommand = new DelegateCommand<OrbitalLocationViewModel>(this.AddStop);
+            this.AddStopCommand = new DelegateCommand<StopOptionViewModel>(this.AddStop);
             this.AssignShipCommand = new DelegateCommand<ShipViewModel>(this.AssignShip);
 
             this.Update();
@@ -52,13 +53,13 @@
             set => this.name = value;
         }
 
-        public ObservableCollection<OrbitalLocationViewModel> AvailableStops
+        public ObservableCollection<StopOptionViewModel> AvailableStops
         {
             get => this.availableStops;
             private set => this.SetProperty(ref this.availableStops, value);
         }
 
-        public OrbitalLocationViewModel SelectedAddStopOption
+        public StopOptionViewModel SelectedAddStopOption
         {
             get => this.selectedAddStopOption;
             set => this.SetProperty(ref this.selectedAddStopOption, value);
@@ -94,8 +95,8 @@
 
             this.AvailableStops = ViewModelHelper.UpdateCollectionByIdentity(
                 this.AvailableStops,
-                this.game.CelestialSystem.GetOrbitalLocations().Except(this.route.Stops.Select(s => s.Location)),
-                location => new OrbitalLocationViewModel(location), 
+                this.game.CelestialSystem.GetLocations().Except(this.route.Stops.Select(s => s.Location)),
+                location => new StopOptionViewModel(location), 
                 (location, locationViewModel) => locationViewModel.Update());
 
             this.Stops = ViewModelHelper.UpdateCollectionByIdentity(
@@ -122,9 +123,9 @@
             this.commandDispatcher.Execute(new DeleteRouteCommand(this.Id));
         }
 
-        private void AddStop(OrbitalLocationViewModel orbitalLocationViewModel)
+        private void AddStop(StopOptionViewModel stopOptionViewModel)
         {
-            this.commandDispatcher.Execute(new AddRouteStopCommand(this.Id, orbitalLocationViewModel.Id));
+            this.commandDispatcher.Execute(new AddRouteStopCommand(this.Id, stopOptionViewModel.Id));
         }
 
         private void DeleteStop(Guid stopId)

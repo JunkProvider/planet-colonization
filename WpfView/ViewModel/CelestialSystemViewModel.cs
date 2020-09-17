@@ -16,6 +16,7 @@
         public CelestialSystemViewModel(
             CelestialSystem celestialSystem, 
             DelegateCommand<StationViewModel> selectStationCommand,
+            DelegateCommand<CelestialBodyViewModel> selectBodyCommand,
             DelegateCommand<CelestialSystemViewModel> clickCommand = null)
         {
             clickCommand = clickCommand ?? new DelegateCommand<CelestialSystemViewModel>(_ => { }, _ => false);
@@ -26,15 +27,15 @@
             this.Name = celestialSystem.Name;
             this.DisplayOrbit = Math.Sqrt(Math.Sqrt(celestialSystem.Orbit)) * 8;
 
-            this.CentralBody = new CelestialBodyViewModel(celestialSystem);
+            this.CentralBody = new CelestialBodyViewModel(celestialSystem, selectBodyCommand);
 
             this.Stations = celestialSystem.OrbitalLocations
-                .Select(p => p.Object)
+                .Select(p => p.Colony)
                 .OfType<Station>()
                 .Select(s => new StationViewModel(s, selectStationCommand))
                 .ToList();
             
-            this.Children = celestialSystem.Children.Select(c => new CelestialSystemViewModel(c, selectStationCommand, clickCommand)).ToList();
+            this.Children = celestialSystem.Children.Select(c => new CelestialSystemViewModel(c, selectStationCommand, selectBodyCommand, clickCommand)).ToList();
         }
 
         public string Name { get; }
