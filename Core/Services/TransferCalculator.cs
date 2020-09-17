@@ -66,7 +66,7 @@
             {
                 case CelestialBody celestialBody:
                     orbit = celestialBody.System.LowOrbit;
-                    deltaV = OrbitMechanics.GetOrbitVelocity(celestialBody.GravitationalParameter, celestialBody.System.LowOrbit.Orbit * 1000) - celestialBody.SurfaceRotation * 1000;
+                    deltaV = OrbitMechanics.GetOrbitVelocity(celestialBody.GravitationalParameter, celestialBody.System.LowOrbit.Orbit) - celestialBody.SurfaceRotation;
                     // TODO: Move to settings
                     period = TimeSpan.FromHours(1);
                     break;
@@ -139,9 +139,9 @@
 
             var transfer = HohmannTransfer2.PrimaryToSatellite(
                 primaryGravitationalParameter,
-                plan.OriginOrbit * 1000,
-                new Satellite(arrivalOrbit * 1000, plan.DestinationSystem.CentralBody.GravitationalParameter),
-                arrivalOrbit * 1000);
+                plan.OriginOrbit,
+                new Satellite(arrivalOrbit, plan.DestinationSystem.CentralBody.GravitationalParameter),
+                arrivalOrbit);
 
             return new Transfer(transfer.InsertionDeltaVelocity, arrivalEscapeDeltaV + transfer.CaptureDeltaVelocity, transfer.Period);
         }
@@ -162,9 +162,9 @@
 
             var transfer = HohmannTransfer2.PrimaryToSatellite(
                 primaryGravitationalParameter,
-                plan.OriginOrbit * 1000,
-                new Satellite(departureOrbit * 1000, plan.DestinationSystem.CentralBody.GravitationalParameter),
-                departureOrbit * 1000);
+                plan.OriginOrbit,
+                new Satellite(departureOrbit, plan.DestinationSystem.CentralBody.GravitationalParameter),
+                departureOrbit);
 
             return new Transfer(transfer.InsertionDeltaVelocity, departureEscapeDeltaV + transfer.CaptureDeltaVelocity, transfer.Period);
         }
@@ -190,10 +190,10 @@
 
             var transfer = HohmannTransfer2.BetweenSatellites(
                 primaryGravitationalParameter,
-                new Satellite(originSystem.Orbit * 1000, originSystem.CentralBody.GravitationalParameter),
-                departureOrbit * 1000,
-                new Satellite(destinationSystem.Orbit * 1000, destinationSystem.CentralBody.GravitationalParameter),
-                arrivalOrbit * 1000);
+                new Satellite(originSystem.Orbit, originSystem.CentralBody.GravitationalParameter),
+                departureOrbit,
+                new Satellite(destinationSystem.Orbit, destinationSystem.CentralBody.GravitationalParameter),
+                arrivalOrbit);
 
             return new Transfer(departureEscapeDeltaV + transfer.InsertionDeltaVelocity, arrivalEscapeDeltaV + transfer.CaptureDeltaVelocity, transfer.Period);
         }
@@ -212,7 +212,7 @@
             foreach (var currentSystem in subSystems)
             {
                 var currentBody = currentSystem.CentralBody;
-                var currentEscapeDeltaV = OrbitMechanics.GetEscapeDeltaVelocity(currentBody.GravitationalParameter, currentOrbit * 1000);
+                var currentEscapeDeltaV = OrbitMechanics.GetEscapeDeltaVelocity(currentBody.GravitationalParameter, currentOrbit);
 
                 totalEscapeVelocity += currentEscapeDeltaV;
 

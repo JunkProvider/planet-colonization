@@ -90,7 +90,7 @@
     <Compile Include="ViewModel\IPageViewModel.cs" />
     <Compile Include="ViewModel\IViewModelFactory.cs" />
     <Compile Include="ViewModel\LoadInstructionViewModel.cs" />
-    <Compile Include="ViewModel\MapPageViewModel.cs" />
+    <Compile Include="View\Map\MapPageViewModel.cs" />
     <Compile Include="ViewModel\NullViewModelFactory.cs" />
     <Compile Include="ViewModel\StopOptionViewModel.cs" />
     <Compile Include="ViewModel\RefuelBehaviorOption.cs" />
@@ -139,7 +139,7 @@
       <DependentUpon>LoadInstructionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainWindowEvents.cs" />
-    <Compile Include="View\MapPageView.xaml.cs">
+    <Compile Include="View\Map\MapPageView.xaml.cs">
       <DependentUpon>MapPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Map\MapControl.cs" />
@@ -233,7 +233,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MapPageView.xaml">
+    <Page Include="View\Map\MapPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

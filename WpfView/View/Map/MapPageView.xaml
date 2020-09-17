@@ -15,7 +15,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Colors.xaml"/>
+                <ResourceDictionary Source="..\Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
@@ -126,6 +126,22 @@
                                 <StackPanel Margin="0 0 0 5">
                                     <ToggleButton x:Name="OrbitalCharacteristicsToggleButton" Content="Properties" Style="{StaticResource TogglePanelButtonStyle}" />
                                     <StackPanel Orientation="Vertical" Visibility="{Binding IsChecked, ElementName=OrbitalCharacteristicsToggleButton, Converter={StaticResource VisibleIfTrueConverter}}" Margin="5">
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 2">
+                                            <TextBlock Text="Orbit:" Width="200" />
+                                            <TextBlock Text="{Binding Orbit}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 2">
+                                            <TextBlock Text="Orbit Period:" Width="200" />
+                                            <TextBlock Text="{Binding Period}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 2">
+                                            <TextBlock Text="Diameter:" Width="200" />
+                                            <TextBlock Text="{Binding Diameter}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 2">
+                                            <TextBlock Text="Density:" Width="200" />
+                                            <TextBlock Text="{Binding Density}" />
+                                        </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0 0 0 2">
                                             <TextBlock Text="Surf. Gravity:" Width="200" />
                                             <TextBlock Text="{Binding SurfaceGravity}" />

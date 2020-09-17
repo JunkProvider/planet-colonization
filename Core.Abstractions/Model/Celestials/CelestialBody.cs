@@ -9,17 +9,19 @@
 
     public sealed class CelestialBody : ILocation
     {
-        public CelestialBody(string name, CelestialBodyType celestialBodyType, double radius, double gravitationalParameter, IEnumerable<Resource> resources)
+        public CelestialBody(string name, CelestialBodyType celestialBodyType, double radius, double gravitationalParameter, IEnumerable<Resource> resources, double mass, double density)
         {
             this.Name = name;
             this.Radius = radius;
             this.GravitationalParameter = gravitationalParameter;
+            this.Mass = mass;
+            this.Density = density;
             this.CelestialBodyType = celestialBodyType;
 
             this.Resources = new ResourceCollection(resources);
 
-            this.EscapeVelocity = Math.Sqrt((2 * gravitationalParameter) / (radius * 1000));
-            this.SurfaceGravity = this.GravitationalParameter / Math.Pow(radius * 1000, 2);
+            this.EscapeVelocity = Math.Sqrt((2 * gravitationalParameter) / radius);
+            this.SurfaceGravity = this.GravitationalParameter / Math.Pow(radius, 2);
         }
         
         public Guid Id { get; } = Guid.NewGuid();
@@ -35,6 +37,13 @@
         public double Radius { get; }
 
         public double Diameter => this.Radius * 2;
+
+        public double Mass { get; }
+
+        /// <summary>
+        /// In kg/m³
+        /// </summary>
+        public double Density { get; }
 
         public double GravitationalParameter { get; }
 
@@ -84,7 +93,7 @@
 
             while (escapeToSystem != null)
             {
-                totalEscapeVelocity += Math.Sqrt((2 * escapeFromBody.GravitationalParameter) / (escapeFromDistance * 1000));
+                totalEscapeVelocity += Math.Sqrt((2 * escapeFromBody.GravitationalParameter) / (escapeFromDistance));
                 escapeVelocities.Add(escapeToSystem.Name, totalEscapeVelocity);
 
                 escapeFromBody = escapeToSystem.CentralBody;
@@ -99,7 +108,7 @@
         {
             // TODO: pass to ctor
             var distanceFromStar = this.System.GetSelfAndAncestors().Sum(s => s.Orbit);
-            var distance = distanceFromStar * 1000;
+            var distance = distanceFromStar;
             var luminosity = 3.846e26;
             var albedo = 0.29;
             var constant = 5.670373e-8;

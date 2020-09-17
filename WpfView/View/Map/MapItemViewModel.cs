@@ -6,7 +6,6 @@
     using System.Windows.Media;
 
     using SpaceLogistic.Core.Model.Celestials;
-    using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.WpfView.Utility;
     using SpaceLogistic.WpfView.ViewModel;
 
@@ -19,7 +18,7 @@
             yield return new PlanetViewModel(
                 primarySystem.Id,
                 0,
-                Math.Sqrt(Math.Sqrt(primarySystem.CentralBody.Diameter)) * 2,
+                GetDisplayDiameter(primarySystem.CentralBody.Diameter),
                 0,
                 selectCommand,
                 new SolidColorBrush(primarySystem.Color.ToMediaColor()),
@@ -30,9 +29,9 @@
             {
                 yield return new PlanetViewModel(
                     subSystem.Id,
-                    (planetIndex + 1) * 25 + Math.Sqrt(Math.Sqrt(subSystem.Orbit)) * 5,
-                    Math.Sqrt(Math.Sqrt(subSystem.CentralBody.Diameter)) * 2,
-                    Math.Sqrt(subSystem.Period.TotalDays) * 50,
+                    GetDisplayOrbit(planetIndex, subSystem.Orbit),
+                    GetDisplayDiameter(subSystem.CentralBody.Diameter),
+                    GetDisplayPeriod(subSystem.Period),
                     selectCommand,
                     new SolidColorBrush(subSystem.Color.ToMediaColor()),
                     subSystem.CentralBody);
@@ -50,9 +49,9 @@
 
                 yield return new StationViewModel(
                     location.Id,
-                    (stationIndex + 1) * 25 + Math.Sqrt(Math.Sqrt(location.Orbit)) * 5,
+                    GetDisplayOrbit(stationIndex, location.Orbit),
                     5,
-                    Math.Sqrt(location.Period.TotalDays) * 50,
+                    GetDisplayPeriod(location.Period),
                     new DelegateCommand<Guid>(_ => { }));
 
                 stationIndex++;
@@ -80,5 +79,25 @@
         public Brush SurfaceBrush { get; }
 
         public ICommand SelectCommand { get; }
+
+        public virtual void Update()
+        {
+
+        }
+
+        private static double GetDisplayOrbit(int index, double orbit)
+        {
+            return ((index + 1) * 25) + (Math.Sqrt(Math.Sqrt(orbit)) * 5);
+        }
+
+        private static double GetDisplayDiameter(double diameter)
+        {
+            return Math.Sqrt(Math.Sqrt(diameter)) * 2;
+        }
+
+        private static double GetDisplayPeriod(TimeSpan period)
+        {
+            return Math.Sqrt(period.TotalDays) * 50;
+        }
     }
 }

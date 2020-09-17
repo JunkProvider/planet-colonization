@@ -11,32 +11,37 @@
 
         public static Distance Kilometers(double value)
         {
+            return new Distance(value * 1e3);
+        }
+
+        public static Distance Meter(double value)
+        {
             return new Distance(value);
         }
 
         public double InMeter()
         {
-            return this.Value * 1e3;
+            return this.Value;
         }
 
         public double InKilometer()
         {
-            return this.Value;
+            return this.Value / 1e3;
         }
 
         public double InThousandKilometer()
         {
-            return this.Value / 1e3;
+            return this.Value / 1e6;
         }
 
         public double InMillionKilometer()
         {
-            return this.Value / 1e6;
+            return this.Value / 1e9;
         }
 
         public double InBillionKilometer()
         {
-            return this.Value / 1e9;
+            return this.Value / 1e12;
         }
 
         public double In(DistanceUnit unit)

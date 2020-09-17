@@ -37,7 +37,7 @@
 
             this.CentralBody.System = this;
             
-            var lowOrbitPeriod = TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow((centralBody.Radius + lowOrbit) * 1000, 3) / this.CentralBody.GravitationalParameter));
+            var lowOrbitPeriod = TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow((centralBody.Radius + lowOrbit), 3) / this.CentralBody.GravitationalParameter));
 
             this.OrbitalLocations = new[]
                 {

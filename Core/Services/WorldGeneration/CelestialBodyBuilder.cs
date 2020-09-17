@@ -45,7 +45,7 @@
         public double Orbit { get; private set; }
 
         public TimeSpan OrbitalPeriod => this.parent != null
-            ? TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow(this.Orbit * 1000, 3) / this.parent.GravitationalParameter))
+            ? TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow(this.Orbit, 3) / this.parent.GravitationalParameter))
             : TimeSpan.Zero;
 
         /// <summary>
@@ -66,14 +66,14 @@
         /// <summary>
         /// In kg/m³
         /// </summary>
-        public double Density => Physics.GetSphereDensity(this.Radius * 1000, this.Mass) / 1000;
+        public double Density => Physics.GetSphereDensity(this.Radius, this.Mass) * 1000;
 
         public double GravitationalParameter => Physics.GetStandardGravitationalParameter(this.Mass, this.GravitationalConstant);
 
         /// <summary>
         /// In m/s²
         /// </summary>
-        public double SurfaceGravity => this.GravitationalParameter / (1000 * this.Radius * 1000 * this.Radius);
+        public double SurfaceGravity => this.GravitationalParameter / (this.Radius * this.Radius);
 
         /// <summary>
         /// In km
@@ -88,7 +88,7 @@
         /// <summary>
         /// In km
         /// </summary>
-        public double SphereOfRelevance => Math.Sqrt(this.GravitationalParameter / this.MinRelevantGravity) / 1000;
+        public double SphereOfRelevance => Math.Sqrt(this.GravitationalParameter / this.MinRelevantGravity);
 
         /// <summary>
         /// In km
@@ -185,7 +185,7 @@
 
         public CelestialBodyBuilder WithDensity(double density)
         {
-            this.Mass = Physics.GetSphereMass(this.Radius * 1000, density / 1000);
+            this.Mass = Physics.GetSphereMass(this.Radius, density);
             return this;
         }
 
@@ -258,13 +258,13 @@
             switch (this.CelestialBodyType)
             {
                 case CelestialBodyType.Star:
-                    lowOrbit = 10000;
+                    lowOrbit = 10000e3;
                     break;
                 case CelestialBodyType.Planet:
-                    lowOrbit = 200;
+                    lowOrbit = 200e3;
                     break;
                 case CelestialBodyType.Moon:
-                    lowOrbit = 100;
+                    lowOrbit = 100e3;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -272,7 +272,7 @@
 
             var period = this.parent == null || this.Orbit <= 0
                 ? TimeSpan.Zero
-                : TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow(this.Orbit * 1000, 3) / this.parent.GravitationalParameter));
+                : TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow(this.Orbit, 3) / this.parent.GravitationalParameter));
 
             return new CelestialSystem(
                 this.SystemName,
@@ -283,7 +283,9 @@
                     this.CelestialBodyType,
                     this.Radius,
                     this.GravitationalParameter,
-                    this.Resources),
+                    this.Resources,
+                    this.Mass,
+                    this.Density),
                 lowOrbit,
                 this.children.Select(c => c.Build()),
                 this.Color);
