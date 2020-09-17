@@ -12,6 +12,7 @@
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.ShipRoutes;
     using SpaceLogistic.WpfView.Annotations;
+    using SpaceLogistic.WpfView.Utility;
 
     public partial class LoadInstructionEditor : INotifyPropertyChanged
     {

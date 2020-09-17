@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Colors.xaml"/>
+                <ResourceDictionary Source="..\Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ControlTemplate TargetType="ToggleButton" x:Key="SelectComboBoxToggleButtonTemplate">

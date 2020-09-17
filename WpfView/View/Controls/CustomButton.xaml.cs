@@ -6,6 +6,7 @@
     using System.Windows.Input;
 
     using SpaceLogistic.WpfView.Annotations;
+    using SpaceLogistic.WpfView.Utility;
 
     public partial class CustomButton : INotifyPropertyChanged
     {

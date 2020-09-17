@@ -7,6 +7,7 @@
     using System.Windows.Media;
 
     using SpaceLogistic.Utility;
+    using SpaceLogistic.WpfView.Utility;
 
     public partial class OkIcon : UserControl
     {

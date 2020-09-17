@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.Utility
 {
     using System;
     using System.Collections.Generic;

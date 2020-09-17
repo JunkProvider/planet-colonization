@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.View
+﻿namespace SpaceLogistic.WpfView.Utility
 {
     using System.Collections.Generic;
     using System.Linq;

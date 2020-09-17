@@ -4,6 +4,8 @@
     using System.Windows;
     using System.Windows.Controls;
 
+    using SpaceLogistic.WpfView.Utility;
+
     public partial class SelectionBox : UserControl
     {
         public static readonly DependencyProperty OptionsProperty = DependencyPropertyExtensions.RegisterEnumerable<SelectionBox, IOption>(nameof(Options));
