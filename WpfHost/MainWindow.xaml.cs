@@ -18,7 +18,6 @@
     using SpaceLogistic.Persistence;
     using SpaceLogistic.WpfView;
     using SpaceLogistic.WpfView.View;
-    using SpaceLogistic.WpfView.ViewModel;
 
     public partial class MainWindow : Window
     {

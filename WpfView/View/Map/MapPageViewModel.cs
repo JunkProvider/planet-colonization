@@ -1,14 +1,12 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Map
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
-
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.WpfView.Utility;
-    using SpaceLogistic.WpfView.View.Map;
 
     public sealed class MapPageViewModel : ViewModelBase, IPageViewModel
     {
@@ -35,14 +33,14 @@
 
         public IReadOnlyCollection<MapItemViewModel> MapItems
         {
-            get => mapItems;
-            private set => SetProperty(ref mapItems, value);
+            get => this.mapItems;
+            private set => this.SetProperty(ref this.mapItems, value);
         }
 
         public MapItemViewModel SelectedMapItem
         {
-            get => selectedMapItem;
-            private set => SetProperty(ref selectedMapItem, value);
+            get => this.selectedMapItem;
+            private set => this.SetProperty(ref this.selectedMapItem, value);
         }
 
         public void Update(Game game)

@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View
 {
     public interface IOverlayViewModel
     {

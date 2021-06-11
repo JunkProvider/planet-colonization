@@ -1,11 +1,10 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model.Structures;
@@ -41,20 +40,20 @@
 
         public Guid ColonyId
         {
-            get => colonyId;
-            private set => SetProperty(ref colonyId, value);
+            get => this.colonyId;
+            private set => this.SetProperty(ref this.colonyId, value);
         }
 
         public ObservableCollection<StructureTypeViewModel> StructureTypes
         {
-            get => structureTypes;
-            private set => SetProperty(ref structureTypes, value);
+            get => this.structureTypes;
+            private set => this.SetProperty(ref this.structureTypes, value);
         }
 
         public StructureTypeViewModel SelectedStructureType
         {
-            get => selectedStructureType;
-            set => SetProperty(ref selectedStructureType, value);
+            get => this.selectedStructureType;
+            set => this.SetProperty(ref this.selectedStructureType, value);
         }
 
         public void Update(Guid colonyId, IReadOnlyCollection<StructureType> structureTypes)

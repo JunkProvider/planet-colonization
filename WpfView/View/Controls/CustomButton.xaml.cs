@@ -4,8 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Input;
-
-    using SpaceLogistic.WpfView.Annotations;
+    using SpaceLogistic.WpfView.Properties;
     using SpaceLogistic.WpfView.Utility;
 
     public partial class CustomButton : INotifyPropertyChanged

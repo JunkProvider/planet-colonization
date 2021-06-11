@@ -1,9 +1,7 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System.Collections.Generic;
-
     using SpaceLogistic.Core.Model.ShipRoutes;
-    using SpaceLogistic.WpfView.View.SelectionBox;
 
     public sealed class RefuelBehaviorOption : IOption
     {

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Windows.Media;
-
     using SpaceLogistic.WpfView.Utility;
 
     public sealed class StationViewModel : MapItemViewModel

@@ -1,10 +1,9 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
-
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.WpfView.Utility;

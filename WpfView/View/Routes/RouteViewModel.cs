@@ -1,16 +1,16 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.ShipRoutes;
     using SpaceLogistic.Core.Model.Ships;
     using SpaceLogistic.WpfView.Utility;
+    using SpaceLogistic.WpfView.View.Ships;
 
     public sealed class RouteViewModel : ViewModelBase, IIdentity
     {
@@ -86,7 +86,7 @@
         public ObservableCollection<ShipViewModel> AssignedShips
         {
             get => this.assignedShips;
-            private set => SetProperty(ref this.assignedShips, value);
+            private set => this.SetProperty(ref this.assignedShips, value);
         }
 
         public ICommand DeleteCommand { get; }

@@ -6,7 +6,7 @@
     using SpaceLogistic.Application;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Services;
-    using SpaceLogistic.WpfView.ViewModel;
+    using SpaceLogistic.WpfView.View;
 
     public sealed class GameLoop : IGameLoop
     {

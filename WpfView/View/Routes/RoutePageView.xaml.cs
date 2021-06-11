@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.View
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System.Windows.Controls;
 
@@ -9,7 +9,7 @@
     {
         public RoutePageView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

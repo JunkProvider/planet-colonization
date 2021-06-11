@@ -2,39 +2,41 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
-             xmlns:colonies="clr-namespace:SpaceLogistic.WpfView.ViewModel.Colonies"
-             d:DataContext="{d:DesignInstance Type=viewModel:GameViewModel, IsDesignTimeCreatable=False}"
+             xmlns:ships="clr-namespace:SpaceLogistic.WpfView.View.Ships"
+             xmlns:map="clr-namespace:SpaceLogistic.WpfView.View.Map"
+             xmlns:routes="clr-namespace:SpaceLogistic.WpfView.View.Routes"
+             xmlns:colonies="clr-namespace:SpaceLogistic.WpfView.View.Colonies"
+             d:DataContext="{d:DesignInstance Type=view:GameViewModel, IsDesignTimeCreatable=False}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <DataTemplate DataType="{x:Type viewModel:ShipPageViewModel}">
-            <view:ShipPageView />
+        <DataTemplate DataType="{x:Type ships:ShipPageViewModel}">
+            <ships:ShipPageView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:MapPageViewModel}">
-            <view:MapPageView />
+        <DataTemplate DataType="{x:Type map:MapPageViewModel}">
+            <map:MapPageView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:RoutePageViewModel}">
-            <view:RoutePageView />
+        <DataTemplate DataType="{x:Type routes:RoutePageViewModel}">
+            <routes:RoutePageView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type colonies:ColonyPageViewModel}">
-            <view:ColonyPageView />
+            <colonies:ColonyPageView />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:AddStructureOverlayViewModel}">
-            <view:AddStructureOverlay />
+        <DataTemplate DataType="{x:Type colonies:AddStructureOverlayViewModel}">
+            <colonies:AddStructureOverlay />
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:AddShipOverlayViewModel}">
-            <view:AddShipOverlay />
+        <DataTemplate DataType="{x:Type colonies:AddShipOverlayViewModel}">
+            <colonies:AddShipOverlay />
         </DataTemplate>
 
     </UserControl.Resources>

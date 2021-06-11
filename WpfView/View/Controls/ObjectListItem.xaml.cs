@@ -1,9 +1,8 @@
-﻿namespace SpaceLogistic.WpfView.View.Controls
+﻿namespace SpaceLogistic.WpfView.View
 {
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Input;
-
     using SpaceLogistic.WpfView.Utility;
 
     public partial class ObjectListItem

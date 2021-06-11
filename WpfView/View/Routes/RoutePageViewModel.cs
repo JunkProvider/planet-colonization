@@ -1,17 +1,13 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
-    using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.ShipRoutes;
-    using SpaceLogistic.Core.Model.Stations;
     using SpaceLogistic.WpfView.Utility;
 
     public sealed class RoutePageViewModel : ViewModelBase, IPageViewModel
@@ -50,8 +46,8 @@
 
         public RouteViewModel SelectedRoute
         {
-            get => selectedRoute;
-            set => SetProperty(ref selectedRoute, value);
+            get => this.selectedRoute;
+            set => this.SetProperty(ref this.selectedRoute, value);
         }
 
         public ICommand AddRouteCommand { get; }

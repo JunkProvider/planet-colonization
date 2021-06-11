@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Media;
-
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.WpfView.Utility;
@@ -18,7 +17,7 @@
 
             this.Orbit = primary.System.IsRoot ? "-" : $"{(primary.System.Orbit / 1e9):0.00} mio km";
 
-            this.Period = FormatPeriod(primary.System.IsRoot, primary.System.Period);
+            this.Period = this.FormatPeriod(primary.System.IsRoot, primary.System.Period);
             
             this.Diameter = $"{(primary.Diameter / 1e3):0} km";
 

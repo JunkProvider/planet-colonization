@@ -1,9 +1,7 @@
-﻿namespace SpaceLogistic.WpfView.View
+﻿namespace SpaceLogistic.WpfView.View.Map
 {
     using System.Windows;
     using System.Windows.Input;
-
-    using SpaceLogistic.WpfView.ViewModel;
 
     public partial class MapPageView
     {

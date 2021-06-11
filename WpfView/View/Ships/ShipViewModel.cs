@@ -1,8 +1,7 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Ships
 {
     using System;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
@@ -47,7 +46,7 @@
             get => this.fuel;
             private set
             {
-                if (value == fuel)
+                if (value == this.fuel)
                 {
                     return;
                 }
@@ -77,7 +76,7 @@
         public void Update()
         {
             this.SetProperty(ref this.name, this.ship.Name, nameof(this.Name));
-            this.Fuel = $"Fuel: {ship.Fuel:0.0}";
+            this.Fuel = $"Fuel: {this.ship.Fuel:0.0}";
 
             this.UpdateState();
 
@@ -86,7 +85,7 @@
 
         private void UpdateState()
         {
-            if (this.ship.Location != null && ship.RefuelingProcess != null)
+            if (this.ship.Location != null && this.ship.RefuelingProcess != null)
             {
                 this.State = $"{this.ship.Location.Name}: Refueling ({(this.ship.RefuelingProcess.Progress * 100):0}%)";
                 return;

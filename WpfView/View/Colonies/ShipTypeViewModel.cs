@@ -1,9 +1,8 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.Ships;
@@ -20,26 +19,26 @@
 
         public Guid Id
         {
-            get => id;
-            private set => SetProperty(ref id, value);
+            get => this.id;
+            private set => this.SetProperty(ref this.id, value);
         }
 
         public string Name
         {
-            get => name;
-            private set => SetProperty(ref name, value);
+            get => this.name;
+            private set => this.SetProperty(ref this.name, value);
         }
 
         public string Description
         {
-            get => description;
-            private set => SetProperty(ref description, value);
+            get => this.description;
+            private set => this.SetProperty(ref this.description, value);
         }
 
         public IReadOnlyCollection<Item> ConstructionMaterials
         {
-            get => constructionMaterials;
-            private set => SetProperty(ref constructionMaterials, value);
+            get => this.constructionMaterials;
+            private set => this.SetProperty(ref this.constructionMaterials, value);
         }
 
         public void Update(ShipType model)

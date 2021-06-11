@@ -1,7 +1,6 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Stations;
@@ -36,14 +35,14 @@
         
         public string Title 
         {
-            get => title;
-            private set => SetProperty(ref title, value);
+            get => this.title;
+            private set => this.SetProperty(ref this.title, value);
         }
 
         public ColonyViewModel ViewedColony
         {
-            get => viewedColony;
-            private set => SetProperty(ref viewedColony, value);
+            get => this.viewedColony;
+            private set => this.SetProperty(ref this.viewedColony, value);
         }
         
         public void Update(Game game)

@@ -1,9 +1,8 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
-    using SpaceLogistic.WpfView.Annotations;
+    using SpaceLogistic.WpfView.Properties;
 
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

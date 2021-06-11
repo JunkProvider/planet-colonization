@@ -1,7 +1,7 @@
 ﻿namespace SpaceLogistic.WpfView.Commands
 {
     using SpaceLogistic.Application.CommandPattern;
-    using SpaceLogistic.WpfView.ViewModel;
+    using SpaceLogistic.WpfView.View;
 
     public sealed class CloseOverlayCommandHandler : CommandHandlerBase<CloseOverlayCommand>
     {

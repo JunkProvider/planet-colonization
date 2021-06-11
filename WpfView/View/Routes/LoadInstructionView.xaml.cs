@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.View
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     public partial class LoadInstructionView
     {

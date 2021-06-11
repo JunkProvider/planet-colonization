@@ -1,10 +1,9 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Items;
@@ -73,50 +72,50 @@
 
         public Guid Id  
         {
-            get => id;
-            private set => SetProperty(ref id, value);
+            get => this.id;
+            private set => this.SetProperty(ref this.id, value);
         }
 
         public string Name
         {
-            get => name;
-            private set => SetProperty(ref name, value);
+            get => this.name;
+            private set => this.SetProperty(ref this.name, value);
         }
 
         public string FullName
         {
-            get => fullName;
-            private set => SetProperty(ref fullName, value);
+            get => this.fullName;
+            private set => this.SetProperty(ref this.fullName, value);
         }
 
         public ObservableCollection<StructureViewModel> Structures
         {
-            get => structures;
-            private set => SetProperty(ref structures, value);
+            get => this.structures;
+            private set => this.SetProperty(ref this.structures, value);
         }
 
         public ObservableCollection<ShipViewModel> Ships
         {
-            get => ships;
-            private set => SetProperty(ref ships, value);
+            get => this.ships;
+            private set => this.SetProperty(ref this.ships, value);
         }
 
         public ObservableCollection<Item> Items
         {
-            get => items;
-            private set => SetProperty(ref items, value);
+            get => this.items;
+            private set => this.SetProperty(ref this.items, value);
         }
 
         public bool CanHaveResources
         {
-            get => canHaveResources;
-            private set => SetProperty(ref canHaveResources, value);
+            get => this.canHaveResources;
+            private set => this.SetProperty(ref this.canHaveResources, value);
         }
 
         public ObservableCollection<Resource> Resources
         {
-            get => resources;
-            private set => SetProperty(ref resources, value);
+            get => this.resources;
+            private set => this.SetProperty(ref this.resources, value);
         }
 
         public void Update(Colony colony, IReadOnlyCollection<Ship> ships)

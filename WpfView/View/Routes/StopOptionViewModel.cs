@@ -1,7 +1,6 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
-
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Celestials;
 

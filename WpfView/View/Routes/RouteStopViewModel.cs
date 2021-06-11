@@ -1,11 +1,10 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
-
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.ShipRoutes;
@@ -63,8 +62,8 @@
 
         public ObservableCollection<LoadInstructionViewModel> UnloadInstructions
         {
-            get => unloadInstructions;
-            private set => SetProperty(ref unloadInstructions, value);
+            get => this.unloadInstructions;
+            private set => this.SetProperty(ref this.unloadInstructions, value);
         }
 
         public ObservableCollection<LoadInstructionViewModel> LoadInstructions
@@ -104,7 +103,7 @@
 
         private void SetSelectedRefuelBehavior(RefuelBehavior refuelBehavior)
         {
-            var option = this.SelectableRefuelBehaviors.First(o => o.Value == stop.RefuelBehavior);
+            var option = this.SelectableRefuelBehaviors.First(o => o.Value == this.stop.RefuelBehavior);
 
             if (option == this.selectedRefuelBehavior)
             {

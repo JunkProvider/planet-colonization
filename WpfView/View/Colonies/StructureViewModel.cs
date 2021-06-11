@@ -1,8 +1,7 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
@@ -37,14 +36,14 @@
         
         public Guid Id  
         {
-            get => id;
-            private set => SetProperty(ref id, value);
+            get => this.id;
+            private set => this.SetProperty(ref this.id, value);
         }
 
         public string Name
         {
-            get => name;
-            private set => SetProperty(ref name, value);
+            get => this.name;
+            private set => this.SetProperty(ref this.name, value);
         }
 
         public ICommand RemoveCommand { get; }

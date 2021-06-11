@@ -1,11 +1,13 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View
 {
     using System.Collections.ObjectModel;
-    using System.Windows;
     using SpaceLogistic.Application;
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
-    using SpaceLogistic.WpfView.ViewModel.Colonies;
+    using SpaceLogistic.WpfView.View.Colonies;
+    using SpaceLogistic.WpfView.View.Map;
+    using SpaceLogistic.WpfView.View.Routes;
+    using SpaceLogistic.WpfView.View.Ships;
 
     public sealed class GameViewModel : ViewModelBase
     {
@@ -32,14 +34,14 @@
 
         public bool IsOverlayActive
         {
-            get => isOverlayActive;
-            private set => SetProperty(ref isOverlayActive, value);
+            get => this.isOverlayActive;
+            private set => this.SetProperty(ref this.isOverlayActive, value);
         }
 
         public IOverlayViewModel ActiveOverlay
         {
-            get => activeOverlay;
-            private set => SetProperty(ref activeOverlay, value);
+            get => this.activeOverlay;
+            private set => this.SetProperty(ref this.activeOverlay, value);
         }
 
         public void Update()

@@ -4,10 +4,8 @@
     using System.Collections.Generic;
     using System.Windows.Input;
     using System.Windows.Media;
-
     using SpaceLogistic.Core.Model.Celestials;
     using SpaceLogistic.WpfView.Utility;
-    using SpaceLogistic.WpfView.ViewModel;
 
     public class MapItemViewModel : ViewModelBase
     {

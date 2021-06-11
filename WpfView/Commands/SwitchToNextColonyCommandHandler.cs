@@ -4,8 +4,8 @@
     using SpaceLogistic.Application;
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
-    using SpaceLogistic.WpfView.ViewModel;
-    using SpaceLogistic.WpfView.ViewModel.Colonies;
+    using SpaceLogistic.WpfView.View;
+    using SpaceLogistic.WpfView.View.Colonies;
 
     public sealed class SwitchToNextColonyCommandHandler : CommandHandlerBase<SwitchToNextColonyCommand>
     {

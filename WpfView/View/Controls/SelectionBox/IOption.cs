@@ -1,7 +1,5 @@
-﻿namespace SpaceLogistic.WpfView.View.SelectionBox
+﻿namespace SpaceLogistic.WpfView.View
 {
-    using SpaceLogistic.Core.Model;
-
     public interface IOption
     {
         string Name { get; }

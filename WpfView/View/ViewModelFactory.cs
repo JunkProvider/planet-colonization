@@ -1,9 +1,7 @@
-﻿namespace SpaceLogistic.WpfView
+﻿namespace SpaceLogistic.WpfView.View
 {
     using System;
     using Microsoft.Extensions.DependencyInjection;
-    using SpaceLogistic.WpfView.View;
-    using SpaceLogistic.WpfView.ViewModel;
 
     public sealed class ViewModelFactory<TViewModel> : IViewModelFactory<TViewModel>
         where TViewModel : class

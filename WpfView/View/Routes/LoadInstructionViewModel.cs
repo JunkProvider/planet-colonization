@@ -1,10 +1,9 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Windows.Input;
-
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Items;
     using SpaceLogistic.Core.Model.ShipRoutes;

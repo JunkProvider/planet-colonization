@@ -1,9 +1,8 @@
-﻿namespace SpaceLogistic.WpfView.View.SelectionBox
+﻿namespace SpaceLogistic.WpfView.View
 {
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
-
     using SpaceLogistic.WpfView.Utility;
 
     public partial class SelectionBox : UserControl

@@ -1,11 +1,10 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model.Ships;
@@ -41,20 +40,20 @@
 
         public Guid ColonyId
         {
-            get => colonyId;
-            private set => SetProperty(ref colonyId, value);
+            get => this.colonyId;
+            private set => this.SetProperty(ref this.colonyId, value);
         }
 
         public ObservableCollection<ShipTypeViewModel> ShipTypes
         {
-            get => shipTypes;
-            private set => SetProperty(ref shipTypes, value);
+            get => this.shipTypes;
+            private set => this.SetProperty(ref this.shipTypes, value);
         }
 
         public ShipTypeViewModel SelectedShipType
         {
-            get => selectedShipType;
-            set => SetProperty(ref selectedShipType, value);
+            get => this.selectedShipType;
+            set => this.SetProperty(ref this.selectedShipType, value);
         }
 
         public void Update(Guid colonyId, IReadOnlyCollection<ShipType> shipTypes)

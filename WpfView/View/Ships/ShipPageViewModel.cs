@@ -1,8 +1,7 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View.Ships
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
 

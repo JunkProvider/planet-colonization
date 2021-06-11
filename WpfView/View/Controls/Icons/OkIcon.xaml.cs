@@ -1,11 +1,9 @@
-﻿namespace SpaceLogistic.WpfView.View.Icons
+﻿namespace SpaceLogistic.WpfView.View
 {
     using System.Collections.Generic;
-    using System.Text;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-
     using SpaceLogistic.Utility;
     using SpaceLogistic.WpfView.Utility;
 
@@ -74,13 +72,13 @@
 
             public PathBuilder MoveTo(double x, double y)
             {
-                this.segments.Add($"M{(x * scale).ToStringInvariant()},{(y * scale).ToStringInvariant()}");
+                this.segments.Add($"M{(x * this.scale).ToStringInvariant()},{(y * this.scale).ToStringInvariant()}");
                 return this;
             }
 
             public PathBuilder DrawLineTo(double x, double y)
             {
-                this.segments.Add($"L{(x * scale).ToStringInvariant()},{(y * scale).ToStringInvariant()}");
+                this.segments.Add($"L{(x * this.scale).ToStringInvariant()},{(y * this.scale).ToStringInvariant()}");
                 return this;
             }
 

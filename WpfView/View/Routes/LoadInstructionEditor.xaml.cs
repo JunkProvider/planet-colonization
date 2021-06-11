@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.View
+﻿namespace SpaceLogistic.WpfView.View.Routes
 {
     using System;
     using System.Collections.Generic;
@@ -8,10 +8,9 @@
     using System.Windows;
     using System.Windows.Input;
     using System.Windows.Threading;
-
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.ShipRoutes;
-    using SpaceLogistic.WpfView.Annotations;
+    using SpaceLogistic.WpfView.Properties;
     using SpaceLogistic.WpfView.Utility;
 
     public partial class LoadInstructionEditor : INotifyPropertyChanged
@@ -137,7 +136,7 @@
 
         private void OnEditorOpened()
         {
-            Dispatcher.BeginInvoke(
+            this.Dispatcher.BeginInvoke(
                 DispatcherPriority.ContextIdle,
                 new Action(() =>
                         {

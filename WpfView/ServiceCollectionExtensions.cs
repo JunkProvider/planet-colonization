@@ -3,9 +3,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.WpfView.Commands;
-    using SpaceLogistic.WpfView.ViewModel;
-    using SpaceLogistic.WpfView.ViewModel.Colonies;
-    using ShipViewModel = SpaceLogistic.WpfView.ViewModel.Colonies.ShipViewModel;
+    using SpaceLogistic.WpfView.View;
+    using SpaceLogistic.WpfView.View.Colonies;
 
     public static class ServiceCollectionExtensions
     {

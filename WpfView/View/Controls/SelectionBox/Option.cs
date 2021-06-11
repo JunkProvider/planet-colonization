@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.View.SelectionBox
+﻿namespace SpaceLogistic.WpfView.View
 {
     public sealed class Option<TValue> : IOption
     {

@@ -1,7 +1,6 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel.Colonies
+﻿namespace SpaceLogistic.WpfView.View.Colonies
 {
     using System;
-
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Application.Commands;
     using SpaceLogistic.Core.Model;
@@ -22,13 +21,13 @@
         
         public Guid Id
         {
-            get => id;
-            private set => SetProperty(ref id, value);
+            get => this.id;
+            private set => this.SetProperty(ref this.id, value);
         }
 
         public string Name
         {
-            get => name;
+            get => this.name;
             set => this.commandDispatcher.Execute(new RenameShipCommand(this.id, value));
         }
 

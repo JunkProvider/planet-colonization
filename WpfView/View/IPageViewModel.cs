@@ -1,4 +1,4 @@
-﻿namespace SpaceLogistic.WpfView.ViewModel
+﻿namespace SpaceLogistic.WpfView.View
 {
     using SpaceLogistic.Core.Model;
 

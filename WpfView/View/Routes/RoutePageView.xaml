@@ -1,13 +1,13 @@
-﻿<UserControl x:Class="SpaceLogistic.WpfView.View.RoutePageView"
+﻿<UserControl x:Class="SpaceLogistic.WpfView.View.Routes.RoutePageView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:SpaceLogistic.WpfView.View.Controls"
+             xmlns:local="clr-namespace:SpaceLogistic.WpfView.View.Routes"
+             xmlns:ships="clr-namespace:SpaceLogistic.WpfView.View.Ships"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=viewModel:RoutePageViewModel, IsDesignTimeCreatable=False}"
+             d:DataContext="{d:DesignInstance Type=local:RoutePageViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
 
@@ -16,14 +16,14 @@
                 <ResourceDictionary Source="..\Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type viewModel:StorageViewModel}">
+            <DataTemplate DataType="{x:Type view:StorageViewModel}">
                 <TextBlock Text="{Binding Content}" />
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:StationViewModel}">
+            <DataTemplate DataType="{x:Type local:StationViewModel}">
                 <view:CustomButton Width="300" Margin="0 0 0 10" ButtonContent="{Binding}" Command="{Binding SelectCommand}" CommandParameter="{Binding}" Style="{StaticResource Item1ButtonStyle}">
                     <view:CustomButton.ButtonContentTemplate>
-                        <DataTemplate DataType="{x:Type viewModel:StationViewModel}">
+                        <DataTemplate DataType="{x:Type local:StationViewModel}">
                             <Border Padding="5">
                                 <DockPanel>
                                     <Rectangle DockPanel.Dock="Left" Width="10" Height="10" Margin="5 0 15 0" Fill="WhiteSmoke" />
@@ -37,10 +37,10 @@
                 </view:CustomButton>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:CelestialBodyViewModel}">
+            <DataTemplate DataType="{x:Type local:CelestialBodyViewModel}">
                 <view:CustomButton Width="300" Margin="0 0 0 10" ButtonContent="{Binding}" Command="{Binding SelectCommand}" CommandParameter="{Binding}" Style="{StaticResource Item1ButtonStyle}">
                     <view:CustomButton.ButtonContentTemplate>
-                        <DataTemplate DataType="{x:Type viewModel:StationViewModel}">
+                        <DataTemplate DataType="{x:Type local:StationViewModel}">
                             <Border Width="300" Margin="0 0 0 10" Style="{StaticResource Item1Style}">
                                 <DockPanel>
                                     <Ellipse DockPanel.Dock="Left" Width="{Binding DisplayDiameter}" Height="{Binding DisplayDiameter}" Margin="5 0 15 0" Fill="SteelBlue" />
@@ -56,7 +56,7 @@
                 </view:CustomButton>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:CelestialSystemViewModel}">
+            <DataTemplate DataType="{x:Type local:CelestialSystemViewModel}">
                 <StackPanel HorizontalAlignment="Left">
                     <ContentControl Content="{Binding CentralBody}" />
                     <ItemsControl ItemsSource="{Binding Stations}" Margin="50 0 0 0" />
@@ -64,11 +64,11 @@
                 </StackPanel>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:LoadInstructionViewModel}">
-                <view:LoadInstructionView DataContext="{Binding}" />
+            <DataTemplate DataType="{x:Type local:LoadInstructionViewModel}">
+                <local:LoadInstructionView DataContext="{Binding}" />
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:RouteStopViewModel}">
+            <DataTemplate DataType="{x:Type local:RouteStopViewModel}">
                 <Border Margin="0 5 0 5">
                     <StackPanel>
                         <Border x:Name="StopHead" Style="{StaticResource Item1Style}">
@@ -163,7 +163,7 @@
                 </Border>
             </DataTemplate>
 
-            <DataTemplate x:Key="ShipListItemTemplate" DataType="{x:Type viewModel:ShipViewModel}">
+            <DataTemplate x:Key="ShipListItemTemplate" DataType="{x:Type ships:ShipViewModel}">
                 <Border Margin="0 2 0 2" Style="{StaticResource Item1Style}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -177,22 +177,22 @@
                 </Border>
             </DataTemplate>
 
-            <DataTemplate x:Key="StopOptionTemplate" DataType="{x:Type viewModel:StopOptionViewModel}">
+            <DataTemplate x:Key="StopOptionTemplate" DataType="{x:Type local:StopOptionViewModel}">
                 <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" Margin="2" FontWeight="Bold" />
             </DataTemplate>
 
-            <DataTemplate x:Key="ShipOptionTemplate" DataType="{x:Type viewModel:ShipViewModel}">
+            <DataTemplate x:Key="ShipOptionTemplate" DataType="{x:Type ships:ShipViewModel}">
                 <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" Margin="2" FontWeight="Bold" />
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type viewModel:RouteViewModel}">
+            <DataTemplate DataType="{x:Type local:RouteViewModel}">
                 <Border Margin="0 0 0 10">
                     <DockPanel>
                         <Border DockPanel.Dock="Top" Margin="0 20 0 0">
                             <StackPanel >
                                 <view:SelectButton ItemsSource="{Binding AvailableStops}" ItemTemplate="{StaticResource StopOptionTemplate}" Command="{Binding AddStopCommand}">
                                     <view:SelectButton.ButtonContentTemplate>
-                                        <DataTemplate DataType="{x:Type viewModel:ShipViewModel}">
+                                        <DataTemplate DataType="{x:Type ships:ShipViewModel}">
                                             <TextBlock Text="Add Stop" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource Button1ForegroundBrush}" />
                                         </DataTemplate>
                                     </view:SelectButton.ButtonContentTemplate>
@@ -204,7 +204,7 @@
                             <StackPanel>
                                 <view:SelectButton ItemsSource="{Binding AssignableShips}" ItemTemplate="{StaticResource ShipOptionTemplate}" Command="{Binding AssignShipCommand}">
                                     <view:SelectButton.ButtonContentTemplate>
-                                        <DataTemplate DataType="{x:Type viewModel:ShipViewModel}">
+                                        <DataTemplate DataType="{x:Type ships:ShipViewModel}">
                                             <TextBlock Text="Assign Ship" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource Button1ForegroundBrush}" />
                                         </DataTemplate>
                                     </view:SelectButton.ButtonContentTemplate>
@@ -216,8 +216,8 @@
                 </Border>
             </DataTemplate>
 
-            <DataTemplate x:Key="RouteListItemTemplate" DataType="{x:Type viewModel:RouteViewModel}">
-                <controls:ObjectListItem 
+            <DataTemplate x:Key="RouteListItemTemplate" DataType="{x:Type local:RouteViewModel}">
+                <view:ObjectListItem 
                     Text="{Binding Name, Mode=TwoWay}"
                     IsSelectEnabled="True"
                     IsRenameEnabled="True"
