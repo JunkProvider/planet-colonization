@@ -10,17 +10,17 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
-            this.SetPropertyAffecting(ref field, value, propertyName);
+            return this.SetPropertyAffecting(ref field, value, propertyName);
         }
 
         [NotifyPropertyChangedInvocator]
-        protected void SetPropertyAffecting<T>(ref T field, T value, params string[] propertyNames)
+        protected bool SetPropertyAffecting<T>(ref T field, T value, params string[] propertyNames)
         {
             if (Equals(field, value))
             {
-                return;
+                return false;
             }
 
             field = value;
@@ -29,6 +29,8 @@
             {
                 this.OnPropertyChanged(propertyName);
             }
+
+            return true;
         }
 
         [NotifyPropertyChangedInvocator]

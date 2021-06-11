@@ -14,8 +14,6 @@
 
     public sealed class GameFactory
     {
-        private readonly CelestialSystem world;
-
         private readonly ItemTypes itemTypes;
 
         private readonly StructureTypes structureTypes;
@@ -24,19 +22,16 @@
 
         private readonly ShipTypes shipTypes;
 
-        public GameFactory(CelestialSystem world, ItemTypes itemTypes, StructureTypes structureTypes, ResourceTypes resourceTypes, ShipTypes shipTypes)
+        public GameFactory(ItemTypes itemTypes, StructureTypes structureTypes, ResourceTypes resourceTypes, ShipTypes shipTypes)
         {
-            this.world = world;
             this.itemTypes = itemTypes;
             this.structureTypes = structureTypes;
             this.resourceTypes = resourceTypes;
             this.shipTypes = shipTypes;
         }
 
-        public Game Create()
+        public Game Create(CelestialSystem solarSystem)
         {
-            var solarSystem = this.world;
-
             var positions = solarSystem.GetOrbitalLocations().ToList();
             var planets = solarSystem.GetBodies();
 

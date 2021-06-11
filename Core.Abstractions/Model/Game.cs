@@ -13,22 +13,55 @@
     using SpaceLogistic.Core.Model.Structures;
     using SpaceLogistic.Utility;
 
-    public sealed class Game
+    public sealed class Game : IIdentity
     {
         private readonly List<Route> routes;
 
         private readonly HashSet<Ship> ships;
 
-        public Game(ItemTypes itemTypes, StructureTypes structureTypes, CelestialSystem celestialSystem, IEnumerable<Ship> ships, ShipTypes shipTypes)
+        public Game(
+            ItemTypes itemTypes,
+            StructureTypes structureTypes,
+            CelestialSystem celestialSystem, 
+            IReadOnlyCollection<Ship> ships, 
+            ShipTypes shipTypes)
+            : this(
+                Guid.NewGuid(), 
+                itemTypes,
+                structureTypes,
+                shipTypes,
+                celestialSystem,
+                ships.Select(s => s.Route).Where(r => r != null).Distinct(),
+                ships)
         {
             this.ItemTypes = itemTypes;
             this.StructureTypes = structureTypes;
             this.CelestialSystem = celestialSystem;
-            ShipTypes = shipTypes;
+            this.ShipTypes = shipTypes;
             this.ships = ships.ToSet();
 
             this.routes = this.Ships.Select(s => s.Route).Where(r => r != null).Distinct().ToList();
         }
+
+        public Game(
+            Guid id,
+            ItemTypes itemTypes,
+            StructureTypes structureTypes,
+            ShipTypes shipTypes,
+            CelestialSystem celestialSystem,
+            IEnumerable<Route> routes,
+            IEnumerable<Ship> ships)
+        {
+            this.routes = routes.ToList();
+            this.ships = ships.ToSet();
+            this.Id = id;
+            this.ItemTypes = itemTypes;
+            this.StructureTypes = structureTypes;
+            this.ShipTypes = shipTypes;
+            this.CelestialSystem = celestialSystem;
+        }
+
+        public Guid Id { get; }
 
         public ItemTypes ItemTypes { get; }
 
@@ -84,6 +117,12 @@
         public void AddShip(Ship ship)
         {
             this.ships.Add(ship);
+        }
+
+        public bool TryGetShip(Guid shipId, out Ship ship)
+        {
+            ship = this.ships.FirstOrDefault(s => s.Id == shipId);
+            return ship != null;
         }
     }
 }

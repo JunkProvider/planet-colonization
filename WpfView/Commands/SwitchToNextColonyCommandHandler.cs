@@ -1,7 +1,7 @@
 ﻿namespace SpaceLogistic.WpfView.Commands
 {
     using System.Linq;
-
+    using SpaceLogistic.Application;
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.WpfView.ViewModel;
@@ -9,13 +9,13 @@
 
     public sealed class SwitchToNextColonyCommandHandler : CommandHandlerBase<SwitchToNextColonyCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider game;
 
         private readonly GameViewModel gameViewModel;
 
         private readonly ColonyPageViewModel colonyPage;
 
-        public SwitchToNextColonyCommandHandler(Game game, ColonyPageViewModel colonyPage, GameViewModel gameViewModel)
+        public SwitchToNextColonyCommandHandler(IGameProvider game, ColonyPageViewModel colonyPage, GameViewModel gameViewModel)
         {
             this.game = game;
             this.colonyPage = colonyPage;
@@ -29,7 +29,7 @@
 
         public override void Execute(SwitchToNextColonyCommand command)
         {
-            var colonyModels = this.game.CelestialSystem.GetColonies().ToList();
+            var colonyModels = this.game.Get().CelestialSystem.GetColonies().ToList();
 
             if (colonyModels.Count == 0)
             {
@@ -42,7 +42,7 @@
             var nextColonyIndex = (currentColonyIndex + 1) % colonyModels.Count;
             var nextColonyModel = colonyModels[nextColonyIndex];
 
-            this.colonyPage.SetViewedColony(this.game, nextColonyModel);
+            this.colonyPage.SetViewedColony(this.game.Get(), nextColonyModel);
         }
     }
 }

@@ -18,15 +18,25 @@
         {
         }
 
-        public RouteStop(ILocation location, RefuelBehavior refuelBehavior, IEnumerable<LoadInstruction> loadInstructions, IEnumerable<UnloadInstruction> unloadInstructions)
+        public RouteStop(
+            ILocation location,
+            RefuelBehavior refuelBehavior,
+            IEnumerable<LoadInstruction> loadInstructions,
+            IEnumerable<UnloadInstruction> unloadInstructions)
+            : this(Guid.NewGuid(), location, refuelBehavior, loadInstructions, unloadInstructions)
         {
+        }
+        
+        public RouteStop(Guid id, ILocation location, RefuelBehavior refuelBehavior, IEnumerable<LoadInstruction> loadInstructions, IEnumerable<UnloadInstruction> unloadInstructions)
+        {
+            this.Id = id;
             this.Location = location;
             this.RefuelBehavior = refuelBehavior;
             this.loadInstructions = loadInstructions.ToList();
             this.unloadInstructions = unloadInstructions.ToList();
         }
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; }
 
         public ILocation Location { get; }
 

@@ -8,11 +8,11 @@
 
     public sealed class AddRouteCommandHandler : CommandHandlerBase<AddRouteCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public AddRouteCommandHandler(Game game)
+        public AddRouteCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(AddRouteCommand command)
@@ -22,7 +22,7 @@
 
         public override void Execute(AddRouteCommand command)
         {
-            game.AddRoute(new Route("Unnamed", Enumerable.Empty<RouteStop>()));
+            this.gameProvider.Get().AddRoute(new Route("Unnamed", Enumerable.Empty<RouteStop>()));
         }
     }
 }

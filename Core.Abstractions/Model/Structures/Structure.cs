@@ -9,11 +9,18 @@
     public sealed class Structure : IIdentity
     {
         public Structure(StructureType structureType)
+            : this(Guid.NewGuid(), structureType, null)
         {
-            this.StructureType = structureType;
         }
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Structure(Guid id, StructureType structureType, ProductionProcess productionProcess)
+        {
+            this.Id = id;
+            this.StructureType = structureType;
+            this.ProductionProcess = productionProcess;
+        }
+        
+        public Guid Id { get; }
 
         public StructureType StructureType { get; }
 

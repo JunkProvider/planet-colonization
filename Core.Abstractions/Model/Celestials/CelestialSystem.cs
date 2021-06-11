@@ -22,38 +22,43 @@
             double lowOrbit,
             IEnumerable<CelestialSystem> children,
             Color color)
+            : this(
+                Guid.NewGuid(), 
+                name,
+                orbit,
+                period,
+                color,
+                children,
+                centralBody,
+                CreateOrbitalLocations(centralBody, lowOrbit))
         {
+        }
+
+        public CelestialSystem(Guid id, string name, double orbit, TimeSpan period, Color color, IEnumerable<CelestialSystem> children, CelestialBody centralBody, IEnumerable<OrbitalLocation> orbitalLocations)
+        {
+            this.Id = id;
             this.Name = name;
             this.Orbit = orbit;
+            this.Period = period;
+            this.Color = color;
             this.Children = children.ToList();
             this.CentralBody = centralBody;
-            this.Color = color;
-            this.Period = period;
-
+            this.OrbitalLocations = orbitalLocations.ToList();
+            
             foreach (var child in this.Children)
             {
                 child.Parent = this;
             }
-
+            
             this.CentralBody.System = this;
             
-            var lowOrbitPeriod = TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow((centralBody.Radius + lowOrbit), 3) / this.CentralBody.GravitationalParameter));
-
-            this.OrbitalLocations = new[]
-                {
-                    new OrbitalLocation(
-                        $"Low {this.CentralBody.Name} Orbit", 
-                        centralBody.Radius + lowOrbit,
-                        lowOrbitPeriod),
-                };
-
             foreach (var orbitalPosition in this.OrbitalLocations)
             {
                 orbitalPosition.System = this;
             }
         }
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; }
 
         public string Name { get; }
 
@@ -189,6 +194,18 @@
         public CelestialBody GetBodyWithName(string name)
         {
             return this.GetBodies().First(b => b.Name == name);
+        }
+
+        private static IEnumerable<OrbitalLocation> CreateOrbitalLocations(CelestialBody centralBody, double lowOrbit)
+        {
+            var lowOrbitPeriod = TimeSpan.FromSeconds(2 * Math.PI * Math.Sqrt(Math.Pow((centralBody.Radius + lowOrbit), 3) / centralBody.GravitationalParameter));
+
+            yield return new OrbitalLocation(
+                Guid.NewGuid(), 
+                $"Low {centralBody.Name} Orbit",
+                centralBody.Radius + lowOrbit,
+                lowOrbitPeriod,
+                null);
         }
     }
 }

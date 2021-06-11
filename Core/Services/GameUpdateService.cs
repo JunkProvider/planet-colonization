@@ -261,7 +261,8 @@
             ship.Transfer = new ShipTransfer(
                 ship.Location,
                 nextDestination,
-                travelTime);
+                travelTime,
+                0);
 
             ship.Location = null;
             ship.Fuel -= fuelCosts;
@@ -327,7 +328,7 @@
 
             if (fuelAmount > 0)
             {
-                station.FuelStorageReplenishProcess = new FuelStorageReplenishProcess(TimeSpan.FromSeconds(1));
+                station.FuelStorageReplenishProcess = new FuelStorageReplenishProcess(TimeSpan.FromSeconds(1), 0);
             }
         }
 

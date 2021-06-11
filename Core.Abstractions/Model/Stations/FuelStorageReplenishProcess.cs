@@ -4,8 +4,8 @@
 
     public sealed class FuelStorageReplenishProcess : TimedProcess
     {
-        public FuelStorageReplenishProcess(TimeSpan totalTime)
-            : base(totalTime)
+        public FuelStorageReplenishProcess(TimeSpan totalTime, double progress)
+            : base(totalTime, progress)
         {
         }
     }

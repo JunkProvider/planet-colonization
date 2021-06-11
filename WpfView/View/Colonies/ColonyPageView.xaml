@@ -8,6 +8,7 @@
              xmlns:inventoryModel="clr-namespace:SpaceLogistic.Core.Model.Items;assembly=SpaceLogistic.Core.Abstractions"
              xmlns:resourceModel="clr-namespace:SpaceLogistic.Core.Model.Resources;assembly=SpaceLogistic.Core.Abstractions"
              xmlns:colonies="clr-namespace:SpaceLogistic.WpfView.ViewModel.Colonies"
+             xmlns:controls="clr-namespace:SpaceLogistic.WpfView.View.Controls"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=colonies:ColonyPageViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800"
@@ -54,7 +55,12 @@
 
             <DataTemplate DataType="{x:Type colonies:ShipViewModel}">
                 <Border Margin="0 2 0 0" Style="{StaticResource Item1Style}">
-                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" />
+                    <!--<TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" />-->
+                    <controls:ObjectListItem 
+                        Text="{Binding Name, Mode=TwoWay}"
+                        IsSelectEnabled="False"
+                        IsRenameEnabled="True"
+                        IsRemoveEnabled="False" />
                 </Border>
             </DataTemplate>
 

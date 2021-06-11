@@ -9,11 +9,11 @@
 
     public sealed class RemoveStructureCommandHandler : CommandHandlerBase<RemoveStructureCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public RemoveStructureCommandHandler(Game game)
+        public RemoveStructureCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(RemoveStructureCommand command)
@@ -38,7 +38,9 @@
 
         private bool TryGetEntities(RemoveStructureCommand command, out Colony colony, out Structure structure)
         {
-            if (!this.game.TryGetColony(command.ColonyId, out colony))
+            var game = this.gameProvider.Get();
+            
+            if (!game.TryGetColony(command.ColonyId, out colony))
             {
                 structure = default(Structure);
                 return false;

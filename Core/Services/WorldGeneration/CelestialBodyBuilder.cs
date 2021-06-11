@@ -279,11 +279,12 @@
                 this.Orbit,
                 period,
                 new CelestialBody(
+                    Guid.NewGuid(),
                     this.Name,
                     this.CelestialBodyType,
                     this.Radius,
                     this.GravitationalParameter,
-                    this.Resources,
+                    new ResourceCollection(this.Resources),
                     this.Mass,
                     this.Density),
                 lowOrbit,

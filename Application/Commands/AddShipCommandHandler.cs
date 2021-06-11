@@ -9,11 +9,11 @@
 
     public sealed class AddShipCommandHandler : CommandHandlerBase<AddShipCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public AddShipCommandHandler(Game game)
+        public AddShipCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(AddShipCommand command)
@@ -44,18 +44,20 @@
             }
 
             colony.AddShipConstructionProcess(new ShipConstructionProcess(
-                shipType.ConstructionTime, shipType, colony));
+                shipType.ConstructionTime, 0, shipType, colony));
         }
 
         private bool TryGetEntities(AddShipCommand command, out Colony colony, out ShipType shipType)
         {
-            if (!this.game.TryGetColony(command.ColonyId, out colony))
+            var game = this.gameProvider.Get();
+            
+            if (!game.TryGetColony(command.ColonyId, out colony))
             {
                 shipType = default(ShipType);
                 return false;
             }
 
-            if (!this.game.ShipTypes.TryGet(command.ShipTypeId, out shipType))
+            if (!game.ShipTypes.TryGet(command.ShipTypeId, out shipType))
             {
                 return false;
             }

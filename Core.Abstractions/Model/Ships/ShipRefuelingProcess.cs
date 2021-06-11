@@ -7,9 +7,15 @@
     public sealed class ShipRefuelingProcess
     {
         public ShipRefuelingProcess(double totalTransferredFuel, RefuelBehavior refuelBehavior)
+            : this(totalTransferredFuel, refuelBehavior, 0)
+        {
+        }
+
+        public ShipRefuelingProcess(double totalTransferredFuel, RefuelBehavior refuelBehavior, double transferredFuel)
         {
             this.TotalTransferredFuel = totalTransferredFuel;
             this.RefuelBehavior = refuelBehavior;
+            this.TransferredFuel = transferredFuel;
         }
 
         public double TotalTransferredFuel { get; }

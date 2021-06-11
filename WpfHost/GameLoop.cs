@@ -3,7 +3,7 @@
     using System;
     using System.Timers;
     using System.Windows.Threading;
-
+    using SpaceLogistic.Application;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Services;
     using SpaceLogistic.WpfView.ViewModel;
@@ -12,7 +12,7 @@
     {
         private readonly IGameUpdateService gameUpdateService;
 
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
         private readonly GameViewModel gameViewModel;
 
@@ -22,10 +22,10 @@
 
         private DateTime lastUpdateTime;
 
-        public GameLoop(IGameUpdateService gameUpdateService, Game game, GameViewModel gameViewModel, Dispatcher dispatcher)
+        public GameLoop(IGameUpdateService gameUpdateService, IGameProvider gameProvider, GameViewModel gameViewModel, Dispatcher dispatcher)
         {
             this.gameUpdateService = gameUpdateService;
-            this.game = game;
+            this.gameProvider = gameProvider;
             this.gameViewModel = gameViewModel;
             this.dispatcher = dispatcher;
 
@@ -36,7 +36,7 @@
 
         public void Start()
         {
-            this.gameUpdateService.Startup(this.game);
+            this.gameUpdateService.Startup(this.gameProvider.Get());
             this.lastUpdateTime = DateTime.UtcNow;
             this.updateTimer.Start();
         }
@@ -58,7 +58,7 @@
             var elapsedTime = now - this.lastUpdateTime;
             this.lastUpdateTime = now;
 
-            this.gameUpdateService.Update(this.game, elapsedTime);
+            this.gameUpdateService.Update(this.gameProvider.Get(), elapsedTime);
 
             this.dispatcher.Invoke(() => this.gameViewModel.Update());
         }

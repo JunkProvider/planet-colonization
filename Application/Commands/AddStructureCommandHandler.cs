@@ -9,11 +9,11 @@
 
     public sealed class AddStructureCommandHandler : CommandHandlerBase<AddStructureCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public AddStructureCommandHandler(Game game)
+        public AddStructureCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(AddStructureCommand command)
@@ -48,13 +48,15 @@
 
         private bool TryGetEntities(AddStructureCommand command, out Colony colony, out StructureType structureType)
         {
-            if (!this.game.TryGetColony(command.ColonyId, out colony))
+            var game = this.gameProvider.Get();
+            
+            if (!game.TryGetColony(command.ColonyId, out colony))
             {
                 structureType = default(StructureType);
                 return false;
             }
 
-            if (!this.game.StructureTypes.TryGet(command.StructureTypeId, out structureType))
+            if (!game.StructureTypes.TryGet(command.StructureTypeId, out structureType))
             {
                 return false;
             }

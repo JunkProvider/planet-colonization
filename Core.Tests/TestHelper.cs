@@ -8,7 +8,7 @@
         public static CelestialSystem GetSolarSystem()
         {
             var importer = new StarSystemImporter();
-            return importer.Import(@"G:\Stuff\Data\solar-system.json").Build();
+            return importer.Import(@"F:\Stuff\Data\solar-system.json").Build();
         }
     }
 }

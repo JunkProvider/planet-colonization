@@ -6,8 +6,8 @@
 
     public sealed class ShipTransfer : TimedProcess
     {
-        public ShipTransfer(ILocation origin, ILocation destination, TimeSpan totalTime)
-            : base(totalTime)
+        public ShipTransfer(ILocation origin, ILocation destination, TimeSpan totalTime, double progress)
+            : base(totalTime, progress)
         {
             if (origin == destination)
             {

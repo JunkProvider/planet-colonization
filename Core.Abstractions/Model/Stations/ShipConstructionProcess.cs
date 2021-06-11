@@ -6,8 +6,8 @@
 
     public sealed class ShipConstructionProcess : TimedProcess
     {
-        public ShipConstructionProcess(TimeSpan totalTime, ShipType shipType, Colony colony)
-            : base(totalTime)
+        public ShipConstructionProcess(TimeSpan totalTime, double progress, ShipType shipType, Colony colony)
+            : base(totalTime, progress)
         {
             this.ShipType = shipType;
             this.Colony = colony;

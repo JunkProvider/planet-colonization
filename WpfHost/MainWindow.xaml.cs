@@ -1,18 +1,22 @@
 ﻿namespace SpaceLogistic.WpfHost
 {
+    using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
     using System.Threading;
     using System.Windows;
 
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
+    using SpaceLogistic.Application;
     using SpaceLogistic.Core;
+    using SpaceLogistic.Core.Model;
     using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Services;
     using SpaceLogistic.Core.Services.WorldGeneration;
     using SpaceLogistic.Core.Services.WorldGeneration.Import;
-    using SpaceLogistic.WpfHost.ApplicationHosting;
+    using SpaceLogistic.Persistence;
     using SpaceLogistic.WpfHost.WpfViewHosting;
     using SpaceLogistic.WpfView;
     using SpaceLogistic.WpfView.View;
@@ -20,41 +24,78 @@
 
     public partial class MainWindow : Window
     {
+        private readonly IServiceProvider serviceProvider;
+        
         public MainWindow()
         {
             MainWindowEvents.Setup(this);
 
-            var serviceCollection = new ServiceCollection()
+            var serviceCollection = ApplicationHosting.ServiceCollectionExtensions.AddApplication(
+                    new ServiceCollection()
 
-                .AddCore()
+                        .AddCore())
                 .AddApplication()
+                .AddPersistence()
                 .AddView()
 
                 // Initialization
-                .AddSingleton(new WorldSettings())
-                .AddSingleton(provider => provider.GetRequiredService<IStarSystemImporter>()
-                    .Import(@"G:\Stuff\Data\solar-system.json"))
-                .AddSingleton(provider => provider.GetRequiredService<IWorldGenerator>()
-                    .Modify(provider.GetRequiredService<CelestialBodyBuilder>()).Build())
                 .AddSingleton<GameFactory>()
-                .AddSingleton(provider => provider.GetRequiredService<GameFactory>().Create())
+                .AddSingleton(new WorldSettings())
                 
                 .AddSingleton(this.Dispatcher)
                 .AddSingleton<IGameLoop, GameLoop>();
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var hostedServices = serviceProvider.GetRequiredService<IEnumerable<IHostedService>>();
+            this.serviceProvider = serviceCollection.BuildServiceProvider();
+            
+            LoadGame(this.serviceProvider);
+            
+            var hostedServices = this.serviceProvider.GetRequiredService<IEnumerable<IHostedService>>();
 
             foreach (var hostedService in hostedServices)
             {
                 hostedService.StartAsync(CancellationToken.None).GetAwaiter().GetResult();
             }
-
-            this.DataContext = serviceProvider.GetRequiredService<GameViewModel>();
+            
+            this.DataContext = this.serviceProvider.GetRequiredService<GameViewModel>();
             this.InitializeComponent();
 
-            var gameLoop = serviceProvider.GetRequiredService<IGameLoop>();
+            var gameLoop = this.serviceProvider.GetRequiredService<IGameLoop>();
             gameLoop.Start();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            var gameApplicationState = serviceProvider.GetRequiredService<IGameApplicationState>();
+            var gameRepository = serviceProvider.GetRequiredService<IGameRepository>();
+            gameRepository.SaveGame(
+                gameRepository.GetSaveGames().FirstOrDefault() ?? new SaveGame(Guid.NewGuid()),
+                gameApplicationState.Get());
+            
+            base.OnClosing(e);
+        }
+
+        private static void LoadGame(IServiceProvider serviceProvider)
+        {
+            var gameApplicationState = serviceProvider.GetRequiredService<IGameApplicationState>();
+            var gameRepository = serviceProvider.GetRequiredService<IGameRepository>();
+
+            var save = gameRepository.GetSaveGames().FirstOrDefault();
+
+            if (save != null)
+            {
+                gameApplicationState.Set(gameRepository.GetGame(save));
+            }
+            else
+            {
+                var startSystemImporter = serviceProvider.GetRequiredService<IStarSystemImporter>();
+                var worldGenerator = serviceProvider.GetRequiredService<IWorldGenerator>();
+                var gameFactory = serviceProvider.GetRequiredService<GameFactory>();
+                var startSystem = startSystemImporter.Import(@"F:\Stuff\Data\solar-system.json");
+                worldGenerator.Modify(startSystem);
+                var game = gameFactory.Create(startSystem.Build());
+            
+                gameApplicationState.Set(game);   
+            }
         }
     }
 }

@@ -5,6 +5,7 @@
              xmlns:viewModel="clr-namespace:SpaceLogistic.WpfView.ViewModel"
              xmlns:view="clr-namespace:SpaceLogistic.WpfView.View"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:SpaceLogistic.WpfView.View.Controls"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewModel:RoutePageViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -172,6 +173,7 @@
                         <TextBlock Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" />
                         <Button Grid.Column="1" Command="{Binding UnassignCommand}" Style="{StaticResource RemoveButtonStyle}" />
                     </Grid>
+                    
                 </Border>
             </DataTemplate>
 
@@ -215,14 +217,12 @@
             </DataTemplate>
 
             <DataTemplate x:Key="RouteListItemTemplate" DataType="{x:Type viewModel:RouteViewModel}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" HorizontalAlignment="Stretch" Text="{Binding Name}" FontWeight="Bold" IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=IsSelected}" />
-                    <Button Grid.Column="1" Command="{Binding DeleteCommand}" Style="{StaticResource RemoveButtonStyle}" />
-                </Grid>
+                <controls:ObjectListItem 
+                    Text="{Binding Name, Mode=TwoWay}"
+                    IsSelectEnabled="True"
+                    IsRenameEnabled="True"
+                    IsRemoveEnabled="True"
+                    RemoveCommand="{Binding DeleteCommand}" />
             </DataTemplate>
 
         </ResourceDictionary>
@@ -242,7 +242,10 @@
                         <StackPanel>
                             <view:CustomButton ButtonContent="Add Route" Style="{StaticResource Button1Style}" Command="{Binding AddRouteCommand}">   
                             </view:CustomButton>
-                            <ListBox ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}" ItemTemplate="{StaticResource RouteListItemTemplate}" ItemContainerStyle="{StaticResource Item1ItemListBoxItemStyle}" />
+                            <ListBox ItemsSource="{Binding Routes}" 
+                                     SelectedItem="{Binding SelectedRoute}" 
+                                     ItemTemplate="{StaticResource RouteListItemTemplate}"
+                                     ItemContainerStyle="{StaticResource Item1ItemListBoxItemStyle}" />
                         </StackPanel>
                     </ScrollViewer>
                 </Border>

@@ -10,11 +10,11 @@
 
     public sealed class AssignShipCommandHandler : CommandHandlerBase<AssignShipCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public AssignShipCommandHandler(Game game)
+        public AssignShipCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(AssignShipCommand command)
@@ -44,8 +44,9 @@
 
         private bool TryGetEntities(AssignShipCommand command, out Route route, out Ship ship)
         {
-            route = this.game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
-            ship = this.game.Ships.FirstOrDefault(s => s.Id == command.ShipId);
+            var game = this.gameProvider.Get();
+            route = game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
+            ship = game.Ships.FirstOrDefault(s => s.Id == command.ShipId);
             return route != null && ship != null;
         }
     }

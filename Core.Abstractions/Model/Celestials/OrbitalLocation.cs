@@ -7,18 +7,20 @@
 
     public sealed class OrbitalLocation : ILocation, IIdentity
     {
-        public OrbitalLocation(string name, double orbit, TimeSpan period)
+        public OrbitalLocation(Guid id, string name, double orbit, TimeSpan period, Colony colony)
         {
+            this.Id = id;
             this.Name = name;
             this.Orbit = orbit;
             this.Period = period;
+            this.SetColony(colony);
         }
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; }
 
         public string Name { get; }
 
-        public string FullName => GetFullName();
+        public string FullName => this.GetFullName();
 
         public double Orbit { get; }
 

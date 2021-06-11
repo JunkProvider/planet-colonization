@@ -2,13 +2,16 @@
 {
     using System;
 
-    public sealed class ItemType : IComparable, IComparable<ItemType>
+    public sealed class ItemType : IIdentity, IComparable, IComparable<ItemType>
     {
-        public ItemType(string name)
+        public ItemType(Guid id, string name)
         {
             this.Name = name;
+            this.Id = id;
         }
 
+        public Guid Id { get; }
+        
         public string Name { get; }
 
         public override string ToString()

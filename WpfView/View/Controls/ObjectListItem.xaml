@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="SpaceLogistic.WpfView.View.Controls.ObjectListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="200"
+             x:Name="UserControl">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Colors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="TextBox"
+                 Grid.Column="0"
+                 HorizontalAlignment="Stretch"
+                 Text="{Binding Text, ElementName=UserControl}"
+                 KeyDown="OnTextBoxKeyDown">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource Item1TextBoxStyle}">
+                    <Style.Setters>
+                        <Setter Property="IsReadOnly" Value="True" />
+                        <Setter Property="Cursor" Value="Arrow" />
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelectEnabled, ElementName=UserControl}" Value="True">
+                            <Setter Property="IsEnabled" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBoxItem}, Path=IsSelected}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSelectEnabled, ElementName=UserControl}" Value="False">
+                            <Setter Property="IsEnabled" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsRenameEnabled, ElementName=UserControl}" Value="True">
+                            <Setter Property="IsReadOnly" Value="False" />
+                        </DataTrigger>
+                        <!--<DataTrigger Binding="{TemplateBinding IsKeyboardFocused}">
+                            <Setter Property="IsReadOnly" Value="False" />
+                        </DataTrigger>-->
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <Button x:Name="RemoveButton"
+                Grid.Column="1" 
+                Command="{Binding RemoveCommand, ElementName=UserControl}" 
+                Visibility="{Binding IsRemoveEnabled, ElementName=UserControl, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Style="{StaticResource RemoveButtonStyle}" />
+    </Grid>
+</UserControl>

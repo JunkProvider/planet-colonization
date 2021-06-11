@@ -81,6 +81,9 @@
     <Compile Include="Utility\DrawingColorExtensions.cs" />
     <Compile Include="View\Colonies\AddShipOverlayViewModel.cs" />
     <Compile Include="View\Colonies\AddStructureOverlayViewModel.cs" />
+    <Compile Include="View\Controls\ObjectListItem.xaml.cs">
+      <DependentUpon>ObjectListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Routes\CelestialBodyViewModel.cs" />
     <Compile Include="View\Routes\CelestialSystemViewModel.cs" />
     <Compile Include="View\Colonies\ColonyPageViewModel.cs" />
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Colonies\AddStructureOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Controls\ObjectListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,11 +9,11 @@
 
     public sealed class RemoveStopCommandHandler : CommandHandlerBase<RemoveRouteStopCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public RemoveStopCommandHandler(Game game)
+        public RemoveStopCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(RemoveRouteStopCommand command)
@@ -38,7 +38,9 @@
 
         private bool TryGetEntities(RemoveRouteStopCommand command, out Route route)
         {
-            route = this.game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
+            var game = this.gameProvider.Get();
+            
+            route = game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
 
             if (route == null)
             {

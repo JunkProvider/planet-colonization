@@ -49,5 +49,15 @@
 
             return hashSet;
         }
+
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> items, TKey key, TValue defaultValue)
+        {
+            if (items.TryGetValue(key, out var value))
+            {
+                return value;
+            }
+
+            return defaultValue;
+        }
     }
 }

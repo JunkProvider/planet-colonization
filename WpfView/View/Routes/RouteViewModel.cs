@@ -50,7 +50,13 @@
         public string Name
         {
             get => this.name;
-            set => this.name = value;
+            set
+            {
+                if (this.SetProperty(ref this.name, value))
+                {
+                    this.Rename(value);
+                }
+            }
         }
 
         public ObservableCollection<StopOptionViewModel> AvailableStops
@@ -91,7 +97,7 @@
 
         public void Update()
         {
-            this.Name = this.route.Name;
+            this.SetProperty(ref this.name, this.route.Name, nameof(this.Name));
 
             this.AvailableStops = ViewModelHelper.UpdateCollectionByIdentity(
                 this.AvailableStops,
@@ -116,6 +122,11 @@
                 this.game.Ships.Where(s => s.Route == this.route),
                 this.CreateShipViewModel,
                 (shipModel, ship) => ship.Update());
+        }
+        
+        private void Rename(string value)
+        {
+            this.route.Name = value;
         }
 
         private void Delete()

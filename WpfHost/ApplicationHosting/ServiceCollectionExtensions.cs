@@ -40,7 +40,8 @@
                 .AddCommandHandler<DeassignShipCommandHandler>()
                 .AddCommandHandler<AddStructureCommandHandler>()
                 .AddCommandHandler<RemoveStructureCommandHandler>()
-                .AddCommandHandler<AddShipCommandHandler>();
+                .AddCommandHandler<AddShipCommandHandler>()
+                .AddCommandHandler<RenameShipCommandHandler>();
         }
     }
 }

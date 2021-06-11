@@ -9,22 +9,24 @@
 
     public sealed class CelestialBody : ILocation
     {
-        public CelestialBody(string name, CelestialBodyType celestialBodyType, double radius, double gravitationalParameter, IEnumerable<Resource> resources, double mass, double density)
+        public CelestialBody(Guid id, string name, CelestialBodyType celestialBodyType, double radius, double gravitationalParameter, ResourceCollection resources, double mass, double density, Colony colony = null)
         {
+            this.Id = id;
             this.Name = name;
             this.Radius = radius;
             this.GravitationalParameter = gravitationalParameter;
             this.Mass = mass;
             this.Density = density;
             this.CelestialBodyType = celestialBodyType;
-
-            this.Resources = new ResourceCollection(resources);
+            this.Resources = resources;
 
             this.EscapeVelocity = Math.Sqrt((2 * gravitationalParameter) / radius);
             this.SurfaceGravity = this.GravitationalParameter / Math.Pow(radius, 2);
+            
+            this.SetColony(colony);
         }
         
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; }
 
         public string Name { get; }
 

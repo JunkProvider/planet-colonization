@@ -2,13 +2,16 @@
 {
     using System;
 
-    public sealed class ResourceType : IComparable, IComparable<ResourceType>
+    public sealed class ResourceType : IIdentity, IComparable, IComparable<ResourceType>
     {
-        public ResourceType(string name, string description)
+        public ResourceType(Guid id, string name, string description)
         {
             this.Name = name;
             this.Description = description;
+            this.Id = id;
         }
+        
+        public Guid Id { get; }
 
         public string Name { get; }
 

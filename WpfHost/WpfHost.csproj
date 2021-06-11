@@ -161,6 +161,14 @@
       <Project>{118da572-19a9-4985-b995-9fd6beb60577}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Persistence.Abstractions\Persistence.Abstractions.csproj">
+      <Project>{c48137ec-b606-4e44-83bb-b5a303c70eae}</Project>
+      <Name>Persistence.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Persistence\Persistence.csproj">
+      <Project>{422c4d91-b7f8-4ef4-b88c-f40e13f80b0d}</Project>
+      <Name>Persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{537b336c-52ee-47ae-87c2-3ec028303f7e}</Project>
       <Name>Utility</Name>

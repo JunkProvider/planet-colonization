@@ -10,11 +10,11 @@
 
     public sealed class AddStopCommandHandler : CommandHandlerBase<AddRouteStopCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public AddStopCommandHandler(Game game)
+        public AddStopCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(AddRouteStopCommand command)
@@ -49,7 +49,9 @@
         
         private bool TryGetEntities(AddRouteStopCommand command, out Route route, out ILocation location)
         {
-            route = this.game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
+            var game = this.gameProvider.Get();
+                
+            route = game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
 
             if (route == null)
             {
@@ -57,7 +59,7 @@
                 return false;
             }
 
-            if (!this.game.CelestialSystem.TryGetLocation(command.LocationId, out location))
+            if (!game.CelestialSystem.TryGetLocation(command.LocationId, out location))
             {
                 return false;
             }

@@ -5,8 +5,14 @@
     public abstract class TimedProcess
     {
         protected TimedProcess(TimeSpan totalTime)
+            : this(totalTime, 0)
+        {
+        }
+
+        protected TimedProcess(TimeSpan totalTime, double progress)
         {
             this.TotalTime = totalTime;
+            this.Progress = progress;
         }
 
         public TimeSpan TotalTime { get; }

@@ -19,13 +19,14 @@
 
         private string state;
 
+        private string name;
+
         public ShipViewModel(Ship ship, ICommandDispatcher commandDispatcher)
         {
             this.ship = ship;
             this.commandDispatcher = commandDispatcher;
-            this.Name = ship.Name;
+            
             this.CargoBay = new StorageViewModel(ship.CargoBay);
-
             this.UnassignCommand = new DelegateCommand(this.Deassign);
 
             this.Update();
@@ -33,7 +34,11 @@
         
         public Guid Id => this.ship.Id;
 
-        public string Name { get; }
+        public string Name
+        {
+            get => this.name;
+            set => this.commandDispatcher.Execute(new RenameShipCommand(this.ship.Id, value));
+        }
 
         public StorageViewModel CargoBay { get; }
 
@@ -71,6 +76,7 @@
 
         public void Update()
         {
+            this.SetProperty(ref this.name, this.ship.Name, nameof(this.Name));
             this.Fuel = $"Fuel: {ship.Fuel:0.0}";
 
             this.UpdateState();

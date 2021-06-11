@@ -2,7 +2,7 @@
 {
     using System.Collections.ObjectModel;
     using System.Windows;
-
+    using SpaceLogistic.Application;
     using SpaceLogistic.Application.CommandPattern;
     using SpaceLogistic.Core.Model;
     using SpaceLogistic.WpfView.ViewModel.Colonies;
@@ -15,9 +15,9 @@
 
         private bool isOverlayActive;
 
-        public GameViewModel(Game game, ICommandDispatcher commandDispatcher, ColonyPageViewModel colonyPageViewModel)
+        public GameViewModel(IGameProvider gameProvider, ICommandDispatcher commandDispatcher, ColonyPageViewModel colonyPageViewModel)
         {
-            this.game = game;
+            var game = this.game = gameProvider.Get();
 
             this.Pages = new ObservableCollection<IPageViewModel>(new IPageViewModel[]
                   {

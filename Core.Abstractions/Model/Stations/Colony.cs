@@ -11,16 +11,44 @@
 
     public abstract class Colony : IIdentity
     {
-        private readonly List<Structure> structures = new List<Structure>();
+        private readonly List<Structure> structures;
 
-        private readonly HashSet<ShipConstructionProcess> shipConstructionProcesses = new HashSet<ShipConstructionProcess>();
+        private readonly HashSet<ShipConstructionProcess> shipConstructionProcesses;
 
         protected Colony(string name)
+            : this(
+                Enumerable.Empty<Structure>(),
+                Enumerable.Empty<ShipConstructionProcess>(),
+                Guid.NewGuid(),
+                name,
+                0,
+                0,
+                null,
+                new Storage())
         {
-            this.Name = name;
         }
 
-        public Guid Id { get; } = Guid.NewGuid();
+        protected Colony(
+            IEnumerable<Structure> structures,
+            IEnumerable<ShipConstructionProcess> shipConstructionProcesses,
+            Guid id,
+            string name,
+            double fuelStorageCapacity,
+            double storedFuel,
+            FuelStorageReplenishProcess fuelStorageReplenishProcess,
+            Storage warehouse)
+        {
+            this.structures = structures.ToList();
+            this.shipConstructionProcesses = new HashSet<ShipConstructionProcess>(shipConstructionProcesses);
+            this.Id = id;
+            this.Name = name;
+            this.FuelStorageCapacity = fuelStorageCapacity;
+            this.StoredFuel = storedFuel;
+            this.FuelStorageReplenishProcess = fuelStorageReplenishProcess;
+            this.Warehouse = warehouse;
+        }
+
+        public Guid Id { get; }
         
         public string Name { get; }
 
@@ -30,7 +58,7 @@
 
         public FuelStorageReplenishProcess FuelStorageReplenishProcess { get; set; }
 
-        public Storage Warehouse { get; } = new Storage();
+        public Storage Warehouse { get; }
 
         public IReadOnlyCollection<Structure> Structures => this.structures;
 

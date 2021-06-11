@@ -9,11 +9,11 @@
 
     public sealed class DeleteRouteCommandHandler : CommandHandlerBase<DeleteRouteCommand>
     {
-        private readonly Game game;
+        private readonly IGameProvider gameProvider;
 
-        public DeleteRouteCommandHandler(Game game)
+        public DeleteRouteCommandHandler(IGameProvider gameProvider)
         {
-            this.game = game;
+            this.gameProvider = gameProvider;
         }
 
         public override bool CanExecute(DeleteRouteCommand command)
@@ -32,18 +32,22 @@
             {
                 throw new InvalidOperationException("Can not execute command.");
             }
+            
+            var game = this.gameProvider.Get();
 
-            foreach (var ship in this.game.Ships.Where(s => s.Route == route))
+            foreach (var ship in game.Ships.Where(s => s.Route == route))
             {
                 ship.Route = null;
             }
 
-            this.game.DeleteRoute(route.Id);
+            game.DeleteRoute(route.Id);
         }
 
         private bool TryGetEntities(DeleteRouteCommand command, out Route route)
         {
-            route = this.game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
+            var game = this.gameProvider.Get();
+            
+            route = game.Routes.FirstOrDefault(r => r.Id == command.RouteId);
 
             if (route == null)
             {

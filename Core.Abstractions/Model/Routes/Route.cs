@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     using SpaceLogistic.Core.Model.Celestials;
@@ -12,12 +13,18 @@
         private readonly List<RouteStop> stops;
 
         public Route(string name, IEnumerable<RouteStop> stops)
+            : this(Guid.NewGuid(), name, stops)
         {
-            this.Name = name;
-            this.stops = stops?.ToList() ?? throw new ArgumentNullException(nameof(stops));
         }
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Route(Guid id, string name, IEnumerable<RouteStop> stops)
+        {
+            this.stops = stops.ToList();
+            this.Id = id;
+            this.Name = name;
+        }
+
+        public Guid Id { get; }
 
         public string Name { get; set; }
 
