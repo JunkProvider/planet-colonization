@@ -12,12 +12,10 @@
     using SpaceLogistic.Application;
     using SpaceLogistic.Core;
     using SpaceLogistic.Core.Model;
-    using SpaceLogistic.Core.Model.Resources;
     using SpaceLogistic.Core.Services;
     using SpaceLogistic.Core.Services.WorldGeneration;
     using SpaceLogistic.Core.Services.WorldGeneration.Import;
     using SpaceLogistic.Persistence;
-    using SpaceLogistic.WpfHost.WpfViewHosting;
     using SpaceLogistic.WpfView;
     using SpaceLogistic.WpfView.View;
     using SpaceLogistic.WpfView.ViewModel;
@@ -30,10 +28,8 @@
         {
             MainWindowEvents.Setup(this);
 
-            var serviceCollection = ApplicationHosting.ServiceCollectionExtensions.AddApplication(
-                    new ServiceCollection()
-
-                        .AddCore())
+            var serviceCollection = new ServiceCollection()
+                .AddCore()
                 .AddApplication()
                 .AddPersistence()
                 .AddView()

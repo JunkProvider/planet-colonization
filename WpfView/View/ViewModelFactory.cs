@@ -1,17 +1,16 @@
-﻿namespace SpaceLogistic.WpfHost.WpfViewHosting
+﻿namespace SpaceLogistic.WpfView
 {
     using System;
-
     using Microsoft.Extensions.DependencyInjection;
-
+    using SpaceLogistic.WpfView.View;
     using SpaceLogistic.WpfView.ViewModel;
 
-    public sealed class ServiceProviderViewModelFactory<TViewModel> : IViewModelFactory<TViewModel>
+    public sealed class ViewModelFactory<TViewModel> : IViewModelFactory<TViewModel>
         where TViewModel : class
     {
         private readonly IServiceProvider serviceProvider;
 
-        public ServiceProviderViewModelFactory(IServiceProvider serviceProvider)
+        public ViewModelFactory(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }
